@@ -1,0 +1,53 @@
+---
+/**
+ * Sección oscura con cuadrícula de íconos y panel lateral (Valores, "En Primaria aprenden a").
+ * Usa el mismo color que el footer para integrarse visualmente cuando va al final de la página.
+ */
+import Icon from '@/components/ui/Icon.astro';
+interface Item { label: string; icon: string }
+interface Props { title: string; items: Item[]; compact?: boolean }
+const { title, items, compact = false } = Astro.props;
+---
+<section class="ipanel">
+  <div class="container ipanel__in">
+    <div class="ipanel__main">
+      <h2 data-reveal>{title}</h2>
+      <ul class:list={['ipanel__grid', { 'ipanel__grid--compact': compact }]} role="list">
+        {items.map((it, i) => (
+          <li data-reveal style={`--d:${(i % 3) * 70}ms`}>
+            <span class="ipanel__ic" aria-hidden="true"><Icon name={it.icon} size={30} stroke={1.5} /></span>
+            <span class="ipanel__label">{it.label}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+    <aside class="ipanel__side">
+      <slot />
+    </aside>
+  </div>
+</section>
+
+<style>
+  .ipanel { background: var(--navy-800); color: #dbe5ee; }
+  .ipanel__in { display: grid; }
+  .ipanel__main { padding-block: var(--section); }
+  .ipanel h2 { color: #fff; max-width: 24ch; }
+  .ipanel__grid { display: grid; grid-template-columns: repeat(2, 1fr); margin-top: 2.5rem; border: 1px dashed rgb(255 255 255 / 0.16); border-radius: var(--radius); overflow: hidden; }
+  @media (min-width: 640px) { .ipanel__grid { grid-template-columns: repeat(3, 1fr); } }
+  .ipanel__grid li { display: grid; align-content: start; gap: 1.1rem; padding: 1.75rem 1.5rem; outline: 1px dashed rgb(255 255 255 / 0.16); outline-offset: 0; transition: background-color var(--dur-2); }
+  .ipanel__grid li:hover { background: rgb(255 255 255 / 0.035); }
+  .ipanel__ic { position: relative; display: grid; place-items: center; width: 48px; height: 48px; color: #2fd0b5; }
+  .ipanel__ic::after { content: ''; position: absolute; left: 22px; top: 12px; width: 44px; height: 44px; border-radius: 50%; background: rgb(255 255 255 / 0.07); z-index: -1; transition: transform var(--dur-3) var(--ease-out); }
+  .ipanel__grid li:hover .ipanel__ic::after { transform: translate(-4px, -2px) scale(1.08); }
+  .ipanel__ic :global(svg) { position: relative; }
+  .ipanel__label { color: #fff; font-weight: 500; line-height: 1.45; }
+  .ipanel__grid--compact .ipanel__label { font-size: var(--fs-sm); color: #e6edf4; }
+  .ipanel__ic { isolation: isolate; }
+
+  .ipanel__side { display: grid; align-content: center; justify-items: start; gap: 1.75rem; padding: 3rem 2rem; background: #32475f; }
+  @media (min-width: 1024px) {
+    .ipanel__in { grid-template-columns: 1fr 340px; column-gap: clamp(2rem, 4vw, 4.5rem); }
+    .ipanel__side { padding: 3rem 2.5rem; }
+  }
+  @media (max-width: 1023px) { .ipanel__side { margin-bottom: var(--section); border-radius: var(--radius-lg); } }
+</style>

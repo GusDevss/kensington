@@ -4,6 +4,7 @@ import Img from '@/components/ui/Img.astro';
 import Icon from '@/components/ui/Icon.astro';
 import Statement from '@/components/ui/Statement.astro';
 import Pillars from '@/components/sections/Pillars.astro';
+import IconPanel from '@/components/sections/IconPanel.astro';
 import Grades from '@/components/sections/Grades.astro';
 import { img } from '@/config/images';
 import { site } from '@/config/site';
@@ -71,24 +72,9 @@ const schema = [{
     </div>
   </section>
 
-  <section class="learn">
-    <div class="container learn__in">
-      <div class="learn__main">
-        <h2 data-reveal>{d.learn.title}</h2>
-        <ul class="learn__grid" role="list">
-          {d.learn.items.map((it, i) => (
-            <li data-reveal style={`--d:${(i % 3) * 70}ms`}>
-              <span class="learn__ic"><Icon name={it.icon} size={24} /></span>
-              <p>{it.text}</p>
-            </li>
-          ))}
-        </ul>
-      </div>
-      <aside class="learn__side" aria-hidden="true">
-        {d.learn.words.map((w, i) => <span style={`--d:${i * 120}ms`} data-reveal>{w}</span>)}
-      </aside>
-    </div>
-  </section>
+  <IconPanel title={d.learn.title} items={d.learn.items.map((it) => ({ label: it.text, icon: it.icon }))} compact>
+    <p class="learn-words">{d.learn.words.map((w) => <span>{w}</span>)}</p>
+  </IconPanel>
 
   <section class="section">
     <div class="container">
@@ -122,9 +108,9 @@ const schema = [{
 
   .pabout__media { display: grid; gap: 1.25rem; }
   .pabout__main { aspect-ratio: 16 / 10; }
-  .pabout__row { display: grid; grid-template-columns: 1fr 1.4fr; gap: 1.25rem; align-items: stretch; }
+  .pabout__row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: 1.25rem; align-items: stretch; }
   .pabout__label { display: grid; place-items: center; text-align: center; padding: 1rem; border-radius: var(--radius-lg); background: var(--clay-100); color: var(--navy-800); font-weight: 600; font-size: var(--fs-lg); }
-  .pabout__video { position: relative; border-radius: var(--radius-lg); overflow: hidden; aspect-ratio: 16 / 9; }
+  .pabout__video { position: relative; min-width: 0; width: 100%; border-radius: var(--radius-lg); overflow: hidden; aspect-ratio: 16 / 9; }
   .pabout__video :global(img) { width: 100%; height: 100%; object-fit: cover; transition: transform var(--dur-3) var(--ease-out); }
   .pabout__video:hover :global(img) { transform: scale(1.04); }
   .pabout__play { position: absolute; inset: 0; margin: auto; width: 56px; height: 56px; display: grid; place-items: center; border-radius: 50%; background: rgb(255 255 255 / 0.9); color: var(--navy-800); box-shadow: 0 0 0 8px rgb(255 255 255 / 0.25); }
@@ -135,21 +121,7 @@ const schema = [{
   .pabout__list h4 { font-size: var(--fs-base); }
   .pabout__list p { font-size: var(--fs-sm); color: var(--ink-3); margin-top: 0.25rem; }
 
-  .learn { background: var(--navy-800); color: #dbe5ee; overflow: hidden; }
-  .learn__in { display: grid; }
-  .learn__main { padding-block: var(--section); padding-right: clamp(0rem, 3vw, 3rem); }
-  .learn h2 { color: #fff; max-width: 22ch; }
-  .learn__grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); margin-top: 2.5rem; border-top: 1px solid rgb(255 255 255 / 0.1); border-left: 1px solid rgb(255 255 255 / 0.1); }
-  @media (min-width: 760px) { .learn__grid { grid-template-columns: repeat(3, 1fr); } }
-  .learn__grid li { display: grid; gap: 1rem; align-content: start; padding: 1.5rem; border-right: 1px solid rgb(255 255 255 / 0.1); border-bottom: 1px solid rgb(255 255 255 / 0.1); transition: background-color var(--dur-2); }
-  .learn__grid li:hover { background: rgb(255 255 255 / 0.04); }
-  .learn__ic { display: grid; place-items: center; width: 48px; height: 48px; border-radius: 14px; background: rgb(42 157 143 / 0.18); color: #7fe0c8; }
-  .learn__grid p { font-size: var(--fs-sm); color: #e6edf4; }
-  .learn__side { display: grid; align-content: center; gap: 0.25rem; padding: 3rem 2rem; background: var(--navy-600); }
-  .learn__side span { font-size: clamp(1.5rem, 1.1rem + 1.5vw, 2.4rem); font-weight: 600; color: #fff; line-height: 1.15; }
-  .learn__side span:nth-child(even) { color: var(--sky-200); }
-  @media (min-width: 1024px) {
-    .learn__in { grid-template-columns: 1fr 300px; width: min(100% - var(--gutter), calc(var(--container) + (100vw - var(--container)) / 2)); margin-left: max(var(--gutter), calc((100vw - var(--container)) / 2)); margin-right: 0; }
-    .learn__side { padding-left: 3rem; }
-  }
+  .learn-words { display: grid; gap: 0.15rem; }
+  .learn-words span { font-size: clamp(1.6rem, 1.2rem + 1.5vw, 2.4rem); font-weight: 700; color: #fff; line-height: 1.15; }
+  .learn-words span:nth-child(even) { color: var(--sky-200); }
 </style>

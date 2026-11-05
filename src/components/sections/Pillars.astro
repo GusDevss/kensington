@@ -30,7 +30,10 @@ const tones = ['navy', 'sky', 'clay', 'sage'];
   .pillar--sky { background: #7fa3b6; }
   .pillar--clay { background: var(--clay-500); }
   .pillar--sage { background: var(--sage-500); }
-  .pillar h3 { color: #fff; font-size: 1.08rem; line-height: 1.3; }
+  .pillar h3 { color: #fff; font-size: 1rem; line-height: 1.35; }
+  .pillars[style*='--cols:5'] .pillar { padding-inline: 1.15rem; }
+  .pillars[style*='--cols:5'] .pillar h3 { font-size: 0.92rem; }
+  .pillars[style*='--cols:5'] .pillar p { font-size: 0.82rem; }
   .pillar p { font-size: var(--fs-sm); color: rgb(255 255 255 / 0.92); }
   .pillar__ic { display: grid; place-items: center; width: 56px; height: 56px; border-radius: 16px; background: rgb(255 255 255 / 0.16); }
 </style>

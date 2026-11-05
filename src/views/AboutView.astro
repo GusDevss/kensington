@@ -3,6 +3,7 @@ import Base from '@/layouts/Base.astro';
 import Img from '@/components/ui/Img.astro';
 import Icon from '@/components/ui/Icon.astro';
 import Statement from '@/components/ui/Statement.astro';
+import IconPanel from '@/components/sections/IconPanel.astro';
 import { img } from '@/config/images';
 import { t } from '@/i18n/ui';
 import { routes, type Lang } from '@/i18n/routes';
@@ -75,25 +76,10 @@ const ui = t(lang);
     </div>
   </section>
 
-  <section class="values">
-    <div class="container values__in">
-      <div class="values__main">
-        <h2 data-reveal>{d.values.title}</h2>
-        <ul class="values__grid" role="list">
-          {d.values.items.map((v, i) => (
-            <li data-reveal style={`--d:${(i % 3) * 70}ms`}>
-              <span class="values__ic"><Icon name={v.icon} size={26} /></span>
-              <span>{v.label}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
-      <aside class="values__side">
-        <p>{d.values.side}</p>
-        <a class="btn btn-light" href={routes.contact[lang]}>{d.values.cta}<Icon name="arrow-up-right" /></a>
-      </aside>
-    </div>
-  </section>
+  <IconPanel title={d.values.title} items={d.values.items}>
+    <p class="side-quote">{d.values.side}</p>
+    <a class="btn btn-light" href={routes.contact[lang]}>{d.values.cta}<Icon name="arrow-up-right" /></a>
+  </IconPanel>
 </Base>
 
 <style>
@@ -129,19 +115,5 @@ const ui = t(lang);
   .mission__img .media { aspect-ratio: 4 / 3; }
   .mission__stroke { position: absolute; right: -10px; top: -46px; width: 110px; z-index: 1; }
 
-  .values { background: var(--navy-800); color: #dbe5ee; overflow: hidden; }
-  .values__in { display: grid; }
-  .values__main { padding-block: var(--section); padding-right: clamp(0rem, 3vw, 3rem); }
-  .values h2 { color: #fff; }
-  .values__grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); margin-top: 2.5rem; border-top: 1px solid rgb(255 255 255 / 0.1); border-left: 1px solid rgb(255 255 255 / 0.1); }
-  @media (min-width: 760px) { .values__grid { grid-template-columns: repeat(3, 1fr); } }
-  .values__grid li { display: flex; align-items: center; gap: 1rem; padding: 1.4rem 1.25rem; border-right: 1px solid rgb(255 255 255 / 0.1); border-bottom: 1px solid rgb(255 255 255 / 0.1); color: #fff; font-weight: 500; transition: background-color var(--dur-2); }
-  .values__grid li:hover { background: rgb(255 255 255 / 0.04); }
-  .values__ic { display: grid; place-items: center; width: 50px; height: 50px; flex: none; border-radius: 14px; background: rgb(42 157 143 / 0.18); color: #7fe0c8; }
-  .values__side { display: grid; align-content: center; justify-items: start; gap: 1.75rem; padding: 3rem 2rem; background: var(--navy-600); }
-  .values__side p { color: #fff; font-size: var(--fs-2xl); font-weight: 600; line-height: 1.25; }
-  @media (min-width: 1024px) {
-    .values__in { grid-template-columns: 1fr 360px; width: min(100% - var(--gutter), calc(var(--container) + (100vw - var(--container)) / 2)); margin-left: max(var(--gutter), calc((100vw - var(--container)) / 2)); margin-right: 0; }
-    .values__side { padding-left: 3rem; padding-right: 3rem; }
-  }
+  .side-quote { color: #fff; font-size: var(--fs-2xl); font-weight: 700; line-height: 1.3; text-wrap: balance; }
 </style>

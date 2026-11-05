@@ -10,7 +10,7 @@ const after = i >= 0 ? text.slice(i + highlight.length) : '';
   {before}{i >= 0 && (
     <span class:list={['scribble', { circle: mark === 'circle' }]}>{highlight}<svg viewBox="0 0 200 20" preserveAspectRatio="none" aria-hidden="true">
       {mark === 'circle'
-        ? <path pathLength="1" d="M18 4C70-2 170 0 194 9c8 7-20 14-80 15C50 25 2 20 5 11 8 3 40 1 70 2" />
+        ? <path pathLength="1" d="M104 2C152 1 197 5 197 11.5 197 18 150 22 100 21.5 46 21 3 17.5 4 10.5 5 4 52 1 124 3.5" />
         : <path pathLength="1" d="M2 12c18-8 30 6 48-2s30 6 48-2 30 6 48-2 30 6 50-1" />}
     </svg></span>
   )}{after}

@@ -156,13 +156,16 @@ if (search) {
 }
 
 /* ---------- Acordeones ---------- */
+// data-accordion="single": sólo una pregunta abierta. data-acc-group agrupa varios
+// acordeones (p. ej. dos columnas) para que también se cierren entre sí.
 $$('[data-accordion]').forEach((acc) => {
-  const single = acc.dataset.accordion === 'single';
-  const triggers = $$<HTMLButtonElement>('[data-acc-trigger]', acc);
-  triggers.forEach((btn) =>
+  const group = acc.closest<HTMLElement>('[data-acc-group]');
+  const single = acc.dataset.accordion === 'single' || !!group;
+  const scope = group ?? acc;
+  $$<HTMLButtonElement>('[data-acc-trigger]', acc).forEach((btn) =>
     btn.addEventListener('click', () => {
       const open = btn.getAttribute('aria-expanded') !== 'true';
-      if (single && open) triggers.forEach((b) => b !== btn && b.setAttribute('aria-expanded', 'false'));
+      if (single && open) $$<HTMLButtonElement>('[data-acc-trigger]', scope).forEach((b) => b !== btn && b.setAttribute('aria-expanded', 'false'));
       btn.setAttribute('aria-expanded', String(open));
     }),
   );
