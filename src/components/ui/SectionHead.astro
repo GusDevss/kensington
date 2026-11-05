@@ -1,0 +1,13 @@
+---
+interface Props { title: string; eyebrow?: string; text?: string; level?: 'h1' | 'h2'; align?: 'center' | 'left'; class?: string; justify?: boolean }
+const { title, eyebrow, text, level: H = 'h2', align = 'center', class: cls, justify = false } = Astro.props;
+---
+<div class:list={['section-head', { 'section-head--left': align === 'left' }, cls]} data-reveal>
+  {eyebrow && <span class="eyebrow">{eyebrow}</span>}
+  <H>{title}</H>
+  {text && <p class:list={{ 'text-j': justify }}>{text}</p>}
+  <slot />
+</div>
+<style>
+  .section-head--left { text-align: left; margin-inline: 0; }
+</style>

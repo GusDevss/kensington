@@ -1,0 +1,104 @@
+---
+import { routes, type Lang, type RouteKey } from '@/i18n/routes';
+import { t } from '@/i18n/ui';
+import Icon from '@/components/ui/Icon.astro';
+import { getNav } from './nav';
+
+interface Props { lang: Lang; routeKey: RouteKey | null }
+const { lang, routeKey } = Astro.props;
+const ui = t(lang);
+const nav = getNav(lang);
+const isActive = (key?: RouteKey) => key === routeKey;
+---
+<header class="header" data-header>
+  <div class="container header__in">
+    <a href={routes.home[lang]} class="header__logo" aria-label={`Kensington Academy — ${ui.breadcrumbHome}`}>
+      <img src="/brand/logo.svg" alt="Kensington Academy" width="150" height="64" />
+    </a>
+
+    <nav class="nav" aria-label={lang === 'es' ? 'Principal' : 'Main'}>
+      <ul class="nav__list" role="list">
+        {nav.map((item) => item.children ? (
+          <li class="nav__item" data-dropdown data-hover>
+            <button class:list={['nav__link', { 'is-active': item.children.some((c) => isActive(c.key)) }]} type="button" aria-expanded="false" data-dropdown-trigger>
+              {item.label}
+              <Icon name="chevron-down" size={16} class="nav__chev" />
+            </button>
+            <ul class="nav__sub" role="list" data-dropdown-menu>
+              {item.children.map((c) => (
+                <li><a href={c.href} aria-current={isActive(c.key) ? 'page' : undefined}>{c.label}</a></li>
+              ))}
+            </ul>
+          </li>
+        ) : (
+          <li class="nav__item">
+            <a class:list={['nav__link', { 'is-active': isActive(item.key) }]} href={item.href} aria-current={isActive(item.key) ? 'page' : undefined}>{item.label}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <div class="header__actions">
+      <button class="icon-btn" type="button" data-open-search aria-label={ui.search}>
+        <Icon name="search" size={19} />
+      </button>
+      <button class="icon-btn header__burger" type="button" data-open-drawer aria-label={ui.openMenu} aria-controls="drawer" aria-expanded="false">
+        <span class="burger" aria-hidden="true"><i></i><i></i><i></i></span>
+      </button>
+      <a class="btn header__cta" href={routes.contact[lang]}>
+        <Icon name="calendar-check" size={18} />
+        <span>{ui.cta}</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<style>
+  .header {
+    position: sticky; top: 0; z-index: 50;
+    background: rgb(255 255 255 / 0.86);
+    backdrop-filter: saturate(180%) blur(14px); -webkit-backdrop-filter: saturate(180%) blur(14px);
+    border-bottom: 1px solid transparent;
+    transition: border-color var(--dur-2) var(--ease-out), box-shadow var(--dur-2) var(--ease-out);
+  }
+  .header.is-scrolled { border-color: var(--line); box-shadow: 0 6px 20px -16px rgb(20 33 49 / 0.4); }
+  .header__in { display: flex; align-items: center; gap: 1.5rem; height: var(--header-h); }
+  .header__logo { flex: none; display: block; }
+  .header__logo img { width: clamp(118px, 9vw + 50px, 150px); height: auto; }
+
+  .nav { margin-inline: auto; display: none; }
+  .nav__list { display: flex; align-items: center; gap: 0.25rem; }
+  .nav__item { position: relative; }
+  .nav__link {
+    display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.6rem 0.85rem; border-radius: 999px;
+    font-weight: 500; font-size: 0.97rem; color: var(--ink); transition: color var(--dur-1), background-color var(--dur-2) var(--ease-out);
+  }
+  .nav__link:hover, .nav__item.is-open > .nav__link { background: var(--paper-2); }
+  .nav__link.is-active { color: var(--navy-700); }
+  .nav__link.is-active::after { content: ''; position: absolute; left: 50%; bottom: 2px; width: 5px; height: 5px; margin-left: -2.5px; border-radius: 50%; background: var(--accent); }
+  .nav :global(.nav__chev) { transition: transform var(--dur-2) var(--ease-out); }
+  .nav__item.is-open :global(.nav__chev) { transform: rotate(180deg); }
+  .nav__sub {
+    position: absolute; top: calc(100% + 10px); left: 50%; min-width: 230px; padding: 8px;
+    background: #fff; border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow-lg);
+    opacity: 0; visibility: hidden; transform: translate(-50%, -6px) scale(0.97); transform-origin: top center;
+    transition: opacity var(--dur-1) var(--ease-out), transform var(--dur-2) var(--ease-out), visibility 0s linear var(--dur-2);
+  }
+  .nav__sub::before { content: ''; position: absolute; inset: -12px 0 auto; height: 12px; }
+  .nav__item.is-open .nav__sub { opacity: 1; visibility: visible; transform: translate(-50%, 0); transition-delay: 0s; }
+  .nav__sub a { display: block; padding: 0.65rem 0.9rem; border-radius: 10px; color: var(--ink-2); font-size: var(--fs-sm); transition: background-color var(--dur-1), color var(--dur-1); }
+  .nav__sub a:hover, .nav__sub a:focus-visible { background: var(--sky-100); color: var(--navy-800); }
+  .nav__sub a[aria-current='page'] { color: var(--navy-700); font-weight: 600; }
+
+  .header__actions { display: flex; align-items: center; gap: 0.5rem; margin-left: auto; }
+  .header__cta { display: none; }
+  .burger { display: grid; gap: 4px; width: 18px; }
+  .burger i { display: block; height: 2px; border-radius: 2px; background: currentColor; }
+  .burger i:nth-child(2) { width: 70%; margin-left: auto; }
+
+  @media (min-width: 640px) { .header__cta { display: inline-flex; } }
+  @media (min-width: 1100px) {
+    .nav { display: block; }
+    .header__actions { margin-left: 0; }
+  }
+</style>

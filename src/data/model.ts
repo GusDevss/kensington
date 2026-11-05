@@ -1,0 +1,238 @@
+export default {
+  es: {
+    meta: {
+      title: 'Modelo educativo Altanima',
+      description: 'Altanima: tres dimensiones, un solo propósito. Integramos el desarrollo emocional, físico e intelectual para formar seres humanos íntegros que aprenden con bienestar y viven con conciencia.',
+    },
+    hero: {
+      eyebrow: 'Modelo educativo',
+      dnaAlt: 'ADN Altanima: dimensiones intelectual, emocional y física',
+      logoAlt: 'Altanima',
+      title: 'Tres dimensiones. Un solo propósito: Formar seres humanos íntegros.',
+      paragraphs: [
+        'En Altanima ponemos al ser humano en el centro. Integramos el desarrollo emocional, físico e intelectual para que cada estudiante aprenda con bienestar, crezca con propósito y viva con conciencia. En Altanima no entendemos la educación como un destino, sino como un camino de crecimiento permanente.',
+        'Creemos que el aprendizaje profundo nace del bienestar. Por eso, creamos experiencias educativas activas, significativas y conectadas con la vida real, donde los estudiantes investigan, crean, experimentan, colaboran y desarrollan las habilidades necesarias para enfrentar los desafíos del mundo actual y futuro.',
+      ],
+      extra: [
+        'Buscamos preparar a los niños para vivir la realidad: conocerse, cuidarse, tomar decisiones, afrontar los retos con resiliencia, actuar con valores y descubrir quiénes quieren llegar a ser.',
+        'El desarrollo académico es el fruto; el bienestar emocional y físico son las raíces. Porque cuando las raíces son fuertes, el aprendizaje puede crecer y sostenerse.',
+        'No diseñamos un modelo para enseñar más contenidos. Diseñamos un modelo para desarrollar mejores seres humanos.',
+      ],
+    },
+    statement: { text: 'Creemos que cuando un niño desarrolla su mente, fortalece su cuerpo y descubre quién es, está preparado para transformar el mundo.', highlight: 'transformar el mundo.' },
+    wheel: {
+      hint: 'Toca una sección de la rueda o el logo del centro',
+      ring: 'Formamos personas íntegras que transforman su comunidad',
+      axes: 'Ejes de formación',
+      objectives: 'Objetivos',
+      dims: [
+        {
+          key: 'fisica', label: 'Física', verb: 'Juego, me muevo y crezco', title: 'Dimensión Física', icon: 'person-standing',
+          text: 'Promover una vida activa y saludable que favorezca el desarrollo físico, cognitivo y emocional de cada estudiante.',
+          objectives: [
+            'Desarrollar hábitos permanentes de actividad física y bienestar.',
+            'Potenciar el desarrollo motor mediante programas de neurodesarrollo.',
+            'Fortalecer la coordinación, el equilibrio y la integración sensorial.',
+            'Promover una alimentación saludable y consciente.',
+            'Favorecer la concentración y la autorregulación a través del movimiento.',
+            'Desarrollar una cultura de autocuidado y prevención.',
+          ],
+        },
+        {
+          key: 'intelectual', label: 'Intelectual', verb: 'Pienso, aprendo y descubro', title: 'Dimensión Intelectual', icon: 'lightbulb',
+          text: 'Desarrollar aprendices autónomos, creativos y preparados para transformar el mundo.',
+          objectives: [
+            'Desarrollar el pensamiento crítico y la creatividad.',
+            'Resolver problemas mediante metodologías activas.',
+            'Favorecer la investigación y el aprendizaje basado en proyectos.',
+            'Fortalecer la comunicación en un segundo idioma.',
+            'Integrar el conocimiento a través de proyectos interdisciplinarios.',
+            'Desarrollar competencias digitales, STEAM e Inteligencia Artificial.',
+            'Fomentar la educación financiera y el pensamiento emprendedor.',
+          ],
+        },
+        {
+          key: 'emocional', label: 'Emocional', verb: 'Siento y comparto', title: 'Dimensión Emocional', icon: 'heart',
+          text: 'Cultivar el bienestar interior y la inteligencia emocional para formar personas conscientes, empáticas y emocionalmente saludables.',
+          objectives: [
+            'Desarrollar la autoconciencia y el equilibrio emocional.',
+            'Fortalecer la empatía, la asertividad y la resolución pacífica de conflictos.',
+            'Promover la atención plena y la regulación.',
+            'Favorecer la expresión artística como medio de comunicación y creatividad.',
+            'Fomentar la conexión con la naturaleza y el cuidado del entorno.',
+            'Construir relaciones sanas basadas en el respeto y la compasión.',
+            'Impulsar un ambiente escolar seguro que favorezca el bienestar emocional.',
+          ],
+        },
+      ],
+      community: {
+        label: 'Comunidad', title: 'Comunidad',
+        text: 'Fortalece la formación integral del estudiante mediante experiencias de participación social activa y el desarrollo de competencias socioemocionales y de vida. Promueve el trabajo colaborativo con la comunidad y una alianza educativa sólida entre escuela y familia, potenciando el desarrollo emocional, académico y social del estudiante.',
+        objectives: [
+          'Fortalecer la alianza entre familia y escuela.',
+          'Promover la participación activa de la comunidad educativa.',
+          'Desarrollar el compromiso social y el sentido de pertenencia.',
+          'Favorecer el aprendizaje colaborativo y el servicio a la comunidad.',
+          'Construir una cultura basada en la confianza, el respeto y la corresponsabilidad.',
+        ],
+      },
+    },
+    includes: {
+      title: '¿Qué incluye la dimensión…?',
+      tabs: [
+        { label: 'Emocional', icon: 'heart', items: [
+          { t: 'Apreciación y contacto con la naturaleza', i: 'trees' },
+          { t: 'Mindfulness, conciencia plena y yoga', i: 'flower-2' },
+          { t: 'Cuida de mí', i: 'shield-plus' },
+          { t: 'Educación socioemocional', i: 'face-slightly-smiling-plus' },
+          { t: 'Educación sexual integral', i: 'heart-handshake' },
+        ] },
+        { label: 'Física', icon: 'person-standing', items: [
+          { t: 'Programa de desarrollo físico', i: 'dumbbell' },
+          { t: 'Neurodesarrollo', i: 'brain' },
+          { t: 'Yoga', i: 'flower-2' },
+          { t: 'Hábitos de nutrición y salud', i: 'apple' },
+        ] },
+        { label: 'Intelectual', icon: 'lightbulb', items: [
+          { t: 'Aprendizaje basado en proyectos', i: 'folder-kanban' },
+          { t: 'Aprendizaje basado en juegos', i: 'puzzle' },
+          { t: 'Neurodesarrollo', i: 'brain' },
+          { t: 'Design thinking', i: 'pen-tool' },
+          { t: 'Bilingüismo', i: 'languages' },
+          { t: 'Lego Education / Steam Maker Lab', i: 'blocks' },
+          { t: 'Educación financiera', i: 'piggy-bank' },
+        ] },
+      ],
+    },
+    essence: {
+      title: 'La esencia del Modelo',
+      text: 'En Altanima creemos que una educación verdaderamente integral debe ayudar a cada persona a:',
+      items: [
+        { title: '1. Conocerse', text: 'Comprender quién es, reconocer sus emociones y construir una identidad sólida.' },
+        { title: '2. Cuidarse', text: 'Desarrollar hábitos y decisiones que favorezcan su bienestar físico y emocional.' },
+        { title: '3. Pensar', text: 'Cuestionar, analizar, investigar y construir conocimiento con criterio.' },
+        { title: '4. Crear', text: 'Imaginar posibilidades, resolver problemas y transformar ideas en acciones.' },
+        { title: '5. Convivir', text: 'Relacionarse con empatía, respeto, comunicación y responsabilidad.' },
+        { title: '6. Contribuir', text: 'Comprender que forma parte de algo más grande y que sus decisiones pueden impactar positivamente a otros.' },
+      ],
+    },
+  },
+  en: {
+    meta: {
+      title: 'The Altanima educational model',
+      description: 'Altanima: three dimensions, one purpose. We integrate emotional, physical and intellectual development to form whole human beings who learn with well-being and live with awareness.',
+    },
+    hero: {
+      eyebrow: 'Educational model',
+      dnaAlt: 'Altanima DNA: intellectual, emotional and physical dimensions',
+      logoAlt: 'Altanima',
+      title: 'Three dimensions. One purpose: forming whole human beings.',
+      paragraphs: [
+        'At Altanima we put the human being at the center. We integrate emotional, physical and intellectual development so that every student learns with well-being, grows with purpose and lives with awareness. At Altanima we do not see education as a destination, but as a path of lifelong growth.',
+        'We believe deep learning is born from well-being. That is why we create active, meaningful educational experiences connected with real life, where students research, create, experiment, collaborate and develop the skills they need to face the challenges of today’s and tomorrow’s world.',
+      ],
+      extra: [
+        'We seek to prepare children to live in reality: to know themselves, take care of themselves, make decisions, face challenges with resilience, act with values and discover who they want to become.',
+        'Academic development is the fruit; emotional and physical well-being are the roots. Because when the roots are strong, learning can grow and last.',
+        'We did not design a model to teach more content. We designed a model to develop better human beings.',
+      ],
+    },
+    statement: { text: 'We believe that when a child develops their mind, strengthens their body and discovers who they are, they are ready to transform the world.', highlight: 'transform the world.' },
+    wheel: {
+      hint: 'Tap a section of the wheel or the logo in the center',
+      ring: 'We form people of integrity who transform their community',
+      axes: 'Formation axes',
+      objectives: 'Objectives',
+      dims: [
+        {
+          key: 'fisica', label: 'Physical', verb: 'I play, move and grow', title: 'Physical Dimension', icon: 'person-standing',
+          text: 'To promote an active and healthy life that supports the physical, cognitive and emotional development of every student.',
+          objectives: [
+            'Develop lasting habits of physical activity and well-being.',
+            'Enhance motor development through neurodevelopment programs.',
+            'Strengthen coordination, balance and sensory integration.',
+            'Promote healthy and mindful eating.',
+            'Support concentration and self-regulation through movement.',
+            'Develop a culture of self-care and prevention.',
+          ],
+        },
+        {
+          key: 'intelectual', label: 'Intellectual', verb: 'I think, learn and discover', title: 'Intellectual Dimension', icon: 'lightbulb',
+          text: 'To develop autonomous, creative learners prepared to transform the world.',
+          objectives: [
+            'Develop critical thinking and creativity.',
+            'Solve problems through active methodologies.',
+            'Encourage research and project-based learning.',
+            'Strengthen communication in a second language.',
+            'Integrate knowledge through interdisciplinary projects.',
+            'Develop digital, STEAM and Artificial Intelligence skills.',
+            'Foster financial education and entrepreneurial thinking.',
+          ],
+        },
+        {
+          key: 'emocional', label: 'Emotional', verb: 'I feel and share', title: 'Emotional Dimension', icon: 'heart',
+          text: 'To cultivate inner well-being and emotional intelligence to form aware, empathetic and emotionally healthy people.',
+          objectives: [
+            'Develop self-awareness and emotional balance.',
+            'Strengthen empathy, assertiveness and peaceful conflict resolution.',
+            'Promote mindfulness and self-regulation.',
+            'Encourage artistic expression as a means of communication and creativity.',
+            'Foster connection with nature and care for the environment.',
+            'Build healthy relationships based on respect and compassion.',
+            'Promote a safe school environment that supports emotional well-being.',
+          ],
+        },
+      ],
+      community: {
+        label: 'Community', title: 'Community',
+        text: 'It strengthens the student’s integral formation through experiences of active social participation and the development of social-emotional and life skills. It promotes collaborative work with the community and a solid educational alliance between school and family, enhancing the student’s emotional, academic and social development.',
+        objectives: [
+          'Strengthen the alliance between family and school.',
+          'Promote active participation of the school community.',
+          'Develop social commitment and a sense of belonging.',
+          'Encourage collaborative learning and community service.',
+          'Build a culture based on trust, respect and shared responsibility.',
+        ],
+      },
+    },
+    includes: {
+      title: 'What does each dimension include?',
+      tabs: [
+        { label: 'Emotional', icon: 'heart', items: [
+          { t: 'Appreciation of and contact with nature', i: 'trees' },
+          { t: 'Mindfulness, full awareness and yoga', i: 'flower-2' },
+          { t: 'Take care of me', i: 'shield-plus' },
+          { t: 'Social-emotional education', i: 'face-slightly-smiling-plus' },
+          { t: 'Comprehensive sexuality education', i: 'heart-handshake' },
+        ] },
+        { label: 'Physical', icon: 'person-standing', items: [
+          { t: 'Physical development program', i: 'dumbbell' },
+          { t: 'Neurodevelopment', i: 'brain' },
+          { t: 'Yoga', i: 'flower-2' },
+          { t: 'Nutrition and health habits', i: 'apple' },
+        ] },
+        { label: 'Intellectual', icon: 'lightbulb', items: [
+          { t: 'Project-based learning', i: 'folder-kanban' },
+          { t: 'Game-based learning', i: 'puzzle' },
+          { t: 'Neurodevelopment', i: 'brain' },
+          { t: 'Design thinking', i: 'pen-tool' },
+          { t: 'Bilingualism', i: 'languages' },
+          { t: 'LEGO Education / STEAM Maker Lab', i: 'blocks' },
+          { t: 'Financial education', i: 'piggy-bank' },
+        ] },
+      ],
+    },
+    essence: {
+      title: 'The essence of the Model',
+      text: 'At Altanima we believe a truly integral education should help every person to:',
+      items: [
+        { title: '1. Know themselves', text: 'Understand who they are, recognize their emotions and build a solid identity.' },
+        { title: '2. Care for themselves', text: 'Develop habits and decisions that support their physical and emotional well-being.' },
+        { title: '3. Think', text: 'Question, analyze, research and build knowledge with sound judgment.' },
+        { title: '4. Create', text: 'Imagine possibilities, solve problems and turn ideas into actions.' },
+        { title: '5. Live together', text: 'Relate to others with empathy, respect, communication and responsibility.' },
+        { title: '6. Contribute', text: 'Understand that they are part of something bigger and that their decisions can positively impact others.' },
+      ],
+    },
+  },
+};

@@ -1,0 +1,27 @@
+---
+import { site, type SocialKey } from '@/config/site';
+import Icon from '@/components/ui/Icon.astro';
+interface Props { items?: SocialKey[]; variant?: 'plain' | 'round' | 'round-dark'; size?: number }
+const { items = ['facebook', 'instagram', 'tiktok', 'youtube', 'x'], variant = 'plain', size = 16 } = Astro.props;
+const labels: Record<SocialKey, string> = { facebook: 'Facebook', instagram: 'Instagram', tiktok: 'TikTok', youtube: 'YouTube', x: 'X (Twitter)', spotify: 'Spotify' };
+---
+<ul class:list={['social', `social--${variant}`]} role="list">
+  {items.map((k) => (
+    <li>
+      <a href={site.social[k]} target="_blank" rel="noopener noreferrer" aria-label={`${labels[k]} — Kensington Academy`}>
+        <Icon name={k} size={size} />
+      </a>
+    </li>
+  ))}
+</ul>
+<style>
+  .social { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+  .social a { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; transition: background-color var(--dur-2) var(--ease-out), color var(--dur-2) var(--ease-out), transform var(--dur-1) var(--ease-out); }
+  .social a:active { transform: scale(0.92); }
+  .social--plain a { color: #fff; width: 30px; height: 30px; }
+  .social--plain a:hover { color: var(--sky-300); }
+  .social--round a { width: 40px; height: 40px; background: rgb(255 255 255 / 0.08); color: #fff; }
+  .social--round a:hover { background: #fff; color: var(--navy-800); }
+  .social--round-dark a { width: 44px; height: 44px; border: 1px solid var(--line); color: var(--navy-800); }
+  .social--round-dark a:hover { background: var(--navy-700); color: #fff; border-color: var(--navy-700); }
+</style>

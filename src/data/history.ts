@@ -1,0 +1,136 @@
+export default {
+  es: {
+    meta: {
+      title: 'Nuestra historia y filosofía',
+      description: 'Kensington Academy nació al entender que el reto no es criar niños para un mundo ideal, sino formar personas capaces de vivir en el mundo real. Conoce nuestra historia y los principios en los que creemos.',
+    },
+    intro: {
+      title: 'Nuestra historia',
+      text: 'Kensington Academy nació al entender que el reto no es criar niños para un mundo ideal. Es formar personas capaces de vivir en el mundo real. Un entorno escolar cálido y seguro no debe alejarlos de la realidad, sino darles las herramientas para enfrentarla.',
+    },
+    question: '¿La escuela de hoy está desarrollando las habilidades que tu hijo necesitará mañana?',
+    tabs: [
+      {
+        label: '¿Qué nos hizo cuestionar la forma de educar?', icon: 'circle-question-mark',
+        title: 'Durante años observamos cómo gran parte de los modelos educativos seguían priorizando el rendimiento académico por encima del desarrollo integral de la persona.',
+        text: 'En un mundo que cambia a una velocidad sin precedentes, comprendimos que memorizar contenidos ya no era suficiente. Nuestros niños necesitan aprender a conocerse, cuidar de su salud mental, desarrollar resiliencia, pensar de manera crítica, adaptarse al cambio y construir relaciones sanas.',
+      },
+      {
+        label: '¿Qué decidimos hacer diferente?', icon: 'lightbulb',
+        title: 'Fue entonces cuando entendimos que la educación también debía evolucionar.',
+        text: 'Así nació Kensington Academy con nuestro modelo educativo “Altanima”: un modelo educativo único diseñado para responder a las necesidades de los niños de hoy y de las generaciones del futuro. Un espacio donde el aprendizaje trasciende las aulas y se convierte en una experiencia de crecimiento integral, en la que cada estudiante desarrolla de manera equilibrada sus dimensiones emocional, física e intelectual.',
+      },
+      {
+        label: '¿Qué escuela soñábamos construir?', icon: 'school',
+        title: 'Soñamos con una escuela donde el bienestar del ser humano sea tan importante como su aprendizaje académico.',
+        text: 'Desde el primer día soñamos con una escuela donde la salud mental, el bienestar físico, la creatividad, el pensamiento crítico, la innovación y la conexión con uno mismo fueran tan importantes como las matemáticas, la lectura o las ciencias. Porque creemos que el desarrollo emocional y físico no son un complemento de la educación; son la base sobre la que se construye el desarrollo intelectual.',
+      },
+      {
+        label: '¿Por qué creemos que educar es una tarea compartida?', icon: 'users',
+        title: 'También entendimos que educar nunca ha sido una tarea individual.',
+        text: 'Por eso construimos una comunidad donde familias, docentes y estudiantes caminan juntos, compartiendo la responsabilidad de formar seres humanos íntegros, conscientes y comprometidos con su entorno.',
+      },
+    ],
+    statement1: { text: 'Porque en Kensington Academy creemos que la verdadera educación no consiste en formar estudiantes perfectos, sino seres humanos plenos, felices y preparados para la vida.', highlight: 'plenos, felices y preparados para la vida.' },
+    marquee: ['Kensington Academy', 'Educamos la mente', 'Kensington Academy', 'Fortalecemos el cuerpo', 'Kensington Academy', 'Despertamos la conciencia'],
+    philosophy: {
+      title: 'Nuestra filosofía... Lo que creemos',
+      subtitle: { text: 'Educar para descubrir la verdad, vivir el amor y transformar el mundo.', highlight: 'transformar el mundo.' },
+      imgAlt: 'Alumna de Kensington Academy',
+      items: [
+        { title: '1. Formamos a la persona de manera integral', text: 'Educamos atendiendo todas sus dimensiones: intelectual, emocional y física, buscando el equilibrio que le permita desarrollarse plenamente.' },
+        { title: '2. La verdad orienta nuestro aprendizaje', text: 'Educamos para observar, cuestionar, comprender y descubrir, desarrollando una inteligencia capaz de pensar críticamente, encontrar sentido y relacionarse con la realidad.' },
+        { title: '3. Educamos el corazón y el carácter', text: 'Acompañamos a cada estudiante en el desarrollo de su voluntad, libertad y responsabilidad, ayudándolo a tomar decisiones conscientes y actuar con sentido.' },
+        { title: '4. Cada persona es única e irrepetible', text: 'Respetamos los ritmos, intereses, talentos y necesidades de cada estudiante, reconociendo que cada persona tiene una historia y un camino propio.' },
+        { title: '5. El bienestar es la base para aprender', text: 'Creemos que sentirse seguro, querido, escuchado y acompañado es fundamental para aprender, crecer y desarrollar el propio potencial.' },
+        { title: '6. Educamos para descubrir el propósito', text: 'Más que transmitir conocimientos, buscamos despertar la curiosidad, reconocer talentos y descubrir aquello que da sentido, acompañando a cada estudiante en la construcción de su proyecto de vida.' },
+        { title: '7. Aprender es experimentar, contemplar y descubrir', text: 'Creamos experiencias en las que los estudiantes observan, investigan, crean, cuestionan, colaboran y encuentran sentido en aquello que aprenden, desarrollando una actitud de apertura y aprendizaje permanente.' },
+        { title: '8. Los talentos encuentran su sentido al servicio de los demás', text: 'Formamos personas conscientes, libres, resilientes y comprometidas, que reconocen sus capacidades como una oportunidad para contribuir, servir y transformar positivamente su entorno.' },
+      ],
+    },
+    statement2: { text: 'Porque el futuro necesita personas emocionalmente sanas, físicamente fuertes e intelectualmente preparadas. Y esa es la educación en la que creemos.', highlight: 'la educación en la que creemos.' },
+    principles: {
+      title: 'Nuestra filosofía... Lo que creemos',
+      label: 'Principio',
+      items: [
+        { title: 'Curiosidad', text: 'Creemos que toda pregunta es el inicio de un nuevo aprendizaje. Fomentamos el deseo de descubrir, explorar, investigar y comprender el mundo con entusiasmo.', icon: 'search' },
+        { title: 'Autenticidad', text: 'Reconocemos que cada niño tiene un ritmo, una personalidad y talentos únicos. Valoramos la individualidad y acompañamos a cada estudiante para desarrollar su mejor versión sin comparaciones.', icon: 'fingerprint-pattern' },
+        { title: 'Aprendizaje con propósito', text: 'Todo aprendizaje cobra sentido cuando se conecta con la vida. Promovemos experiencias significativas donde comprender es más importante que memorizar y crear vale más que repetir.', icon: 'target' },
+        { title: 'Movimiento', text: 'El cuerpo también aprende. Creemos que el juego, la manipulación, la experimentación y la actividad física son parte esencial del desarrollo y del aprendizaje profundo.', icon: 'bike' },
+        { title: 'Equilibrio integral', text: 'Procuramos que cada estudiante crezca en armonía para construir una vida plena y un aprendizaje duradero.', icon: 'scale' },
+        { title: 'Reflexión', text: 'Aprender también significa detenerse a pensar. Favorecemos la capacidad de cuestionar, analizar, reconocer errores y construir nuevas perspectivas con pensamiento crítico.', icon: 'brain' },
+        { title: 'Autonomía', text: 'Deseamos que cada estudiante tome decisiones, asuma responsabilidades y desarrolle la confianza necesaria para dirigir su propio aprendizaje y su vida.', icon: 'compass' },
+        { title: 'Empatía', text: 'Creemos que aprender juntos implica escuchar, comprender y valorar a los demás. Construimos relaciones basadas en el respeto, la colaboración y el cuidado mutuo.', icon: 'heart-handshake' },
+        { title: 'Creatividad', text: 'Impulsamos la imaginación como una herramienta para resolver problemas, expresar ideas y transformar la realidad con innovación y sensibilidad.', icon: 'palette' },
+        { title: 'Identidad', text: 'Buscamos ayudar a cada estudiante a descubrir quién es y desarrollar el potencial que ya posee.', icon: 'user-round' },
+      ],
+    },
+  },
+  en: {
+    meta: {
+      title: 'Our story and philosophy',
+      description: 'Kensington Academy was born from understanding that the challenge is not raising children for an ideal world, but forming people capable of living in the real one. Discover our story and the principles we believe in.',
+    },
+    intro: {
+      title: 'Our story',
+      text: 'Kensington Academy was born from understanding that the challenge is not raising children for an ideal world. It is forming people capable of living in the real world. A warm and safe school environment should not keep them away from reality, but give them the tools to face it.',
+    },
+    question: 'Is today’s school developing the skills your child will need tomorrow?',
+    tabs: [
+      {
+        label: 'What made us question the way we educate?', icon: 'circle-question-mark',
+        title: 'For years we watched most educational models keep prioritizing academic performance over the integral development of the person.',
+        text: 'In a world changing at unprecedented speed, we understood that memorizing content was no longer enough. Our children need to learn to know themselves, care for their mental health, develop resilience, think critically, adapt to change and build healthy relationships.',
+      },
+      {
+        label: 'What did we decide to do differently?', icon: 'lightbulb',
+        title: 'That was when we understood that education also had to evolve.',
+        text: 'This is how Kensington Academy was born, with our “Altanima” educational model: a unique model designed to respond to the needs of today’s children and future generations. A space where learning goes beyond the classroom and becomes an experience of integral growth, in which every student develops their emotional, physical and intellectual dimensions in balance.',
+      },
+      {
+        label: 'What school did we dream of building?', icon: 'school',
+        title: 'We dreamed of a school where human well-being is as important as academic learning.',
+        text: 'From day one we dreamed of a school where mental health, physical well-being, creativity, critical thinking, innovation and connection with oneself were as important as mathematics, reading or science. Because we believe emotional and physical development are not an add-on to education; they are the foundation on which intellectual development is built.',
+      },
+      {
+        label: 'Why do we believe educating is a shared task?', icon: 'users',
+        title: 'We also understood that educating has never been an individual task.',
+        text: 'That is why we built a community where families, teachers and students walk together, sharing the responsibility of forming human beings of integrity who are aware and committed to their surroundings.',
+      },
+    ],
+    statement1: { text: 'Because at Kensington Academy we believe true education is not about forming perfect students, but fulfilled, happy human beings prepared for life.', highlight: 'fulfilled, happy human beings prepared for life.' },
+    marquee: ['Kensington Academy', 'We educate the mind', 'Kensington Academy', 'We strengthen the body', 'Kensington Academy', 'We awaken awareness'],
+    philosophy: {
+      title: 'Our philosophy... What we believe',
+      subtitle: { text: 'Educating to discover truth, live love and transform the world.', highlight: 'transform the world.' },
+      imgAlt: 'Kensington Academy student',
+      items: [
+        { title: '1. We form the whole person', text: 'We educate by attending to all their dimensions — intellectual, emotional and physical — seeking the balance that allows them to develop fully.' },
+        { title: '2. Truth guides our learning', text: 'We educate to observe, question, understand and discover, developing an intelligence capable of critical thinking, finding meaning and relating to reality.' },
+        { title: '3. We educate the heart and character', text: 'We support every student in developing their will, freedom and responsibility, helping them make conscious decisions and act meaningfully.' },
+        { title: '4. Every person is unique and unrepeatable', text: 'We respect each student’s pace, interests, talents and needs, recognizing that every person has their own story and path.' },
+        { title: '5. Well-being is the foundation for learning', text: 'We believe that feeling safe, loved, heard and supported is essential to learn, grow and develop one’s own potential.' },
+        { title: '6. We educate to discover purpose', text: 'More than passing on knowledge, we seek to awaken curiosity, recognize talents and discover what gives meaning, supporting every student as they build their life project.' },
+        { title: '7. Learning is experiencing, contemplating and discovering', text: 'We create experiences in which students observe, research, create, question, collaborate and find meaning in what they learn, developing an attitude of openness and lifelong learning.' },
+        { title: '8. Talents find their meaning in the service of others', text: 'We form aware, free, resilient and committed people who see their abilities as an opportunity to contribute, serve and positively transform their surroundings.' },
+      ],
+    },
+    statement2: { text: 'Because the future needs people who are emotionally healthy, physically strong and intellectually prepared. And that is the education we believe in.', highlight: 'the education we believe in.' },
+    principles: {
+      title: 'Our philosophy... What we believe',
+      label: 'Principle',
+      items: [
+        { title: 'Curiosity', text: 'We believe every question is the beginning of new learning. We foster the desire to discover, explore, research and understand the world with enthusiasm.', icon: 'search' },
+        { title: 'Authenticity', text: 'We recognize that every child has a unique pace, personality and talents. We value individuality and help every student develop their best self without comparisons.', icon: 'fingerprint-pattern' },
+        { title: 'Learning with purpose', text: 'All learning becomes meaningful when it connects with life. We promote meaningful experiences where understanding matters more than memorizing and creating is worth more than repeating.', icon: 'target' },
+        { title: 'Movement', text: 'The body learns too. We believe play, hands-on manipulation, experimentation and physical activity are an essential part of development and deep learning.', icon: 'bike' },
+        { title: 'Integral balance', text: 'We make sure every student grows in harmony to build a fulfilling life and lasting learning.', icon: 'scale' },
+        { title: 'Reflection', text: 'Learning also means stopping to think. We foster the ability to question, analyze, recognize mistakes and build new perspectives through critical thinking.', icon: 'brain' },
+        { title: 'Autonomy', text: 'We want every student to make decisions, take on responsibilities and develop the confidence needed to direct their own learning and life.', icon: 'compass' },
+        { title: 'Empathy', text: 'We believe learning together means listening to, understanding and valuing others. We build relationships based on respect, collaboration and mutual care.', icon: 'heart-handshake' },
+        { title: 'Creativity', text: 'We encourage imagination as a tool to solve problems, express ideas and transform reality with innovation and sensitivity.', icon: 'palette' },
+        { title: 'Identity', text: 'We seek to help every student discover who they are and develop the potential they already have.', icon: 'user-round' },
+      ],
+    },
+  },
+};

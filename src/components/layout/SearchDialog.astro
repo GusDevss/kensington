@@ -1,0 +1,47 @@
+---
+import type { Lang } from '@/i18n/routes';
+import { t } from '@/i18n/ui';
+import Icon from '@/components/ui/Icon.astro';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const ui = t(lang);
+---
+<dialog class="search" id="search" aria-label={ui.search} data-index={lang === 'es' ? '/search-es.json' : '/search-en.json'} data-empty={ui.searchEmpty} data-hint={ui.searchHint}>
+  <div class="search__panel">
+    <div class="container-narrow">
+      <form class="search__form" role="search" onsubmit="return false">
+        <Icon name="search" size={22} class="search__icon" />
+        <label class="visually-hidden" for="search-input">{ui.searchPlaceholder}</label>
+        <input id="search-input" type="search" placeholder={ui.searchPlaceholder} autocomplete="off" spellcheck="false" />
+        <button type="button" class="search__close" data-close-dialog aria-label={ui.close}><Icon name="x" size={22} /></button>
+      </form>
+      <ul class="search__results" role="list" aria-live="polite"></ul>
+    </div>
+  </div>
+</dialog>
+<style>
+  .search { position: fixed; inset: 0 0 auto; width: 100%; margin: 0; background: transparent; overflow: visible; }
+  .search::backdrop { background: rgb(14 22 33 / 0.5); backdrop-filter: blur(3px); opacity: 0; transition: opacity var(--dur-2) var(--ease-out), overlay var(--dur-2) allow-discrete, display var(--dur-2) allow-discrete; }
+  .search[open]::backdrop { opacity: 1; }
+  @starting-style { .search[open]::backdrop { opacity: 0; } }
+  .search__panel {
+    background: #fff; padding: clamp(2rem, 6vw, 5rem) 0 2rem; box-shadow: var(--shadow-lg);
+    transform: translateY(-100%); transition: transform var(--dur-3) var(--ease-drawer);
+    max-height: 100dvh; overflow-y: auto;
+  }
+  .search.is-in .search__panel { transform: none; }
+  .search__form { display: flex; align-items: center; gap: 0.75rem; border: 1px solid var(--line); border-radius: var(--radius); padding: 0.4rem 0.5rem 0.4rem 1.1rem; transition: border-color var(--dur-2), box-shadow var(--dur-2); }
+  .search__form:focus-within { border-color: var(--navy-600); box-shadow: 0 0 0 4px var(--sky-100); }
+  .search :global(.search__icon) { color: var(--ink-3); flex: none; }
+  .search input { flex: 1; min-width: 0; border: 0; outline: none; padding: 0.7rem 0; font-size: var(--fs-lg); background: transparent; }
+  .search input::-webkit-search-cancel-button { display: none; }
+  .search__close { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 12px; color: var(--ink); transition: background-color var(--dur-1); }
+  .search__close:hover { background: var(--paper-2); }
+  .search__results { display: grid; gap: 0.25rem; margin-top: 1rem; }
+  .search__results :global(a) { display: block; padding: 0.85rem 1rem; border-radius: 12px; transition: background-color var(--dur-1); }
+  .search__results :global(a:hover), .search__results :global(a:focus-visible) { background: var(--sky-100); }
+  .search__results :global(strong) { display: block; color: var(--navy-800); }
+  .search__results :global(span) { display: block; font-size: var(--fs-sm); color: var(--ink-3); }
+  .search__results :global(mark) { background: #fdf0c4; color: inherit; border-radius: 3px; padding: 0 2px; }
+  .search__results :global(.search__empty) { padding: 0.85rem 1rem; color: var(--ink-3); }
+</style>

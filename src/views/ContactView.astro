@@ -1,0 +1,123 @@
+---
+import Base from '@/layouts/Base.astro';
+import Icon from '@/components/ui/Icon.astro';
+import Img from '@/components/ui/Img.astro';
+import Social from '@/components/layout/Social.astro';
+import { img } from '@/config/images';
+import { site } from '@/config/site';
+import { t } from '@/i18n/ui';
+import { routes, type Lang } from '@/i18n/routes';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const ui = t(lang);
+const es = lang === 'es';
+const c = es
+  ? {
+      title: 'Agenda tu visita',
+      description: 'Agenda una visita a Kensington Academy en Corregidora, Querétaro. Conoce nuestras instalaciones y el modelo educativo Altanima para Kinder y Primaria.',
+      lead: 'El proceso de admisión inicia con una visita a nuestras instalaciones para conocer el modelo educativo y resolver todas tus dudas.',
+      name: 'Nombre de la madre, padre o tutor', email: 'Correo electrónico', phone: 'Teléfono / WhatsApp', level: 'Nivel de interés',
+      levels: ['Kinder', 'Primaria', 'After School', 'Aún no lo sé'], child: 'Edad de tu hijo(a)', message: 'Mensaje (opcional)',
+      privacy: ['He leído y acepto el ', 'aviso de privacidad'], send: 'Enviar solicitud',
+      ok: '¡Gracias! Recibimos tu solicitud y te contactaremos muy pronto para confirmar tu visita.',
+      direct: 'Contacto directo', visit: 'Visítanos', map: 'Abrir en Google Maps',
+    }
+  : {
+      title: 'Book your visit',
+      description: 'Book a visit to Kensington Academy in Corregidora, Querétaro. Tour our facilities and learn about the Altanima educational model for Kindergarten and Elementary.',
+      lead: 'The admissions process begins with a visit to our facilities to learn about the educational model and answer all your questions.',
+      name: 'Parent or guardian name', email: 'Email', phone: 'Phone / WhatsApp', level: 'Level of interest',
+      levels: ['Kindergarten', 'Elementary', 'After School', 'Not sure yet'], child: 'Your child’s age', message: 'Message (optional)',
+      privacy: ['I have read and accept the ', 'privacy notice'], send: 'Send request',
+      ok: 'Thank you! We received your request and will contact you shortly to confirm your visit.',
+      direct: 'Direct contact', visit: 'Visit us', map: 'Open in Google Maps',
+    };
+---
+<Base lang={lang} routeKey="contact" title={c.title} description={c.description} image={img.fachadaPrincipal} crumbs={[{ name: ui.nav.contact, key: 'contact' }]}>
+  <section class="ct">
+    <div class="ct__media" aria-hidden="true">
+      <Img src={img.fachadaPrincipal} alt="" sizes="(min-width: 1024px) 45vw, 100vw" priority widths={[640, 1280, 1920]} />
+    </div>
+    <div class="ct__wrap container">
+      <div class="ct__card">
+        <span class="eyebrow">{ui.cta}</span>
+        <h1>{c.title}</h1>
+        <p class="lead">{c.lead}</p>
+        <form class="form" action={site.formEndpoint} method="post" data-ajax-form data-success={c.ok} data-error={`${ui.formError} ${site.email}`}>
+          <input type="hidden" name="type" value="visit" />
+          <input type="hidden" name="lang" value={lang} />
+          <div class="hp" aria-hidden="true"><label>Website<input type="text" name="website" tabindex="-1" autocomplete="off" /></label></div>
+          <div class="form__row">
+            <label class="field field--full"><span>{c.name}</span><input type="text" name="name" required autocomplete="name" maxlength="120" /></label>
+          </div>
+          <div class="form__row">
+            <label class="field"><span>{c.email}</span><input type="email" name="email" required autocomplete="email" maxlength="160" /></label>
+            <label class="field"><span>{c.phone}</span><input type="tel" name="phone" required autocomplete="tel" inputmode="tel" maxlength="30" /></label>
+          </div>
+          <div class="form__row">
+            <label class="field"><span>{c.level}</span>
+              <select name="level" required>
+                {c.levels.map((l) => <option value={l}>{l}</option>)}
+              </select>
+            </label>
+            <label class="field"><span>{c.child}</span><input type="text" name="age" maxlength="40" /></label>
+          </div>
+          <label class="field field--full"><span>{c.message}</span><textarea name="message" rows="4" maxlength="2000"></textarea></label>
+          <label class="check"><input type="checkbox" name="privacy" required /><span>{c.privacy[0]}<a href={routes.privacy[lang]} target="_blank">{c.privacy[1]}</a>.</span></label>
+          <button class="btn" type="submit">{c.send}<Icon name="send" /></button>
+          <p class="form__msg" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+
+      <aside class="ct__aside">
+        <div>
+          <h2>{c.direct}</h2>
+          <ul role="list">
+            <li><a href={site.phoneHref}><span class="icon-badge"><Icon name="phone" size={20} /></span>{site.phone}</a></li>
+            <li><a href={`mailto:${site.email}`}><span class="icon-badge"><Icon name="mail" size={20} /></span>{site.email}</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2>{c.visit}</h2>
+          <p>{site.address.street}, {site.address.locality}, {site.address.region}.</p>
+          <a class="btn btn-ghost btn-sm" href={site.mapsUrl} target="_blank" rel="noopener noreferrer"><Icon name="map-pin" />{c.map}</a>
+        </div>
+        <Social variant="round-dark" />
+      </aside>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .ct { position: relative; padding-block: clamp(2rem, 5vw, 4rem) var(--section); background: var(--paper-2); }
+  .ct__media { position: absolute; inset: 0 0 auto; height: 340px; overflow: hidden; }
+  .ct__media :global(img) { width: 100%; height: 100%; object-fit: cover; }
+  .ct__media::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgb(30 48 69 / 0.6), rgb(30 48 69 / 0.85)); }
+  .ct__wrap { position: relative; display: grid; gap: 1.5rem; padding-top: 6rem; }
+  @media (min-width: 1024px) { .ct__wrap { grid-template-columns: 1.5fr 0.8fr; align-items: start; } .ct__aside { margin-top: 3rem; } }
+  .ct__card { display: grid; gap: 1rem; justify-items: start; padding: clamp(1.5rem, 4vw, 3rem); border-radius: var(--radius-xl); background: #fff; box-shadow: var(--shadow-lg); }
+  .ct__card h1 { font-size: var(--fs-3xl); }
+  .form { display: grid; gap: 1rem; width: 100%; margin-top: 1rem; }
+  .form__row { display: grid; gap: 1rem; }
+  @media (min-width: 640px) { .form__row { grid-template-columns: 1fr 1fr; } .field--full { grid-column: 1 / -1; } }
+  .field { display: grid; gap: 0.4rem; font-size: var(--fs-sm); font-weight: 500; color: var(--ink); }
+  .field input, .field select, .field textarea { width: 100%; padding: 0.85rem 1rem; border: 1px solid var(--line); border-radius: 12px; background: #fff; font-weight: 400; transition: border-color var(--dur-2), box-shadow var(--dur-2); }
+  .field textarea { resize: vertical; min-height: 110px; }
+  .field input:focus, .field select:focus, .field textarea:focus { outline: none; border-color: var(--navy-600); box-shadow: 0 0 0 4px var(--sky-100); }
+  .field input:user-invalid, .field select:user-invalid { border-color: #d92d20; }
+  .check { display: flex; gap: 0.6rem; align-items: flex-start; font-size: var(--fs-sm); }
+  .check input { width: 18px; height: 18px; margin-top: 0.2em; accent-color: var(--navy-700); flex: none; }
+  .check a { color: var(--navy-700); text-decoration: underline; text-underline-offset: 3px; }
+  .form .btn { justify-self: start; }
+  .form[aria-busy='true'] .btn { opacity: 0.6; }
+  .form__msg { font-size: var(--fs-sm); min-height: 1.2em; }
+  .form__msg.is-ok { color: var(--teal-500); font-weight: 600; }
+  .form__msg.is-err { color: #b42318; }
+  .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+  .ct__aside { display: grid; gap: 2rem; padding: 2rem; border-radius: var(--radius-xl); background: #fff; border: 1px solid var(--line); }
+  .ct__aside h2 { font-size: var(--fs-lg); margin-bottom: 0.9rem; }
+  .ct__aside ul { display: grid; gap: 0.75rem; }
+  .ct__aside li a { display: flex; align-items: center; gap: 0.9rem; font-weight: 500; color: var(--ink); overflow-wrap: anywhere; }
+  .ct__aside p { margin-bottom: 1rem; font-size: var(--fs-sm); }
+</style>

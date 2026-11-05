@@ -1,0 +1,17 @@
+---
+/** Frase destacada del cliente con trazo dibujado a mano sobre la parte final. */
+interface Props { text: string; highlight: string; mark?: 'underline' | 'circle'; tag?: 'p' | 'h2' | 'blockquote'; class?: string }
+const { text, highlight, mark = 'underline', tag: Tag = 'p', class: cls } = Astro.props;
+const i = text.lastIndexOf(highlight);
+const before = i >= 0 ? text.slice(0, i) : text;
+const after = i >= 0 ? text.slice(i + highlight.length) : '';
+---
+<Tag class:list={['statement', cls]} data-reveal>
+  {before}{i >= 0 && (
+    <span class:list={['scribble', { circle: mark === 'circle' }]}>{highlight}<svg viewBox="0 0 200 20" preserveAspectRatio="none" aria-hidden="true">
+      {mark === 'circle'
+        ? <path pathLength="1" d="M18 4C70-2 170 0 194 9c8 7-20 14-80 15C50 25 2 20 5 11 8 3 40 1 70 2" />
+        : <path pathLength="1" d="M2 12c18-8 30 6 48-2s30 6 48-2 30 6 48-2 30 6 50-1" />}
+    </svg></span>
+  )}{after}
+</Tag>

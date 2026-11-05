@@ -1,0 +1,176 @@
+---
+import Base from '@/layouts/Base.astro';
+import Img from '@/components/ui/Img.astro';
+import Icon from '@/components/ui/Icon.astro';
+import Statement from '@/components/ui/Statement.astro';
+import { img } from '@/config/images';
+import { t } from '@/i18n/ui';
+import type { Lang } from '@/i18n/routes';
+import data from '@/data/history';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const d = data[lang];
+const ui = t(lang);
+const tabImgs = [img.fachadaPrincipal, img.patioCentral, img.patioVentanales, img.jardinJuegos];
+---
+<Base lang={lang} routeKey="history" title={d.meta.title} description={d.meta.description} image={img.patioCentral} crumbs={[{ name: ui.nav.history, key: 'history' }]}>
+  <section class="section-sm hintro">
+    <div class="container hintro__in">
+      <h1 data-reveal>{d.intro.title}</h1>
+      <p class="text-j lead" data-reveal>{d.intro.text}</p>
+    </div>
+  </section>
+
+  <section class="section-sm">
+    <div class="container">
+      <h2 class="hq" data-reveal>{d.question}</h2>
+      <div class="htabs" data-tabs>
+        <div class="htabs__list" role="tablist" aria-label={d.question} aria-orientation="vertical">
+          {d.tabs.map((tab, i) => (
+            <button role="tab" id={`h-tab-${i}`} aria-controls={`h-panel-${i}`} aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1}>
+              <Icon name={tab.icon} size={20} /><span>{tab.label}</span>
+            </button>
+          ))}
+        </div>
+        {d.tabs.map((tab, i) => (
+          <div class="htabs__panel" role="tabpanel" id={`h-panel-${i}`} aria-labelledby={`h-tab-${i}`} hidden={i !== 0}>
+            <div class="htabs__text">
+              <h3>{tab.title}</h3>
+              <p class="text-j">{tab.text}</p>
+            </div>
+            <div class="htabs__img"><Img src={tabImgs[i]} alt="" sizes="(min-width: 1024px) 380px, 90vw" widths={[480, 960]} /></div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section-sm"><div class="container"><Statement {...d.statement1} /></div></section>
+
+  <section class="marquee" aria-label="Kensington Academy">
+    <div class="marquee__track">
+      {[0, 1].map((n) => (
+        <ul role="list" aria-hidden={n === 1 ? 'true' : undefined}>
+          {d.marquee.map((m, i) => (
+            <li class:list={{ outline: i % 2 === 1 }}><img src="/brand/escudo-white.svg" alt="" width="36" height="36" />{m}</li>
+          ))}
+        </ul>
+      ))}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <h2>{d.philosophy.title}</h2>
+      </div>
+      <Statement {...d.philosophy.subtitle} class="phil__sub" />
+      <div class="phil" data-carousel>
+        <div class="phil__card">
+          <ul class="phil__track" role="list" data-track>
+            {d.philosophy.items.map((it) => (
+              <li class="phil__slide">
+                <span class="phil__quote" aria-hidden="true"><Icon name="quote" size={22} /></span>
+                <h3>{it.title}</h3>
+                <p class="text-j">{it.text}</p>
+              </li>
+            ))}
+          </ul>
+          <div class="phil__nav">
+            <button class="icon-btn" type="button" data-prev aria-label={ui.prev}><Icon name="arrow-left" /></button>
+            <span data-counter class="phil__count" aria-hidden="true"></span>
+            <button class="icon-btn" type="button" data-next aria-label={ui.next}><Icon name="arrow-right" /></button>
+          </div>
+        </div>
+        <div class="phil__img">
+          <Img src={img.ninaPrimaria} alt={d.philosophy.imgAlt} sizes="(min-width: 960px) 340px, 70vw" widths={[360, 622]} />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-sm"><div class="container"><Statement {...d.statement2} mark="circle" /></div></section>
+
+  <section class="section">
+    <div class="container">
+      <h2 class="center" data-reveal>{d.principles.title}</h2>
+      <div class="prin" data-carousel>
+        <ul class="prin__track" role="list" data-track>
+          {d.principles.items.map((p, i) => (
+            <li class="prin__card">
+              <span class="icon-badge"><Icon name={p.icon} /></span>
+              <h3>{p.title}</h3>
+              <p class="text-j">{p.text}</p>
+              <span class="prin__tag">{d.principles.label} #{i + 1}</span>
+            </li>
+          ))}
+        </ul>
+        <div class="prin__nav">
+          <button class="icon-btn" type="button" data-prev aria-label={ui.prev}><Icon name="arrow-left" /></button>
+          <span data-counter class="phil__count" aria-hidden="true"></span>
+          <button class="icon-btn" type="button" data-next aria-label={ui.next}><Icon name="arrow-right" /></button>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .hintro__in { display: grid; gap: 1.5rem; align-items: center; padding-top: 2rem; }
+  @media (min-width: 900px) { .hintro__in { grid-template-columns: 0.8fr 1.2fr; gap: 4rem; } }
+  .hq { text-align: center; max-width: 820px; margin: 0 auto 3rem; font-size: var(--fs-3xl); }
+
+  .htabs { display: grid; gap: 1.5rem; }
+  .htabs__list { display: grid; gap: 0.6rem; align-content: start; padding: 1rem; border: 1px solid var(--line); border-radius: var(--radius-lg); }
+  .htabs__list [role='tab'] { display: flex; align-items: center; gap: 0.75rem; text-align: left; padding: 1rem 1.1rem; border-radius: var(--radius); font-weight: 600; font-size: var(--fs-sm); color: var(--ink); line-height: 1.35; transition: background-color var(--dur-2) var(--ease-out), color var(--dur-2); }
+  .htabs__list [role='tab']:hover { background: var(--paper-2); }
+  .htabs__list [role='tab'][aria-selected='true'] { background: var(--navy-700); color: #fff; }
+  .htabs__list :global(svg) { flex: none; }
+  .htabs__panel { display: grid; overflow: hidden; border-radius: var(--radius-lg); background: linear-gradient(135deg, var(--navy-700), #6f8ea6); color: #e6eef5; }
+  .htabs__panel:not([hidden]) { animation: fade var(--dur-3) var(--ease-out); }
+  @keyframes fade { from { opacity: 0; transform: translateY(8px); } }
+  .htabs__text { display: grid; gap: 1rem; align-content: center; padding: clamp(1.5rem, 3vw, 2.5rem); }
+  .htabs__text h3 { color: #fff; font-size: var(--fs-lg); line-height: 1.35; }
+  .htabs__img { position: relative; min-height: 240px; }
+  .htabs__img :global(img) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  @media (min-width: 720px) { .htabs__panel { grid-template-columns: 1.15fr 0.85fr; } }
+  @media (min-width: 1024px) { .htabs { grid-template-columns: 330px 1fr; } }
+
+  .marquee { background: var(--navy-800); padding-block: 2.25rem; overflow: hidden; }
+  .marquee__track { display: flex; width: max-content; animation: marquee 40s linear infinite; }
+  .marquee:hover .marquee__track { animation-play-state: paused; }
+  .marquee ul { display: flex; flex: none; }
+  .marquee li { display: flex; align-items: center; gap: 1.5rem; padding-right: 3rem; color: #fff; font-size: clamp(1.5rem, 1.2rem + 1.2vw, 2.25rem); font-weight: 600; white-space: nowrap; }
+  .marquee li img { width: 36px; opacity: 0.8; }
+  .marquee li.outline { color: transparent; -webkit-text-stroke: 1px rgb(255 255 255 / 0.75); }
+  @keyframes marquee { to { transform: translateX(-50%); } }
+  @media (prefers-reduced-motion: reduce) { .marquee__track { animation: none; } }
+
+  :global(.phil__sub) { margin-top: -2rem; margin-bottom: 3rem; }
+  .phil { display: grid; gap: 1.5rem; align-items: stretch; border-radius: var(--radius-xl); background: linear-gradient(120deg, var(--navy-700), #7f9db3); padding: clamp(1.25rem, 3vw, 2.5rem); }
+  .phil__card { display: grid; align-content: space-between; gap: 1.5rem; min-width: 0; }
+  .phil__track { display: grid; grid-auto-flow: column; grid-auto-columns: 100%; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+  .phil__track::-webkit-scrollbar { display: none; }
+  .phil__slide { scroll-snap-align: start; display: grid; gap: 1rem; align-content: start; padding-right: 1rem; color: #e6eef5; }
+  .phil__slide h3 { color: #fff; font-size: var(--fs-xl); }
+  .phil__quote { display: grid; place-items: center; width: 48px; height: 48px; border-radius: 50%; background: rgb(255 255 255 / 0.15); color: #fff; }
+  .phil__nav, .prin__nav { display: flex; align-items: center; gap: 1rem; }
+  .phil__nav button:disabled, .prin__nav button:disabled { opacity: 0.4; pointer-events: none; }
+  .phil__nav .phil__count { color: #fff; }
+  .phil__count { min-width: 3.5em; text-align: center; font-variant-numeric: tabular-nums; font-weight: 600; color: var(--navy-700); }
+  .phil__img { justify-self: center; align-self: end; width: min(100%, 300px); margin-bottom: calc(-1 * clamp(1.25rem, 3vw, 2.5rem)); }
+  .phil__img :global(img) { width: 100%; height: auto; filter: drop-shadow(0 20px 30px rgb(0 0 0 / 0.25)); }
+  @media (min-width: 900px) { .phil { grid-template-columns: 1.3fr 0.7fr; } }
+
+  .prin { margin-top: 2.5rem; }
+  .prin__track { display: grid; grid-auto-flow: column; grid-auto-columns: min(82%, 300px); gap: 1.25rem; overflow-x: auto; scroll-snap-type: x mandatory; padding: 0.25rem 2px 1.5rem; scrollbar-width: none; }
+  .prin__track::-webkit-scrollbar { display: none; }
+  @media (min-width: 1100px) { .prin__track { grid-auto-columns: calc((100% - 3 * 1.25rem) / 4); } }
+  .prin__card { scroll-snap-align: start; display: flex; flex-direction: column; gap: 0.9rem; padding: 1.75rem; border: 1px solid var(--line); border-radius: var(--radius-lg); background: #fff; transition: border-color var(--dur-2), box-shadow var(--dur-2), transform var(--dur-3) var(--ease-out); }
+  .prin__card:hover { border-color: var(--sky-300); box-shadow: var(--shadow); transform: translateY(-3px); }
+  .prin__card h3 { font-size: var(--fs-lg); }
+  .prin__card p { font-size: var(--fs-sm); color: var(--ink-3); flex: 1; }
+  .prin__tag { align-self: start; padding: 0.35rem 0.8rem; border: 1px solid var(--line); border-radius: 8px; font-size: var(--fs-xs); font-weight: 600; color: var(--navy-700); }
+  .prin__nav { justify-content: center; }
+</style>

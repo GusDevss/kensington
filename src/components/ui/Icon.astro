@@ -1,0 +1,22 @@
+---
+/**
+ * Íconos Lucide (https://lucide.dev) renderizados como SVG en línea en tiempo de build.
+ * Uso: <Icon name="graduation-cap" size={24} />
+ * Las marcas (redes sociales) se definen en brands.ts porque Lucide no las incluye.
+ */
+import { getIconNode } from './lucide';
+import { brands, type BrandName } from './brands';
+
+interface Props { name: string; size?: number; stroke?: number; class?: string; label?: string }
+const { name, size = 24, stroke = 1.75, class: cls, label } = Astro.props;
+const a11y: Record<string, string> = label ? { role: 'img', 'aria-label': label } : { 'aria-hidden': 'true' };
+const brand = brands[name as BrandName];
+const node = brand ? null : getIconNode(name);
+const toAttrs = (o: Record<string, string>) => Object.entries(o).map(([k, v]) => `${k}="${v}"`).join(' ');
+const inner = node ? node.map(([tag, attrs]) => `<${tag} ${toAttrs(attrs)}/>`).join('') : '';
+---
+{brand ? (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width={size} height={size} fill="currentColor" class={cls} focusable="false" {...(a11y as any)}><path d={brand} /></svg>
+) : (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width={size} height={size} fill="none" stroke="currentColor" stroke-width={stroke} stroke-linecap="round" stroke-linejoin="round" class={cls} focusable="false" {...(a11y as any)} set:html={inner} />
+)}

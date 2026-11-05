@@ -1,0 +1,125 @@
+---
+import Base from '@/layouts/Base.astro';
+import Img from '@/components/ui/Img.astro';
+import Icon from '@/components/ui/Icon.astro';
+import Statement from '@/components/ui/Statement.astro';
+import Clouds from '@/components/ui/Clouds.astro';
+import Pillars from '@/components/sections/Pillars.astro';
+import Grades from '@/components/sections/Grades.astro';
+import { img } from '@/config/images';
+import { t } from '@/i18n/ui';
+import type { Lang } from '@/i18n/routes';
+import data from '@/data/kinder';
+import kite1 from '@/assets/deco/nino-papalote-1.png';
+import kite2 from '@/assets/deco/nino-papalote-2.png';
+import capPurple from '@/assets/deco/birrete-morado.png';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const d = data[lang];
+const ui = t(lang);
+const gradeImgs = [img.patioCentral, img.jardinJuegos, img.aulaKinder, img.aulaPrimaria];
+const schema = [{
+  '@context': 'https://schema.org', '@type': 'Course', name: d.meta.title, description: d.meta.description,
+  provider: { '@type': 'School', name: 'Kensington Academy' }, inLanguage: ['es', 'en'], educationalLevel: 'Kindergarten',
+}];
+---
+<Base lang={lang} routeKey="kinder" title={d.meta.title} description={d.meta.description} image={img.ninoKinder} crumbs={[{ name: ui.nav.kinder, key: 'kinder' }]} schema={schema}>
+  <section class="khero">
+    <svg class="khero__doodle khero__doodle--balloon" viewBox="0 0 40 60" aria-hidden="true"><ellipse cx="20" cy="20" rx="15" ry="18" fill="#9fd3e6" /><path d="M20 38l-3 5h6zM20 43c-4 6 4 10 0 16" stroke="#cfe3ec" fill="none" stroke-width="1.5" /></svg>
+    <svg class="khero__doodle khero__doodle--book" viewBox="0 0 48 36" aria-hidden="true"><g fill="none" stroke="#dce8f0" stroke-width="2" stroke-linejoin="round"><path d="M24 8C18 3 9 3 3 6v26c6-3 15-3 21 2 6-5 15-5 21-2V6c-6-3-15-3-21 2zM24 8v26" /></g></svg>
+    <div class="container khero__in">
+      <div class="khero__copy">
+        <h1>
+          {d.hero.title[0]} <mark>{d.hero.title[1]}</mark> {d.hero.title[2]}<br /><mark>{d.hero.title[3]}</mark>
+        </h1>
+        <p class="text-j">{d.hero.text}</p>
+        <a class="btn btn-light" href="#como-aprenden">{d.hero.cta}<Icon name="arrow-down-right" /></a>
+      </div>
+      <div class="khero__kid">
+        <Img src={img.ninoKinder} alt={d.hero.alt} sizes="(min-width: 960px) 420px, 70vw" priority widths={[360, 640, 816]} />
+      </div>
+    </div>
+    <Clouds />
+  </section>
+
+  <section class="section" id="como-aprenden">
+    <div class="container grid-2">
+      <div class="how__media" data-reveal>
+        <div class="how__dots dots" aria-hidden="true"></div>
+        <div class="how__a media"><Img src={img.aulaKinder} alt={d.how.img1Alt} sizes="(min-width: 960px) 300px, 55vw" widths={[360, 640, 872]} /></div>
+        <div class="how__b media"><Img src={img.ninoDibujando} alt={d.how.img2Alt} sizes="(min-width: 960px) 260px, 45vw" widths={[360, 600]} /></div>
+        <img class="how__cap" src={capPurple.src} alt="" width="120" height="108" loading="lazy" />
+      </div>
+      <div>
+        <h2 data-reveal>{d.how.title}</h2>
+        <ul class="how__list" role="list">
+          {d.how.items.map((it, i) => (
+            <li data-reveal style={`--d:${i * 70}ms`}>
+              <span class="icon-badge"><Icon name={it.icon} /></span>
+              <div><h3>{it.title}</h3><p class="text-j">{it.text}</p></div>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section pillars-sec">
+    <img class="pillars-sec__kite" src={kite1.src} alt="" width="200" height="215" loading="lazy" />
+    <div class="container">
+      <h2 class="center" data-reveal>{d.pillars.title}</h2>
+      <div class="mt-3"><Pillars items={d.pillars.items} /></div>
+    </div>
+  </section>
+
+  <section class="grades-sec bg-gradient">
+    <Clouds flip />
+    <img class="grades-sec__kite" src={kite2.src} alt="" width="200" height="244" loading="lazy" />
+    <div class="container section-sm">
+      <h2 class="center" data-reveal>{d.grades.title}</h2>
+      <div class="mt-2">
+        <Grades label={d.grades.title} prev={ui.prev} next={ui.next} items={d.grades.items.map((g, i) => ({ ...g, img: gradeImgs[i], alt: g.quote }))} />
+      </div>
+    </div>
+    <Clouds />
+  </section>
+
+  <section class="section-sm">
+    <div class="container"><Statement {...d.statement} /></div>
+  </section>
+</Base>
+
+<style>
+  .khero { position: relative; background: var(--navy-700); color: #fff; overflow: hidden; }
+  .khero__in { display: grid; gap: 2rem; align-items: end; padding-top: clamp(3rem, 7vw, 5rem); }
+  .khero__copy { align-self: center; display: grid; gap: 1.5rem; justify-items: start; max-width: 580px; padding-bottom: 2rem; }
+  .khero h1 { color: #fff; font-size: var(--fs-4xl); line-height: 1.2; }
+  .khero mark { background: var(--sky-300); color: var(--navy-900); padding: 0 0.3em; border-radius: 10px; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+  .khero__copy p { color: #dbe6ef; }
+  .khero__kid { justify-self: center; width: min(75vw, 400px); position: relative; z-index: 1; margin-bottom: -40px; }
+  .khero__kid :global(img) { width: 100%; height: auto; }
+  .khero__doodle { position: absolute; z-index: 0; opacity: 0.9; }
+  .khero__doodle--balloon { width: 44px; left: 4%; top: 12%; animation: float 6s ease-in-out infinite; }
+  .khero__doodle--book { width: 64px; right: 32%; top: 14%; animation: float 7s ease-in-out infinite reverse; }
+  @keyframes float { 50% { transform: translateY(-12px) rotate(-3deg); } }
+  @media (prefers-reduced-motion: reduce) { .khero__doodle { animation: none; } }
+  @media (min-width: 960px) { .khero__in { grid-template-columns: 1.15fr 0.85fr; } }
+  .khero :global(.clouds) { position: relative; z-index: 2; margin-top: -60px; }
+
+  .how__media { position: relative; display: grid; min-height: 440px; }
+  .how__dots { position: absolute; left: 0; top: 0; width: 40%; height: 35%; }
+  .how__a { grid-area: 1 / 1; width: 62%; aspect-ratio: 3 / 4; margin-top: 10%; border-radius: var(--radius-lg) var(--radius-lg) var(--radius-lg) 999px; z-index: 1; }
+  .how__b { grid-area: 1 / 1; justify-self: end; width: 50%; aspect-ratio: 1; border-radius: 999px 999px var(--radius-lg) var(--radius-lg); border: 6px solid #fff; box-shadow: var(--shadow-lg); z-index: 2; }
+  .how__cap { position: absolute; right: 8%; bottom: 0; width: 90px; z-index: 3; }
+  .how__list { display: grid; gap: 1.5rem; margin-top: 2rem; }
+  .how__list li { display: flex; gap: 1rem; align-items: flex-start; }
+  .how__list h3 { font-size: var(--fs-base); }
+  .how__list p { font-size: var(--fs-sm); color: var(--ink-3); margin-top: 0.25rem; }
+
+  .pillars-sec { position: relative; }
+  .pillars-sec__kite { position: absolute; right: 2%; top: 3rem; width: clamp(90px, 10vw, 150px); opacity: 0.95; pointer-events: none; }
+  .grades-sec { position: relative; }
+  .grades-sec__kite { position: absolute; left: 1%; top: 6rem; width: clamp(80px, 8vw, 130px); pointer-events: none; z-index: 1; }
+  @media (max-width: 900px) { .pillars-sec__kite, .grades-sec__kite { display: none; } }
+</style>

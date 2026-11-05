@@ -1,0 +1,101 @@
+---
+import { routes, type Lang, type RouteKey } from '@/i18n/routes';
+import { t } from '@/i18n/ui';
+import { site } from '@/config/site';
+import Icon from '@/components/ui/Icon.astro';
+import Social from './Social.astro';
+import LangSwitch from './LangSwitch.astro';
+import SubscribeForm from './SubscribeForm.astro';
+import { getNav } from './nav';
+
+interface Props { lang: Lang; routeKey: RouteKey | null }
+const { lang, routeKey } = Astro.props;
+const ui = t(lang);
+const nav = getNav(lang);
+---
+<dialog class="drawer" id="drawer" aria-label={ui.nav.about}>
+  <div class="drawer__panel">
+    <div class="drawer__top">
+      <img src="/brand/logo-white.svg" alt="Kensington Academy" width="140" height="60" loading="lazy" />
+      <button class="drawer__close" type="button" data-close-dialog aria-label={ui.closeMenu}><Icon name="x" size={22} /></button>
+    </div>
+
+    <div class="drawer__body">
+      <nav class="drawer__nav" aria-label={lang === 'es' ? 'Menú móvil' : 'Mobile menu'}>
+        <ul role="list">
+          {nav.map((item) => item.children ? (
+            <li>
+              <details>
+                <summary>{item.label}<Icon name="plus" size={18} /></summary>
+                <ul role="list">
+                  {item.children.map((c) => <li><a href={c.href} aria-current={c.key === routeKey ? 'page' : undefined}>{c.label}</a></li>)}
+                </ul>
+              </details>
+            </li>
+          ) : (
+            <li><a class="drawer__link" href={item.href} aria-current={item.key === routeKey ? 'page' : undefined}>{item.label}</a></li>
+          ))}
+        </ul>
+        <div class="drawer__lang"><LangSwitch lang={lang} routeKey={routeKey} variant="light" /></div>
+        <a class="btn drawer__cta" href={routes.contact[lang]}><Icon name="calendar-check" size={18} />{ui.cta}</a>
+      </nav>
+
+      <p class="drawer__about">{ui.footerAbout}</p>
+
+      <dl class="drawer__info">
+        <div><dt>{ui.address}</dt><dd><a href={site.mapsUrl} target="_blank" rel="noopener noreferrer">{site.address.short}</a></dd></div>
+        <div><dt>{ui.email}</dt><dd><a href={`mailto:${site.email}`}>{site.email}</a></dd></div>
+        <div><dt>{ui.phone}</dt><dd><a href={site.phoneHref}>{site.phone}</a></dd></div>
+      </dl>
+
+      <div class="drawer__sub">
+        <h2>{ui.subscribe}</h2>
+        <SubscribeForm lang={lang} id="drawer-sub" />
+      </div>
+
+      <Social variant="round-dark" items={['facebook', 'instagram', 'tiktok', 'youtube', 'x']} />
+    </div>
+  </div>
+</dialog>
+
+<style>
+  .drawer {
+    position: fixed; inset: 0 0 0 auto; width: min(440px, 100vw); height: 100dvh; margin: 0 0 0 auto;
+    background: transparent; overflow: visible;
+  }
+  .drawer::backdrop { background: rgb(14 22 33 / 0.55); opacity: 0; transition: opacity var(--dur-3) var(--ease-drawer), overlay var(--dur-3) allow-discrete, display var(--dur-3) allow-discrete; }
+  .drawer[open]::backdrop { opacity: 1; }
+  @starting-style { .drawer[open]::backdrop { opacity: 0; } }
+  .drawer__panel {
+    height: 100%; display: flex; flex-direction: column; background: #fff; box-shadow: var(--shadow-lg);
+    transform: translateX(100%); transition: transform var(--dur-3) var(--ease-drawer);
+  }
+  .drawer.is-in .drawer__panel { transform: none; }
+  .drawer__top { display: flex; align-items: center; justify-content: space-between; padding: 1.5rem 1.75rem; background: var(--navy-800); }
+  .drawer__close { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; color: #fff; border: 1.5px solid rgb(255 255 255 / 0.5); transition: background-color var(--dur-2), transform var(--dur-1) var(--ease-out); }
+  .drawer__close:hover { background: rgb(255 255 255 / 0.12); }
+  .drawer__close:active { transform: scale(0.92); }
+  .drawer__body { flex: 1; overflow-y: auto; overscroll-behavior: contain; padding: 1.75rem; display: grid; gap: 2rem; align-content: start; }
+  .drawer__about { color: var(--ink-2); }
+  .drawer__info { display: grid; gap: 1.1rem; }
+  .drawer__info dt { font-weight: 700; color: var(--ink); text-transform: uppercase; font-size: var(--fs-sm); letter-spacing: 0.02em; }
+  .drawer__info dd { margin: 0.2rem 0 0; }
+  .drawer__info a:hover { color: var(--navy-700); text-decoration: underline; text-underline-offset: 3px; }
+  .drawer__sub h2 { font-size: var(--fs-xl); margin-bottom: 0.9rem; }
+
+  .drawer__nav { display: grid; gap: 1rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--line); }
+  .drawer__nav > ul { display: grid; }
+  .drawer__link, .drawer__nav summary {
+    display: flex; align-items: center; justify-content: space-between; padding: 0.85rem 0; font-size: 1.1rem; font-weight: 600; color: var(--ink);
+    border-bottom: 1px solid var(--line-2); cursor: pointer; list-style: none;
+  }
+  .drawer__nav summary::-webkit-details-marker { display: none; }
+  .drawer__nav summary :global(svg) { transition: transform var(--dur-2) var(--ease-out); }
+  .drawer__nav details[open] summary :global(svg) { transform: rotate(45deg); }
+  .drawer__nav details ul { padding: 0.4rem 0 0.6rem 0.9rem; display: grid; }
+  .drawer__nav details a { display: block; padding: 0.55rem 0; color: var(--ink-2); }
+  .drawer__nav a[aria-current='page'] { color: var(--navy-700); font-weight: 600; }
+  .drawer__cta { justify-self: start; }
+  @media (min-width: 1100px) { .drawer__nav { display: none; } }
+  @media (prefers-reduced-motion: reduce) { .drawer__panel { transition-duration: 1ms; } }
+</style>

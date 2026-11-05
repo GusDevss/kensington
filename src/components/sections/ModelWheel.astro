@@ -1,0 +1,166 @@
+---
+/**
+ * Rueda interactiva del modelo Altanima (reescrita del widget HTML original).
+ * SVG generado en build + ~40 líneas de JS. Accesible con teclado.
+ */
+import Icon from '@/components/ui/Icon.astro';
+import { getIconNode } from '@/components/ui/lucide';
+
+interface Dim { key: string; label: string; verb: string; title: string; text: string; objectives: string[]; icon: string }
+interface Props {
+  dims: Dim[];
+  community: { label: string; title: string; text: string; objectives: string[] };
+  ring: string; axes: string; hint: string; objectivesLabel: string;
+}
+const { dims, community, ring, axes, hint, objectivesLabel } = Astro.props;
+
+const C = 200;
+const polar = (r: number, deg: number) => {
+  const a = ((deg - 90) * Math.PI) / 180;
+  return { x: +(C + r * Math.cos(a)).toFixed(2), y: +(C + r * Math.sin(a)).toFixed(2) };
+};
+const donut = (ro: number, ri: number, a0: number, a1: number) => {
+  const p1 = polar(ro, a0), p2 = polar(ro, a1), p3 = polar(ri, a1), p4 = polar(ri, a0);
+  const large = a1 - a0 > 180 ? 1 : 0;
+  return `M${p1.x} ${p1.y}A${ro} ${ro} 0 ${large} 1 ${p2.x} ${p2.y}L${p3.x} ${p3.y}A${ri} ${ri} 0 ${large} 0 ${p4.x} ${p4.y}Z`;
+};
+const arc = (r: number, a0: number, a1: number, reverse = false) => {
+  const [s, e] = reverse ? [a1, a0] : [a0, a1];
+  const p0 = polar(r, s), p1 = polar(r, e);
+  return `M${p0.x} ${p0.y}A${r} ${r} 0 0 ${reverse ? 0 : 1} ${p1.x} ${p1.y}`;
+};
+const spans = [
+  { a0: 5, a1: 115, tone: 'var(--sage-400)', ink: '#2f4a2a' },
+  { a0: 125, a1: 235, tone: 'var(--clay-400)', ink: '#5a2c18' },
+  { a0: 245, a1: 355, tone: 'var(--sky-300)', ink: '#1e3045' },
+];
+const segs = dims.map((d, i) => {
+  const s = spans[i];
+  const mid = (s.a0 + s.a1) / 2;
+  const bottom = mid > 90 && mid < 270;
+  const iconPos = polar(188, mid);
+  return {
+    ...d, ...s, mid, bottom, iconPos,
+    band: donut(148, 100, s.a0, s.a1),
+    inner: donut(96, 44, s.a0, s.a1),
+    verbArc: arc(bottom ? 120 : 127, s.a0 + 4, s.a1 - 4, bottom),
+    labelArc: arc(bottom ? 66 : 72, s.a0 + 6, s.a1 - 6, bottom),
+    iconNode: getIconNode(d.icon).map(([tag, attrs]) => `<${tag} ${Object.entries(attrs).map(([k, v]) => `${k}="${v}"`).join(' ')}/>`).join(''),
+  };
+});
+// Dientes del engrane
+let teeth = '';
+for (let i = 0; i < 30; i++) { const a = i * 12; teeth += donut(200, 178, a, a + 6.5); }
+const ringArc = arc(158, -80, 80);
+const axesArc = arc(166, 150, 210, true);
+---
+<div class="wheel" data-wheel>
+  <div class="wheel__stage">
+    <svg class="wheel__svg" viewBox="-14 -14 428 428" role="group" aria-label="Altanima">
+      <defs>
+        <path id="w-ring" d={ringArc} />
+        <path id="w-axes" d={axesArc} />
+        {segs.map((s) => <><path id={`w-verb-${s.key}`} d={s.verbArc} /><path id={`w-lab-${s.key}`} d={s.labelArc} /></>)}
+      </defs>
+      <circle cx="200" cy="200" r="210" fill="none" stroke="var(--line)" stroke-dasharray="3 6" />
+      <g class="wheel__rot">
+        <circle cx="200" cy="200" r="186" fill="none" stroke="var(--navy-800)" stroke-width="22" />
+        <path d={teeth} fill="var(--navy-800)" />
+      </g>
+      <circle cx="200" cy="200" r="162" fill="none" stroke="var(--navy-600)" stroke-width="26" />
+      <text class="wheel__ring-text"><textPath href="#w-ring" startOffset="50%" text-anchor="middle">{ring}</textPath></text>
+      <text class="wheel__axes-text"><textPath href="#w-axes" startOffset="50%" text-anchor="middle">{axes.toUpperCase()}</textPath></text>
+
+      {segs.map((s) => (
+        <g class="wheel__seg" data-key={s.key} tabindex="0" role="button" aria-pressed="false" aria-label={`${s.title}: ${s.verb}`} style={`--seg:${s.tone}`}>
+          <path class="wheel__band" d={s.band} />
+          <path class="wheel__color" d={s.inner} />
+          <text class="wheel__verb"><textPath href={`#w-verb-${s.key}`} startOffset="50%" text-anchor="middle">{s.verb}</textPath></text>
+          <text class="wheel__label" style={`fill:${s.ink}`}><textPath href={`#w-lab-${s.key}`} startOffset="50%" text-anchor="middle">{s.label}</textPath></text>
+          <circle cx={s.iconPos.x} cy={s.iconPos.y} r="14" fill="#fff" />
+          <g transform={`translate(${s.iconPos.x - 9} ${s.iconPos.y - 9}) scale(0.75)`} fill="none" stroke="var(--navy-800)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" set:html={s.iconNode} />
+        </g>
+      ))}
+    </svg>
+    <button class="wheel__hub" type="button" data-key="comunidad" aria-pressed="true" aria-label={community.title}>
+      <img src="/brand/escudo.svg" alt="" width="44" height="44" />
+      <span>{community.label}</span>
+    </button>
+  </div>
+  <p class="wheel__hint"><Icon name="mouse-pointer-click" size={16} /> {hint}</p>
+
+  <div class="wheel__cards" aria-live="polite">
+    {[...segs, { ...community, key: 'comunidad', tone: 'var(--navy-700)', icon: 'users' }].map((c) => (
+      <article class="wcard" data-card={c.key} hidden={c.key !== 'comunidad'} style={`--tone:${c.tone}`}>
+        <span class="wcard__tag">{c.label}</span>
+        <h3>{c.title}</h3>
+        <p class="text-j">{c.text}</p>
+        <h4>{objectivesLabel}</h4>
+        <ul role="list">{c.objectives.map((o) => <li><Icon name="check" size={16} />{o}</li>)}</ul>
+      </article>
+    ))}
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-wheel]').forEach((root) => {
+    const triggers = root.querySelectorAll<HTMLElement>('[data-key]');
+    const cards = root.querySelectorAll<HTMLElement>('[data-card]');
+    const select = (key: string) => {
+      root.dataset.active = key;
+      triggers.forEach((t) => t.setAttribute('aria-pressed', String(t.dataset.key === key)));
+      cards.forEach((c) => (c.hidden = c.dataset.card !== key));
+    };
+    triggers.forEach((t) => {
+      t.addEventListener('click', () => select(t.dataset.key!));
+      t.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); select(t.dataset.key!); }
+      });
+    });
+  });
+</script>
+
+<style>
+  .wheel { display: grid; gap: 1.5rem 3rem; align-items: center; }
+  @media (min-width: 960px) { .wheel { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-rows: auto auto; } .wheel__cards { grid-row: 1 / 3; grid-column: 2; } }
+  .wheel__stage { position: relative; width: min(100%, 520px); margin-inline: auto; }
+  .wheel__svg { width: 100%; height: auto; overflow: visible; }
+  .wheel__rot { transform-origin: 200px 200px; animation: spin 120s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce) { .wheel__rot { animation: none; } }
+  .wheel__ring-text { font: 600 10.5px var(--font-sans); fill: #fff; letter-spacing: 0.02em; }
+  .wheel__axes-text { font: 600 8.5px var(--font-sans); fill: #fff; letter-spacing: 0.14em; }
+  .wheel__seg { cursor: pointer; outline: none; transform-origin: 200px 200px; transition: transform var(--dur-3) var(--ease-out), opacity var(--dur-3) var(--ease-out); }
+  .wheel__band { fill: #fff; stroke: var(--navy-800); stroke-width: 1; }
+  .wheel__color { fill: var(--seg); }
+  .wheel__verb { font: 600 10px var(--font-sans); fill: var(--ink); }
+  .wheel__label { font: 700 12.5px var(--font-sans); letter-spacing: 0.02em; }
+  .wheel__seg:hover, .wheel__seg:focus-visible { transform: scale(1.03); }
+  .wheel__seg:focus-visible .wheel__band { stroke: var(--sun-400); stroke-width: 3; }
+  .wheel[data-active] .wheel__seg[aria-pressed='false'] { opacity: 0.55; }
+  .wheel:not([data-active]) .wheel__seg { opacity: 1; }
+  .wheel[data-active='comunidad'] .wheel__seg { opacity: 1; }
+  .wheel__seg[aria-pressed='true'] { transform: scale(1.04); }
+  .wheel__hub {
+    position: absolute; left: 50%; top: 50%; width: 19.5%; aspect-ratio: 1; transform: translate(-50%, -50%);
+    display: grid; place-items: center; align-content: center; gap: 2px; border-radius: 50%; background: #fff;
+    box-shadow: 0 0 0 4px var(--navy-800), var(--shadow); transition: transform var(--dur-2) var(--ease-out), box-shadow var(--dur-2);
+  }
+  .wheel__hub img { width: 46%; }
+  .wheel__hub span { font-size: clamp(0.5rem, 1.6vw, 0.7rem); font-weight: 700; color: var(--navy-800); text-transform: uppercase; letter-spacing: 0.04em; }
+  .wheel__hub:hover { transform: translate(-50%, -50%) scale(1.06); }
+  .wheel__hub[aria-pressed='true'] { box-shadow: 0 0 0 4px var(--navy-800), 0 0 0 9px var(--sun-400); }
+  .wheel__hint { display: flex; align-items: center; justify-content: center; gap: 0.5rem; font-size: var(--fs-sm); color: var(--ink-3); }
+
+  .wcard { position: relative; display: grid; gap: 1rem; padding: clamp(1.5rem, 3vw, 2.5rem); border-radius: var(--radius-xl); background: #fff; border: 1px solid var(--line); box-shadow: var(--shadow); overflow: hidden; }
+  .wcard::before { content: ''; position: absolute; inset: 0 0 auto; height: 6px; background: var(--tone); }
+  .wcard:not([hidden]) { animation: cardIn var(--dur-3) var(--ease-out); }
+  @keyframes cardIn { from { opacity: 0; transform: translateY(10px) scale(0.98); } }
+  .wcard__tag { justify-self: start; padding: 0.3rem 0.8rem; border-radius: 999px; background: var(--tone); color: var(--navy-900); font-size: var(--fs-xs); font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; }
+  .wcard[data-card='comunidad'] .wcard__tag { color: #fff; }
+  .wcard h3 { font-size: var(--fs-2xl); }
+  .wcard h4 { font-size: var(--fs-sm); text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-3); margin-top: 0.5rem; }
+  .wcard ul { display: grid; gap: 0.6rem; }
+  .wcard li { display: flex; gap: 0.6rem; align-items: flex-start; font-size: var(--fs-sm); }
+  .wcard li :global(svg) { flex: none; margin-top: 0.2em; color: var(--teal-500); }
+</style>

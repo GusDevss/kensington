@@ -1,0 +1,51 @@
+---
+import Icon from './Icon.astro';
+interface Item { title: string; text: string; open?: boolean }
+interface Props { items: Item[]; variant?: 'navy' | 'light'; single?: boolean; headingLevel?: 'h3' | 'h4'; idPrefix: string }
+const { items, variant = 'navy', single = false, headingLevel: H = 'h3', idPrefix } = Astro.props;
+---
+<div class:list={['acc', `acc--${variant}`]} data-accordion={single ? 'single' : 'multi'}>
+  {items.map((it, i) => (
+    <div class="acc__item">
+      <H class="acc__h">
+        <button type="button" class="acc__btn" data-acc-trigger aria-expanded={it.open ? 'true' : 'false'} aria-controls={`${idPrefix}-${i}`} id={`${idPrefix}-b${i}`}>
+          <span>{it.title}</span>
+          <span class="acc__icon" aria-hidden="true"><Icon name="plus" size={18} /></span>
+        </button>
+      </H>
+      <div class="acc__panel" id={`${idPrefix}-${i}`} role="region" aria-labelledby={`${idPrefix}-b${i}`}>
+        <div class="acc__inner"><p>{it.text}</p></div>
+      </div>
+    </div>
+  ))}
+</div>
+<style>
+  .acc { display: grid; gap: 0.75rem; align-content: start; }
+  .acc__item { border-radius: var(--radius); overflow: hidden; background: #fff; }
+  .acc__h { font-size: inherit; margin: 0; }
+  .acc__btn {
+    width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 1rem; text-align: left;
+    padding: 1.05rem 1.25rem; font-weight: 600; font-size: var(--fs-sm); line-height: 1.35; transition: background-color var(--dur-2) var(--ease-out);
+  }
+  .acc__icon { display: grid; place-items: center; flex: none; width: 28px; height: 28px; border-radius: 50%; transition: transform var(--dur-2) var(--ease-out), background-color var(--dur-2); }
+  .acc__btn[aria-expanded='true'] .acc__icon { transform: rotate(135deg); }
+  .acc__panel { display: grid; grid-template-rows: 0fr; transition: grid-template-rows var(--dur-3) var(--ease-out); }
+  .acc__btn[aria-expanded='true'] + .acc__panel, .acc__h:has([aria-expanded='true']) + .acc__panel { grid-template-rows: 1fr; }
+  .acc__inner { overflow: hidden; }
+  .acc__inner p { padding: 1rem 1.25rem 1.25rem; color: var(--ink-2); font-size: var(--fs-sm); }
+  .no-js .acc__panel { grid-template-rows: 1fr; }
+
+  .acc--navy .acc__item { border: 1px solid var(--line); }
+  .acc--navy .acc__btn { background: var(--navy-700); color: #fff; }
+  .acc--navy .acc__btn:hover { background: var(--navy-800); }
+  .acc--navy .acc__icon { background: rgb(255 255 255 / 0.12); }
+
+  .acc--light .acc__item { border: 1px solid var(--line); transition: border-color var(--dur-2), box-shadow var(--dur-2); }
+  .acc--light .acc__item:has([aria-expanded='true']) { border-color: var(--sky-300); box-shadow: var(--shadow-sm); }
+  .acc--light .acc__btn { color: var(--ink); font-size: var(--fs-base); padding: 1.25rem 1.4rem; }
+  .acc--light .acc__btn:hover { background: var(--paper-2); }
+  .acc--light .acc__icon { background: var(--sky-100); color: var(--navy-700); }
+  .acc--light .acc__btn[aria-expanded='true'] .acc__icon { background: var(--navy-700); color: #fff; }
+  .acc--light .acc__inner p { padding: 0 1.4rem 1.4rem; font-size: var(--fs-base); }
+  @media (prefers-reduced-motion: reduce) { .acc__panel, .acc__icon { transition: none; } }
+</style>

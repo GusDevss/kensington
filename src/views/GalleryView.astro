@@ -1,0 +1,100 @@
+---
+import { getImage } from 'astro:assets';
+import Base from '@/layouts/Base.astro';
+import Img from '@/components/ui/Img.astro';
+import Icon from '@/components/ui/Icon.astro';
+import { img } from '@/config/images';
+import { t } from '@/i18n/ui';
+import type { Lang } from '@/i18n/routes';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const ui = t(lang);
+const es = lang === 'es';
+const copy = {
+  title: es ? 'Galería' : 'Gallery',
+  description: es
+    ? 'Conoce las instalaciones de Kensington Academy en Corregidora, Querétaro: aulas de Kinder y Primaria, patios, áreas verdes y espacios diseñados para aprender con bienestar.'
+    : 'Explore the Kensington Academy facilities in Corregidora, Querétaro: Kindergarten and Elementary classrooms, courtyards, green areas and spaces designed for learning with well-being.',
+  filters: es
+    ? [['all', 'Todo'], ['kinder', 'Kinder'], ['primaria', 'Primaria'], ['instalaciones', 'Instalaciones']]
+    : [['all', 'All'], ['kinder', 'Kindergarten'], ['primaria', 'Elementary'], ['instalaciones', 'Facilities']],
+};
+const items = [
+  { src: img.aulaKinder, tags: 'kinder', alt: es ? 'Aula de Kinder' : 'Kindergarten classroom' },
+  { src: img.jardinJuegos, tags: 'kinder instalaciones', alt: es ? 'Jardín y área de juegos' : 'Garden and playground' },
+  { src: img.patioVentanales, tags: 'kinder primaria instalaciones', alt: es ? 'Patio con ventanales circulares' : 'Courtyard with round windows' },
+  { src: img.aulaPrimaria, tags: 'primaria instalaciones', alt: es ? 'Aula de Primaria' : 'Elementary classroom' },
+  { src: img.patioCentral, tags: 'primaria instalaciones', alt: es ? 'Patio central y acceso a jardines' : 'Central courtyard and garden access' },
+  { src: img.fachadaLateral, tags: 'instalaciones', alt: es ? 'Fachada lateral' : 'Side façade' },
+  { src: img.fachadaPrincipal, tags: 'instalaciones', alt: es ? 'Fachada principal' : 'Main façade' },
+  { src: img.canalYoutube, tags: 'instalaciones', alt: es ? 'Estudio del canal Kensington' : 'Kensington channel studio' },
+];
+const large = await Promise.all(items.map((it) => getImage({ src: it.src, width: Math.min(1800, it.src.width), format: 'webp', quality: 75 })));
+const schema = [{
+  '@context': 'https://schema.org', '@type': 'ImageGallery', name: copy.title, description: copy.description,
+  image: large.map((l) => l.src),
+}];
+---
+<Base lang={lang} routeKey="gallery" title={copy.title} description={copy.description} image={img.patioVentanales} crumbs={[{ name: copy.title, key: 'gallery' }]} schema={schema}>
+  <section class="section">
+    <div class="container" data-gallery>
+      <div class="section-head" data-reveal>
+        <h1>{copy.title}</h1>
+      </div>
+      <div class="gal__filters" role="group" aria-label={es ? 'Filtrar galería' : 'Filter gallery'}>
+        {copy.filters.map(([k, label], i) => <button type="button" data-filter={k} aria-pressed={i === 0 ? 'true' : 'false'}>{label}</button>)}
+      </div>
+      <ul class="gal" role="list">
+        {items.map((it, i) => (
+          <li class="gal__item" data-tags={it.tags}>
+            <a href={large[i].src} data-alt={it.alt} aria-label={`${it.alt} — ${es ? 'ampliar' : 'enlarge'}`}>
+              <Img src={it.src} alt={it.alt} sizes="(min-width: 1100px) 290px, (min-width: 700px) 45vw, 92vw" widths={[336, 600, 900]} />
+              <span class="gal__zoom" aria-hidden="true"><Icon name="maximize-2" size={18} /></span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <dialog class="lb" id="lightbox" aria-label={copy.title}>
+    <figure>
+      <img src="" alt="" />
+      <figcaption></figcaption>
+    </figure>
+    <button class="lb__btn lb__close" type="button" data-close-dialog aria-label={ui.close}><Icon name="x" /></button>
+    <button class="lb__btn lb__prev" type="button" data-lb-prev aria-label={ui.prev}><Icon name="arrow-left" /></button>
+    <button class="lb__btn lb__next" type="button" data-lb-next aria-label={ui.next}><Icon name="arrow-right" /></button>
+  </dialog>
+</Base>
+
+<style>
+  .gal__filters { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; margin-bottom: 2.5rem; }
+  .gal__filters button { padding: 0.6rem 1.2rem; border-radius: 999px; border: 1px solid var(--line); font-weight: 600; font-size: var(--fs-sm); color: var(--navy-800); transition: background-color var(--dur-2) var(--ease-out), color var(--dur-2), border-color var(--dur-2), transform var(--dur-1) var(--ease-out); }
+  .gal__filters button:active { transform: scale(0.96); }
+  .gal__filters button:hover { border-color: var(--navy-600); }
+  .gal__filters button[aria-pressed='true'] { background: var(--navy-700); border-color: var(--navy-700); color: #fff; }
+  .gal { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+  .gal__item { border-radius: var(--radius); overflow: hidden; aspect-ratio: 4 / 3; transition: opacity var(--dur-3) var(--ease-out), transform var(--dur-3) var(--ease-out); }
+  .gal__item.is-hidden { display: none; }
+  .gal__item a { position: relative; display: block; height: 100%; }
+  .gal__item :global(img) { width: 100%; height: 100%; object-fit: cover; transition: transform 700ms var(--ease-out); }
+  .gal__item a:hover :global(img) { transform: scale(1.06); }
+  .gal__zoom { position: absolute; right: 12px; bottom: 12px; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: rgb(255 255 255 / 0.9); color: var(--navy-800); opacity: 0; transform: translateY(6px); transition: opacity var(--dur-2), transform var(--dur-2) var(--ease-out); }
+  .gal__item a:hover .gal__zoom, .gal__item a:focus-visible .gal__zoom { opacity: 1; transform: none; }
+
+  .lb { width: 100vw; height: 100dvh; margin: 0; background: transparent; overflow: hidden; }
+  .lb::backdrop { background: rgb(8 14 22 / 0.92); opacity: 0; transition: opacity var(--dur-3) var(--ease-out), overlay var(--dur-3) allow-discrete, display var(--dur-3) allow-discrete; }
+  .lb[open]::backdrop { opacity: 1; }
+  @starting-style { .lb[open]::backdrop { opacity: 0; } }
+  .lb figure { height: 100%; display: grid; place-items: center; align-content: center; gap: 1rem; padding: 4rem 1rem; opacity: 0; transform: scale(0.97); transition: opacity var(--dur-3) var(--ease-out), transform var(--dur-3) var(--ease-out); }
+  .lb.is-in figure { opacity: 1; transform: none; }
+  .lb img { max-width: min(1400px, 100%); max-height: calc(100dvh - 9rem); width: auto; border-radius: var(--radius); }
+  .lb figcaption { color: #dbe5ee; font-size: var(--fs-sm); }
+  .lb__btn { position: absolute; display: grid; place-items: center; width: 48px; height: 48px; border-radius: 50%; color: #fff; background: rgb(255 255 255 / 0.12); transition: background-color var(--dur-2); }
+  .lb__btn:hover { background: rgb(255 255 255 / 0.25); }
+  .lb__close { top: 1rem; right: 1rem; }
+  .lb__prev { left: 1rem; top: 50%; translate: 0 -50%; }
+  .lb__next { right: 1rem; top: 50%; translate: 0 -50%; }
+</style>

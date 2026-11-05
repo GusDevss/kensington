@@ -1,0 +1,34 @@
+---
+import type { Lang, RouteKey } from '@/i18n/routes';
+import { site } from '@/config/site';
+import Icon from '@/components/ui/Icon.astro';
+import LangSwitch from './LangSwitch.astro';
+import Social from './Social.astro';
+interface Props { lang: Lang; routeKey: RouteKey | null }
+const { lang, routeKey } = Astro.props;
+---
+<div class="topbar">
+  <div class="container topbar__in">
+    <ul class="topbar__contact" role="list">
+      <li><a href={site.phoneHref}><Icon name="phone" size={16} /> {site.phone}</a></li>
+      <li class="topbar__mail"><a href={`mailto:${site.email}`}><Icon name="mail" size={16} /> {site.email}</a></li>
+    </ul>
+    <div class="topbar__right">
+      <LangSwitch lang={lang} routeKey={routeKey} />
+      <span class="topbar__sep" aria-hidden="true"></span>
+      <div class="topbar__social"><Social /></div>
+    </div>
+  </div>
+</div>
+<style>
+  .topbar { background: var(--navy-800); color: #dbe5ee; font-size: var(--fs-xs); }
+  .topbar__in { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 44px; }
+  .topbar__contact { display: flex; gap: 1.5rem; }
+  .topbar__contact a { display: inline-flex; align-items: center; gap: 0.5rem; transition: color var(--dur-1); }
+  .topbar__contact a:hover { color: #fff; }
+  .topbar__right { display: flex; align-items: center; gap: 0.75rem; }
+  .topbar__sep { width: 1px; height: 18px; background: rgb(255 255 255 / 0.2); }
+  @media (max-width: 767px) {
+    .topbar__mail, .topbar__social, .topbar__sep { display: none; }
+  }
+</style>

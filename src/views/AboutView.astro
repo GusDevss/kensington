@@ -1,0 +1,147 @@
+---
+import Base from '@/layouts/Base.astro';
+import Img from '@/components/ui/Img.astro';
+import Icon from '@/components/ui/Icon.astro';
+import Statement from '@/components/ui/Statement.astro';
+import { img } from '@/config/images';
+import { t } from '@/i18n/ui';
+import { routes, type Lang } from '@/i18n/routes';
+import data from '@/data/about';
+import capPurple from '@/assets/deco/birrete-morado.png';
+import stroke from '@/assets/deco/trazo-azul.png';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const d = data[lang];
+const ui = t(lang);
+---
+<Base lang={lang} routeKey="about" title={d.meta.title} description={d.meta.description} image={img.fachadaLateral} crumbs={[{ name: ui.nav.aboutUs, key: 'about' }]}>
+  <section class="section ahero">
+    <div class="container">
+      <div class="ahero__head">
+        <span class="eyebrow">{d.hero.eyebrow}</span>
+        <h1>{d.hero.title}</h1>
+        <img class="ahero__cap" src={capPurple.src} alt="" width="120" height="108" />
+      </div>
+      <div class="ahero__grid">
+        <div class="ahero__imgs" data-reveal>
+          <div class="media ahero__img1"><Img src={img.fachadaLateral} alt={d.hero.img1Alt} sizes="(min-width: 960px) 300px, 50vw" widths={[400, 800, 1280]} /></div>
+          <div class="media ahero__img2"><Img src={img.patioCentral} alt={d.hero.img2Alt} sizes="(min-width: 960px) 300px, 50vw" widths={[400, 800, 1280]} /></div>
+        </div>
+        <div class="ahero__text">
+          {d.hero.paragraphs.map((p, i) => <p class:list={['text-j', { 'ahero__last': i === d.hero.paragraphs.length - 1 }]} data-reveal>{p}</p>)}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-sm"><div class="container"><Statement {...d.statement} /></div></section>
+
+  <section class="section mission">
+    <div class="container mission__grid">
+      <div class="mission__kid" data-reveal>
+        <div class="mission__dots dots" aria-hidden="true"></div>
+        <Img src={img.ninoKinder} alt={d.mission.kidAlt} sizes="(min-width: 960px) 380px, 70vw" widths={[360, 640, 816]} />
+      </div>
+      <div class="mission__content">
+        <div class="mission__head" data-reveal>
+          <div>
+            <span class="eyebrow">{d.mission.eyebrow}</span>
+            <h2>{d.mission.title}</h2>
+            <p class="muted">{d.mission.text}</p>
+          </div>
+        </div>
+        <div class="mission__body">
+          <div class="mission__tabs" data-tabs>
+            <div role="tablist" aria-label={d.mission.title} class="tablist">
+              {d.mission.tabs.map((tab, i) => (
+                <button role="tab" id={`mv-tab-${i}`} aria-controls={`mv-panel-${i}`} aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1}>
+                  <Icon name={tab.icon} size={18} />{tab.label}
+                </button>
+              ))}
+            </div>
+            {d.mission.tabs.map((tab, i) => (
+              <div role="tabpanel" id={`mv-panel-${i}`} aria-labelledby={`mv-tab-${i}`} hidden={i !== 0} class="tabpanel">
+                <p class="text-j">{tab.parts.map(([txt, strong]) => (strong ? <strong>{txt}</strong> : txt))}</p>
+              </div>
+            ))}
+          </div>
+          <div class="mission__img" data-reveal>
+            <img class="mission__stroke" src={stroke.src} alt="" width="140" height="86" loading="lazy" />
+            <div class="media"><Img src={img.patioVentanales} alt={d.mission.imgAlt} sizes="(min-width: 960px) 360px, 90vw" widths={[480, 960]} /></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="values">
+    <div class="container values__in">
+      <div class="values__main">
+        <h2 data-reveal>{d.values.title}</h2>
+        <ul class="values__grid" role="list">
+          {d.values.items.map((v, i) => (
+            <li data-reveal style={`--d:${(i % 3) * 70}ms`}>
+              <span class="values__ic"><Icon name={v.icon} size={26} /></span>
+              <span>{v.label}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <aside class="values__side">
+        <p>{d.values.side}</p>
+        <a class="btn btn-light" href={routes.contact[lang]}>{d.values.cta}<Icon name="arrow-up-right" /></a>
+      </aside>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .ahero__head { position: relative; display: grid; gap: 1rem; justify-items: start; max-width: 720px; margin-left: auto; margin-bottom: 3rem; padding-bottom: 1.5rem; border-bottom: 2px solid var(--ink); }
+  .ahero__cap { position: absolute; right: 0; top: -10%; width: clamp(56px, 8vw, 90px); animation: bob 5s ease-in-out infinite; }
+  @keyframes bob { 50% { transform: translateY(-8px) rotate(4deg); } }
+  @media (prefers-reduced-motion: reduce) { .ahero__cap { animation: none; } }
+  .ahero__grid { display: grid; gap: 2.5rem; }
+  .ahero__imgs { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; align-items: start; }
+  .ahero__img1 { aspect-ratio: 4 / 3; border-radius: var(--radius-lg) 0 0 var(--radius-lg); }
+  .ahero__img2 { aspect-ratio: 3 / 4.6; border-radius: 0 var(--radius-lg) var(--radius-lg) var(--radius-lg); }
+  .ahero__text { display: grid; gap: 1.1rem; }
+  .ahero__last { font-weight: 500; color: var(--navy-800); }
+  @media (min-width: 960px) { .ahero__grid { grid-template-columns: 1.1fr 0.9fr; } }
+
+  .mission { background: linear-gradient(180deg, #fff, var(--paper-2)); }
+  .mission__grid { display: grid; gap: 3rem; align-items: center; }
+  .mission__kid { position: relative; max-width: 380px; justify-self: center; }
+  .mission__kid :global(img) { position: relative; width: 100%; height: auto; }
+  .mission__dots { position: absolute; left: -10%; top: 10%; width: 60%; height: 40%; }
+  .mission__content { display: grid; gap: 2rem; }
+  .mission__head > div { display: grid; gap: 0.9rem; justify-items: start; }
+  .mission__body { display: grid; gap: 2rem; align-items: start; }
+  @media (min-width: 720px) { .mission__body { grid-template-columns: 1fr 0.9fr; } }
+  @media (min-width: 1024px) { .mission__grid { grid-template-columns: 0.7fr 1.3fr; } }
+  .tablist { display: inline-flex; gap: 4px; padding: 4px; border-radius: 999px; background: var(--navy-800); }
+  .tablist [role='tab'] { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.6rem 1.1rem; border-radius: 999px; color: #c8d5e2; font-weight: 600; font-size: var(--fs-sm); transition: background-color var(--dur-2) var(--ease-out), color var(--dur-2); }
+  .tablist [role='tab'][aria-selected='true'] { background: #fff; color: var(--navy-800); }
+  .tabpanel { margin-top: 1.5rem; }
+  .tabpanel:not([hidden]) { animation: fade var(--dur-3) var(--ease-out); }
+  @keyframes fade { from { opacity: 0; transform: translateY(6px); } }
+  .mission__img { position: relative; }
+  .mission__img .media { aspect-ratio: 4 / 3; }
+  .mission__stroke { position: absolute; right: -10px; top: -46px; width: 110px; z-index: 1; }
+
+  .values { background: var(--navy-800); color: #dbe5ee; overflow: hidden; }
+  .values__in { display: grid; }
+  .values__main { padding-block: var(--section); padding-right: clamp(0rem, 3vw, 3rem); }
+  .values h2 { color: #fff; }
+  .values__grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); margin-top: 2.5rem; border-top: 1px solid rgb(255 255 255 / 0.1); border-left: 1px solid rgb(255 255 255 / 0.1); }
+  @media (min-width: 760px) { .values__grid { grid-template-columns: repeat(3, 1fr); } }
+  .values__grid li { display: flex; align-items: center; gap: 1rem; padding: 1.4rem 1.25rem; border-right: 1px solid rgb(255 255 255 / 0.1); border-bottom: 1px solid rgb(255 255 255 / 0.1); color: #fff; font-weight: 500; transition: background-color var(--dur-2); }
+  .values__grid li:hover { background: rgb(255 255 255 / 0.04); }
+  .values__ic { display: grid; place-items: center; width: 50px; height: 50px; flex: none; border-radius: 14px; background: rgb(42 157 143 / 0.18); color: #7fe0c8; }
+  .values__side { display: grid; align-content: center; justify-items: start; gap: 1.75rem; padding: 3rem 2rem; background: var(--navy-600); }
+  .values__side p { color: #fff; font-size: var(--fs-2xl); font-weight: 600; line-height: 1.25; }
+  @media (min-width: 1024px) {
+    .values__in { grid-template-columns: 1fr 360px; width: min(100% - var(--gutter), calc(var(--container) + (100vw - var(--container)) / 2)); margin-left: max(var(--gutter), calc((100vw - var(--container)) / 2)); margin-right: 0; }
+    .values__side { padding-left: 3rem; padding-right: 3rem; }
+  }
+</style>

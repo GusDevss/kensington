@@ -1,0 +1,100 @@
+---
+import Base from '@/layouts/Base.astro';
+import { site } from '@/config/site';
+import type { Lang } from '@/i18n/routes';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const es = lang === 'es';
+const title = es ? 'Aviso de privacidad' : 'Privacy notice';
+const description = es
+  ? 'Aviso de privacidad simplificado de Kensington Academy (K Academy Sociedad Civil): finalidades del tratamiento de datos personales y medios para ejercer los derechos ARCO.'
+  : 'Simplified privacy notice of Kensington Academy (K Academy Sociedad Civil): purposes for processing personal data and how to exercise ARCO rights.';
+const purposesEs = [
+  'Procesos de admisión, inscripción y reinscripción;',
+  'Integración y administración de expedientes escolares;',
+  'Gestión académica y administrativa;',
+  'Comunicación con madres, padres, tutores, alumnos y colaboradores;',
+  'Control escolar y seguimiento académico;',
+  'Atención de emergencias y protección de la comunidad escolar;',
+  'Servicios de enfermería y atención médica de emergencia;',
+  'Contratación y administración de seguros relacionados con las actividades escolares;',
+  'Administración de plataformas y sistemas tecnológicos;',
+  'Gestión administrativa, financiera, laboral y fiscal;',
+  'Cumplimiento de obligaciones legales y atención de requerimientos de autoridades competentes.',
+];
+const purposesEn = [
+  'Admission, enrollment and re-enrollment processes;',
+  'Compilation and management of school records;',
+  'Academic and administrative management;',
+  'Communication with mothers, fathers, guardians, students and staff;',
+  'School control and academic follow-up;',
+  'Emergency response and protection of the school community;',
+  'Nursing services and emergency medical care;',
+  'Procurement and management of insurance related to school activities;',
+  'Management of technology platforms and systems;',
+  'Administrative, financial, labor and tax management;',
+  'Compliance with legal obligations and requests from competent authorities.',
+];
+---
+<Base lang={lang} routeKey="privacy" title={title} description={description} crumbs={[{ name: title, key: 'privacy' }]}>
+  <section class="section">
+    <article class="container-narrow legal">
+      {es ? (
+        <>
+          <h1>Aviso de privacidad simplificado — Kensington Academy</h1>
+          <p class="legal__meta"><strong>Responsable:</strong> K ACADEMY SOCIEDAD CIVIL<br /><strong>Domicilio:</strong> {site.address.street}, Municipio de Corregidora, Querétaro.</p>
+          <p>K Academy Sociedad Civil, por conducto de Kensington Academy es responsable del tratamiento y protección de los datos personales que recaba de alumnos, aspirantes, madres, padres de familia, tutores, colaboradores, proveedores y demás titulares, de conformidad con la legislación aplicable en materia de protección de datos personales.</p>
+          <p>Los datos personales serán tratados para las finalidades necesarias para la <strong>prestación de servicios educativos y la operación, administración, seguridad, atención y cumplimiento de las obligaciones legales de la institución</strong>, incluyendo, entre otras:</p>
+          <ul>{purposesEs.map((p) => <li>{p}</li>)}</ul>
+          <p>Cuando resulte necesario para cumplir estas finalidades, determinados datos personales podrán ser tratados por <strong>proveedores de servicios, encargados y terceros relacionados con la operación de la institución</strong>, incluyendo proveedores de plataformas tecnológicas, servicios administrativos, aseguradoras, servicios médicos, servicios de seguridad y otros prestadores cuya intervención sea necesaria para las finalidades señaladas.</p>
+          <p>Tratándose de <strong>datos personales sensibles</strong>, incluyendo aquellos relacionados con la salud, se adoptarán las medidas de protección correspondientes y su tratamiento se realizará conforme a las disposiciones legales aplicables.</p>
+          <p>En el caso de <strong>niñas, niños y adolescentes</strong>, Kensington Academy implementará medidas reforzadas de protección y tratará sus datos únicamente para finalidades legítimas, concretas y relacionadas con la prestación de los servicios educativos, su seguridad, atención y cumplimiento de obligaciones aplicables.</p>
+          <p>Las personas titulares podrán conocer las finalidades que requieren consentimiento, así como las opciones y mecanismos disponibles para limitar el uso o divulgación de sus datos y, cuando corresponda, manifestar su negativa respecto de determinadas finalidades o transferencias.</p>
+          <p>Para conocer el <strong>Aviso de Privacidad Integral</strong>, incluyendo los datos personales tratados, datos sensibles, finalidades específicas, transferencias, mecanismos de seguridad y procedimientos para ejercer los derechos de Acceso, Rectificación, Cancelación y Oposición (<strong>ARCO</strong>), consulte:</p>
+          <p>Para cualquier consulta relacionada con el tratamiento y protección de datos personales:</p>
+          <ul class="legal__contact">
+            <li><strong>Correo:</strong> <a href={`mailto:${site.privacyEmail}`}>{site.privacyEmail}</a></li>
+            <li><strong>Teléfono:</strong> <a href={site.phoneHref}>4424347600</a></li>
+            <li><strong>Domicilio:</strong> {site.address.street}, Municipio de Corregidora, Querétaro.</li>
+          </ul>
+          <p class="legal__date"><strong>Última actualización:</strong> septiembre 2026</p>
+        </>
+      ) : (
+        <>
+          <h1>Simplified privacy notice — Kensington Academy</h1>
+          <p class="legal__note">This is a courtesy translation. In case of any discrepancy, the Spanish version prevails.</p>
+          <p class="legal__meta"><strong>Data controller:</strong> K ACADEMY SOCIEDAD CIVIL<br /><strong>Address:</strong> {site.address.street}, Municipality of Corregidora, Querétaro, Mexico.</p>
+          <p>K Academy Sociedad Civil, through Kensington Academy, is responsible for the processing and protection of the personal data it collects from students, applicants, mothers, fathers, guardians, staff, suppliers and other data subjects, in accordance with applicable personal data protection legislation.</p>
+          <p>Personal data will be processed for the purposes necessary for the <strong>provision of educational services and the operation, administration, security, support and compliance with the institution’s legal obligations</strong>, including, among others:</p>
+          <ul>{purposesEn.map((p) => <li>{p}</li>)}</ul>
+          <p>When necessary to fulfill these purposes, certain personal data may be processed by <strong>service providers, processors and third parties related to the institution’s operation</strong>, including technology platform providers, administrative services, insurers, medical services, security services and other providers whose involvement is necessary for the stated purposes.</p>
+          <p>In the case of <strong>sensitive personal data</strong>, including health-related data, appropriate protective measures will be adopted and processing will comply with applicable legal provisions.</p>
+          <p>In the case of <strong>children and adolescents</strong>, Kensington Academy will implement reinforced protection measures and will process their data solely for legitimate, specific purposes related to the provision of educational services, their safety, care and compliance with applicable obligations.</p>
+          <p>Data subjects may learn which purposes require consent, as well as the options and mechanisms available to limit the use or disclosure of their data and, where applicable, to object to certain purposes or transfers.</p>
+          <p>To consult the <strong>Comprehensive Privacy Notice</strong>, including the personal data processed, sensitive data, specific purposes, transfers, security mechanisms and procedures to exercise the rights of Access, Rectification, Cancellation and Opposition (<strong>ARCO</strong>), please contact us.</p>
+          <p>For any questions regarding the processing and protection of personal data:</p>
+          <ul class="legal__contact">
+            <li><strong>Email:</strong> <a href={`mailto:${site.privacyEmail}`}>{site.privacyEmail}</a></li>
+            <li><strong>Phone:</strong> <a href={site.phoneHref}>+52 442 434 7600</a></li>
+            <li><strong>Address:</strong> {site.address.street}, Municipality of Corregidora, Querétaro, Mexico.</li>
+          </ul>
+          <p class="legal__date"><strong>Last updated:</strong> September 2026</p>
+        </>
+      )}
+    </article>
+  </section>
+</Base>
+
+<style>
+  .legal { padding: clamp(1.5rem, 4vw, 3.5rem); border: 1px solid var(--line); border-radius: var(--radius-xl); background: #fff; box-shadow: var(--shadow-sm); }
+  .legal h1 { font-size: var(--fs-2xl); margin-bottom: 1.5rem; text-transform: uppercase; letter-spacing: 0; }
+  .legal p, .legal li { text-align: justify; hyphens: auto; font-size: var(--fs-sm); }
+  .legal > * + * { margin-top: 1.1rem; }
+  .legal ul { padding-left: 1.25rem; display: grid; gap: 0.35rem; }
+  .legal li::marker { color: var(--accent); }
+  .legal__meta { padding: 1rem 1.25rem; background: var(--paper-2); border-radius: var(--radius); }
+  .legal__note { font-style: italic; color: var(--ink-3); }
+  .legal a { color: var(--navy-700); text-decoration: underline; text-underline-offset: 3px; }
+  .legal__date { padding-top: 1rem; border-top: 1px solid var(--line); }
+</style>

@@ -1,0 +1,22 @@
+---
+/** Borde inferior de nubes (secciones de Kinder y Primaria). */
+interface Props { color?: string; flip?: boolean; class?: string }
+const { color = '#fff', flip = false, class: cls } = Astro.props;
+// Bordes de nube deterministas: semicírculos de distintos tamaños a lo ancho.
+const widths = [150, 110, 170, 120, 140, 100, 180, 130, 115, 160, 125];
+let x = 0, i = 0, d = 'M0 120V80';
+while (x < 1440) {
+  const w = Math.min(widths[i % widths.length], 1440 - x);
+  const base = 80 - (i % 3) * 8;
+  d += `L${x} ${base}A${w / 2} ${w / 2.6} 0 0 1 ${x + w} ${base}`;
+  x += w; i++;
+}
+d += 'L1440 120Z';
+---
+<svg class:list={['clouds', cls, { 'clouds--flip': flip }]} viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true" style={`color:${color}`}>
+  <path fill="currentColor" d={d} />
+</svg>
+<style>
+  .clouds { display: block; width: 100%; height: clamp(48px, 7vw, 110px); margin-block: -1px; }
+  .clouds--flip { transform: scaleY(-1); }
+</style>

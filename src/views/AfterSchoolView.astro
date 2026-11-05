@@ -1,0 +1,161 @@
+---
+import Base from '@/layouts/Base.astro';
+import Img from '@/components/ui/Img.astro';
+import Icon from '@/components/ui/Icon.astro';
+import Statement from '@/components/ui/Statement.astro';
+import Accordion from '@/components/ui/Accordion.astro';
+import { img, type ImgKey } from '@/config/images';
+import { t } from '@/i18n/ui';
+import { routes, type Lang } from '@/i18n/routes';
+import data from '@/data/afterSchool';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const d = data[lang];
+const ui = t(lang);
+---
+<Base lang={lang} routeKey="afterSchool" title={d.meta.title} description={d.meta.description} image={img.asRobotica} crumbs={[{ name: ui.nav.afterSchool, key: 'afterSchool' }]}>
+  <section class="ashero bg-gradient">
+    <div class="container ashero__in">
+      <div class="ashero__copy">
+        <h1><span class="ashero__accent">{d.hero.title[0]}</span>{d.hero.title[1]}</h1>
+        <p class="text-j">{d.hero.text}</p>
+        <a class="btn" href={routes.contact[lang]}>{ui.cta}<Icon name="arrow-up-right" /></a>
+      </div>
+      <div class="ashero__media">
+        <div class="ashero__circle" aria-hidden="true"></div>
+        <Img src={img.asFutbol} alt={d.hero.alt} sizes="(min-width: 960px) 340px, 60vw" priority widths={[340, 600]} />
+        <div class="ashero__badge">
+          <span class="ashero__badge-ic"><Icon name="target" size={22} /></span>
+          <div><strong class="ashero__num">+<span data-count-to={d.hero.badge.value}>{d.hero.badge.value}</span></strong><span class="ashero__lbl">{d.hero.badge.label}</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <h2>{d.activities.title}</h2>
+        <p>{d.activities.text}</p>
+      </div>
+      <div class="acts" data-tabs>
+        <div class="acts__list" role="tablist" aria-label={d.activities.title} aria-orientation="vertical">
+          {d.activities.tabs.map((tab, i) => (
+            <button role="tab" id={`as-tab-${i}`} aria-controls={`as-panel-${i}`} aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1}>
+              <span class="acts__ic"><Icon name={tab.icon} size={20} /></span>{tab.label}
+            </button>
+          ))}
+        </div>
+        {d.activities.tabs.map((tab, i) => (
+          <div class="acts__panel" role="tabpanel" id={`as-panel-${i}`} aria-labelledby={`as-tab-${i}`} hidden={i !== 0}>
+            <div class="acts__text">
+              <h3>{tab.title}</h3>
+              <ul role="list">{tab.items.map((it) => <li><Icon name="check" size={16} />{it}</li>)}</ul>
+            </div>
+            <div class="acts__img"><Img src={img[tab.img as ImgKey]} alt={tab.alt} sizes="(min-width: 1024px) 380px, 90vw" widths={[480, 960]} /></div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="aswhy">
+    <div class="aswhy__row">
+      <div class="aswhy__copy">
+        <h2 data-reveal>{d.why.title}</h2>
+        <ul role="list" class="aswhy__list">
+          {d.why.items.slice(0, 2).map((it) => (
+            <li data-reveal><span class="aswhy__ic"><Icon name={it.icon} /></span><h3>{it.title}</h3><p>{it.text}</p></li>
+          ))}
+        </ul>
+      </div>
+      <div class="aswhy__img"><Img src={img.fachadaLateral} alt={d.why.imgAlt} sizes="(min-width: 960px) 50vw, 100vw" widths={[640, 1280]} /></div>
+    </div>
+    <div class="aswhy__row aswhy__row--alt">
+      <div class="aswhy__copy">
+        <ul role="list" class="aswhy__list">
+          {d.why.items.slice(2).map((it) => (
+            <li data-reveal><span class="aswhy__ic"><Icon name={it.icon} /></span><h3>{it.title}</h3><p>{it.text}</p></li>
+          ))}
+        </ul>
+      </div>
+      <div class="aswhy__img"><Img src={img.jardinJuegos} alt={d.why.img2Alt} sizes="(min-width: 960px) 50vw, 100vw" widths={[640, 848]} /></div>
+    </div>
+  </section>
+
+  <section class="section-sm"><div class="container"><Statement {...d.statement} /></div></section>
+
+  <section class="section">
+    <div class="container grid-2 dining">
+      <div class="dining__img media" data-reveal><Img src={img.comedor} alt={d.dining.alt} sizes="(min-width: 960px) 520px, 90vw" widths={[480, 861]} /></div>
+      <div class="dining__copy">
+        <h2 data-reveal>{d.dining.title}</h2>
+        <p class="text-j" data-reveal>{d.dining.text}</p>
+        <div class="dining__info" data-reveal>
+          <Accordion idPrefix="din" variant="light" items={d.dining.items} headingLevel="h3" />
+          <a class="dining__card" href={routes.faq[lang]}><Icon name="file-text" size={34} /><span>{d.dining.info}</span><Icon name="arrow-up-right" size={18} /></a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .ashero { overflow: hidden; }
+  .ashero__in { display: grid; gap: 2.5rem; align-items: end; padding-top: clamp(3rem, 6vw, 5rem); }
+  .ashero__copy { display: grid; gap: 1.5rem; justify-items: start; align-self: center; padding-bottom: 3rem; max-width: 640px; }
+  .ashero h1 { font-size: var(--fs-4xl); color: var(--navy-800); }
+  .ashero__accent { color: var(--clay-500); }
+  .ashero__media { position: relative; justify-self: center; width: min(70vw, 340px); }
+  .ashero__media :global(img) { position: relative; width: 100%; height: auto; }
+  .ashero__circle { position: absolute; inset: 20% -20% 8%; border-radius: 50%; background: radial-gradient(circle, #fff 0%, rgb(255 255 255 / 0) 70%); }
+  .ashero__badge { position: absolute; left: -18%; bottom: 14%; display: flex; gap: 0.75rem; align-items: center; padding: 0.9rem 1.1rem; border-radius: var(--radius); background: #fff; box-shadow: var(--shadow-lg); }
+  .ashero__badge-ic { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: var(--teal-500); color: #fff; }
+  .ashero__num { display: block; font-size: var(--fs-2xl); line-height: 1; color: var(--ink); font-variant-numeric: tabular-nums; }
+  .ashero__lbl { display: block; font-size: var(--fs-xs); color: var(--ink-3); max-width: 13ch; line-height: 1.3; margin-top: 2px; }
+  @media (min-width: 960px) { .ashero__in { grid-template-columns: 1.3fr 0.7fr; } }
+
+  .acts { display: grid; gap: 1.5rem; }
+  @media (min-width: 1024px) { .acts { grid-template-columns: 300px 1fr; } }
+  .acts__list { display: grid; gap: 0.6rem; align-content: start; padding: 1rem; border: 1px solid var(--line); border-radius: var(--radius-lg); }
+  .acts__list [role='tab'] { display: flex; align-items: center; gap: 0.75rem; padding: 0.85rem 1rem; border-radius: var(--radius); font-weight: 600; color: var(--ink); text-align: left; transition: background-color var(--dur-2) var(--ease-out), color var(--dur-2); }
+  .acts__list [role='tab']:hover { background: var(--paper-2); }
+  .acts__list [role='tab'][aria-selected='true'] { background: var(--navy-700); color: #fff; }
+  .acts__ic { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%; border: 1px solid currentColor; flex: none; opacity: 0.9; }
+  .acts__panel { display: grid; border-radius: var(--radius-lg); overflow: hidden; background: linear-gradient(135deg, var(--navy-700), #7f9db3); color: #fff; }
+  .acts__panel:not([hidden]) { animation: fade var(--dur-3) var(--ease-out); }
+  @keyframes fade { from { opacity: 0; transform: translateY(8px); } }
+  .acts__text { display: grid; gap: 1.25rem; align-content: center; padding: clamp(1.5rem, 3vw, 2.5rem); }
+  .acts__text h3 { color: #fff; font-size: var(--fs-xl); }
+  .acts__text ul { display: grid; gap: 0.6rem; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); }
+  .acts__text li { display: flex; align-items: center; gap: 0.5rem; }
+  .acts__text li :global(svg) { color: #9be7d5; flex: none; }
+  .acts__img { position: relative; min-height: 260px; }
+  .acts__img :global(img) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  @media (min-width: 720px) { .acts__panel { grid-template-columns: 1fr 1fr; } }
+
+  .aswhy__row { display: grid; background: var(--navy-800); color: #dbe5ee; }
+  .aswhy__row--alt { background: var(--navy-700); }
+  .aswhy__copy { padding: clamp(2.5rem, 6vw, 5rem) var(--gutter); display: grid; gap: 2rem; align-content: center; }
+  .aswhy h2 { color: #fff; max-width: 16ch; }
+  .aswhy__list { display: grid; gap: 2rem; }
+  @media (min-width: 600px) { .aswhy__list { grid-template-columns: 1fr 1fr; } }
+  .aswhy__list li { display: grid; gap: 0.6rem; align-content: start; }
+  .aswhy__list h3 { color: #fff; font-size: var(--fs-lg); }
+  .aswhy__list p { font-size: var(--fs-sm); }
+  .aswhy__ic { display: grid; place-items: center; width: 52px; height: 52px; border-radius: 14px; background: rgb(255 255 255 / 0.1); color: #fff; }
+  .aswhy__img { position: relative; min-height: 300px; }
+  .aswhy__img :global(img) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  @media (min-width: 960px) {
+    .aswhy__row { grid-template-columns: 1fr 1fr; }
+    .aswhy__copy { padding-left: max(var(--gutter), calc((100vw - var(--container)) / 2)); padding-right: 4rem; }
+  }
+
+  .dining__img { aspect-ratio: 4 / 4.6; }
+  .dining__copy { display: grid; gap: 1.25rem; }
+  .dining__info { display: grid; gap: 1rem; margin-top: 0.5rem; }
+  @media (min-width: 600px) { .dining__info { grid-template-columns: 1.4fr 1fr; align-items: start; } }
+  .dining__card { display: grid; place-items: center; gap: 0.75rem; text-align: center; padding: 2rem 1.25rem; border-radius: var(--radius-lg); background: var(--navy-700); color: #fff; font-weight: 600; transition: background-color var(--dur-2), transform var(--dur-3) var(--ease-out); }
+  .dining__card:hover { background: var(--navy-900); transform: translateY(-3px); }
+</style>

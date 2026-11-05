@@ -1,0 +1,29 @@
+---
+import Base from '@/layouts/Base.astro';
+import Icon from '@/components/ui/Icon.astro';
+import { routes } from '@/i18n/routes';
+import { t } from '@/i18n/ui';
+const ui = t('es');
+const en = t('en');
+---
+<Base lang="es" routeKey={null} title={ui.notFoundTitle} description={ui.notFoundText} noindex>
+  <section class="section nf">
+    <div class="container-narrow nf__in">
+      <img src="/brand/escudo.svg" alt="" width="96" height="96" />
+      <p class="nf__code">404</p>
+      <h1>{ui.notFoundTitle}</h1>
+      <p class="lead">{ui.notFoundText}</p>
+      <p class="muted" lang="en">{en.notFoundText}</p>
+      <div class="nf__ctas">
+        <a class="btn" href={routes.home.es}><Icon name="house" />{ui.backHome}</a>
+        <a class="btn btn-ghost" href={routes.home.en} lang="en">{en.backHome}</a>
+      </div>
+    </div>
+  </section>
+</Base>
+<style>
+  .nf__in { display: grid; justify-items: center; gap: 1rem; text-align: center; }
+  .nf__in img { width: 88px; opacity: 0.9; }
+  .nf__code { font-size: clamp(4rem, 3rem + 6vw, 8rem); font-weight: 800; line-height: 1; color: var(--sky-200); letter-spacing: -0.04em; }
+  .nf__ctas { display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: center; margin-top: 1rem; }
+</style>

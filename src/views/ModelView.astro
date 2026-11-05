@@ -1,0 +1,120 @@
+---
+import Base from '@/layouts/Base.astro';
+import Img from '@/components/ui/Img.astro';
+import Icon from '@/components/ui/Icon.astro';
+import Statement from '@/components/ui/Statement.astro';
+import ModelWheel from '@/components/sections/ModelWheel.astro';
+import { img } from '@/config/images';
+import { t } from '@/i18n/ui';
+import type { Lang } from '@/i18n/routes';
+import data from '@/data/model';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const d = data[lang];
+const ui = t(lang);
+const essenceImgs = [img.aulaPrimaria, img.patioVentanales, img.fachadaLateral, img.fachadaPrincipal, img.patioCentral, img.canalYoutube];
+---
+<Base lang={lang} routeKey="model" title={d.meta.title} description={d.meta.description} image={img.adnAltanima} crumbs={[{ name: ui.nav.model, key: 'model' }]}>
+  <section class="mhero bg-gradient">
+    <div class="container mhero__in">
+      <div class="mhero__dna" data-reveal>
+        <Img src={img.adnAltanima} alt={d.hero.dnaAlt} sizes="(min-width: 960px) 360px, 60vw" priority widths={[360, 768]} />
+      </div>
+      <div class="mhero__copy">
+        <span class="eyebrow">{d.hero.eyebrow}</span>
+        <Img src={img.altanimaLogo} alt={d.hero.logoAlt} class="mhero__logo" sizes="260px" widths={[260, 520]} />
+        <h1>{d.hero.title}</h1>
+        {d.hero.paragraphs.map((p) => <p class="text-j">{p}</p>)}
+      </div>
+    </div>
+    <div class="container mhero__extra">
+      {d.hero.extra.map((p, i) => <p class:list={['text-j', { 'mhero__punch': i === d.hero.extra.length - 1 }]} data-reveal>{p}</p>)}
+    </div>
+  </section>
+
+  <section class="section-sm"><div class="container"><Statement {...d.statement} /></div></section>
+
+  <section class="section-sm">
+    <div class="container">
+      <ModelWheel dims={d.wheel.dims} community={d.wheel.community} ring={d.wheel.ring} axes={d.wheel.axes} hint={d.wheel.hint} objectivesLabel={d.wheel.objectives} />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2 class="center" data-reveal>{d.includes.title}</h2>
+      <div class="incl" data-tabs>
+        <div class="incl__list" role="tablist" aria-label={d.includes.title}>
+          {d.includes.tabs.map((tab, i) => (
+            <button role="tab" id={`inc-tab-${i}`} aria-controls={`inc-panel-${i}`} aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1}>
+              <Icon name={tab.icon} size={18} />{tab.label}
+            </button>
+          ))}
+        </div>
+        {d.includes.tabs.map((tab, i) => (
+          <ul class="incl__panel" role="tabpanel" id={`inc-panel-${i}`} aria-labelledby={`inc-tab-${i}`} hidden={i !== 0}>
+            {tab.items.map((it) => (
+              <li><span class="incl__ic"><Icon name={it.i} size={26} /></span><span>{it.t}</span></li>
+            ))}
+          </ul>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section bg-soft">
+    <div class="container">
+      <div class="ess__head" data-reveal>
+        <h2>{d.essence.title}</h2>
+        <p class="lead">{d.essence.text}</p>
+      </div>
+      <ul class="ess" role="list">
+        {d.essence.items.map((e, i) => (
+          <li class="ess__card" data-reveal style={`--d:${(i % 3) * 80}ms`}>
+            <div class="ess__img"><Img src={essenceImgs[i]} alt="" sizes="(min-width: 1024px) 360px, 90vw" widths={[336, 640]} /></div>
+            <div class="ess__body"><h3>{e.title}</h3><p>{e.text}</p></div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .mhero { padding-block: clamp(3rem, 6vw, 5rem); }
+  .mhero__in { display: grid; gap: 2.5rem; align-items: center; }
+  .mhero__dna { justify-self: center; width: min(70vw, 340px); }
+  .mhero__dna :global(img) { width: 100%; height: auto; }
+  .mhero__copy { display: grid; gap: 1.1rem; justify-items: start; }
+  .mhero__copy :global(.mhero__logo) { width: 220px; height: auto; }
+  .mhero__copy h1 { font-size: var(--fs-3xl); color: var(--navy-800); }
+  @media (min-width: 960px) { .mhero__in { grid-template-columns: 0.75fr 1.25fr; } }
+  .mhero__extra { display: grid; gap: 1rem; margin-top: 2.5rem; padding-top: 2rem; border-top: 1px solid var(--line); }
+  @media (min-width: 900px) { .mhero__extra { grid-template-columns: repeat(3, 1fr); gap: 2rem; } }
+  .mhero__punch { font-weight: 600; color: var(--navy-800); }
+
+  .incl { display: grid; gap: 2rem; margin-top: 2.5rem; }
+  .incl__list { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; }
+  .incl__list [role='tab'] { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.4rem; border-radius: 999px; border: 1px solid var(--line); font-weight: 600; color: var(--navy-800); transition: background-color var(--dur-2) var(--ease-out), color var(--dur-2), border-color var(--dur-2); }
+  .incl__list [role='tab']:hover { border-color: var(--navy-600); }
+  .incl__list [role='tab'][aria-selected='true'] { background: var(--navy-700); border-color: var(--navy-700); color: #fff; }
+  .incl__panel { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; list-style: none; padding: 0; }
+  .incl__panel:not([hidden]) { animation: fade var(--dur-3) var(--ease-out); }
+  @keyframes fade { from { opacity: 0; transform: translateY(8px); } }
+  .incl__panel li { display: grid; justify-items: center; align-content: start; gap: 0.8rem; width: 170px; padding: 1.5rem 1rem; text-align: center; border-radius: var(--radius-lg); border: 1px solid var(--line); background: #fff; font-size: var(--fs-sm); font-weight: 500; color: var(--ink); transition: transform var(--dur-3) var(--ease-out), box-shadow var(--dur-3); }
+  .incl__panel li:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
+  .incl__ic { display: grid; place-items: center; width: 60px; height: 60px; border-radius: 50%; background: var(--sky-100); color: var(--navy-700); }
+
+  .ess__head { display: grid; gap: 1rem; margin-bottom: 2.5rem; }
+  @media (min-width: 900px) { .ess__head { grid-template-columns: 1fr 1fr; align-items: end; gap: 3rem; } }
+  .ess { display: grid; gap: 1.25rem; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+  .ess__card { display: flex; flex-direction: column; border-radius: var(--radius-lg); overflow: hidden; background: #fff; border: 1px solid var(--line); transition: transform var(--dur-3) var(--ease-out), box-shadow var(--dur-3); }
+  .ess__card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+  .ess__img { aspect-ratio: 16 / 9; overflow: hidden; }
+  .ess__img :global(img) { width: 100%; height: 100%; object-fit: cover; transition: transform 600ms var(--ease-out); }
+  .ess__card:hover .ess__img :global(img) { transform: scale(1.05); }
+  .ess__body { display: grid; gap: 0.5rem; padding: 1.5rem; }
+  .ess__body h3 { font-size: var(--fs-lg); text-transform: uppercase; letter-spacing: 0.02em; color: var(--navy-700); }
+  .ess__body p { font-size: var(--fs-sm); color: var(--ink-2); }
+</style>

@@ -1,0 +1,155 @@
+---
+import Base from '@/layouts/Base.astro';
+import Img from '@/components/ui/Img.astro';
+import Icon from '@/components/ui/Icon.astro';
+import Statement from '@/components/ui/Statement.astro';
+import Pillars from '@/components/sections/Pillars.astro';
+import Grades from '@/components/sections/Grades.astro';
+import { img } from '@/config/images';
+import { site } from '@/config/site';
+import { t } from '@/i18n/ui';
+import type { Lang } from '@/i18n/routes';
+import data from '@/data/primary';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const d = data[lang];
+const ui = t(lang);
+const gradeImgs = [img.patioCentral, img.jardinJuegos, img.patioVentanales, img.aulaPrimaria, img.fachadaLateral, img.fachadaPrincipal];
+const schema = [{
+  '@context': 'https://schema.org', '@type': 'Course', name: d.meta.title, description: d.meta.description,
+  provider: { '@type': 'School', name: 'Kensington Academy' }, inLanguage: ['es', 'en'], educationalLevel: 'Primary school',
+}];
+---
+<Base lang={lang} routeKey="primary" title={d.meta.title} description={d.meta.description} image={img.aulaPrimaria} crumbs={[{ name: ui.nav.primary, key: 'primary' }]} schema={schema}>
+  <section class="phero">
+    <Img src={img.aulaPrimaria} alt="" class="phero__bg" sizes="100vw" priority widths={[768, 1280, 1920]} />
+    <div class="phero__shade" aria-hidden="true"></div>
+    <div class="container phero__in">
+      <div class="phero__copy">
+        <h1>{d.hero.title}</h1>
+        <a class="btn btn-light" href="#ideas">{d.hero.cta}<Icon name="arrow-down-right" /></a>
+      </div>
+      <div class="phero__kid"><Img src={img.ninaPrimaria} alt={d.hero.alt} sizes="(min-width: 960px) 380px, 60vw" priority widths={[360, 622]} /></div>
+      <p class="phero__card">{d.hero.text[0]}<strong>{d.hero.text[1]}</strong>{d.hero.text[2]}</p>
+    </div>
+  </section>
+
+  <section class="section" id="ideas">
+    <div class="container grid-2">
+      <div class="pabout__media" data-reveal>
+        <div class="pabout__main media"><Img src={img.patioVentanales} alt={d.about.imgAlt} sizes="(min-width: 960px) 560px, 90vw" widths={[480, 960, 1280]} /></div>
+        <div class="pabout__row">
+          <p class="pabout__label">{d.about.videoTitle}</p>
+          <button class="pabout__video" type="button" data-yt={site.videos.primary} aria-label={`${ui.play}: ${d.about.videoTitle}`}>
+            <Img src={img.canalEmocional} alt={d.about.videoAlt} sizes="280px" widths={[360, 720]} />
+            <span class="pabout__play"><Icon name="play" size={22} /></span>
+          </button>
+        </div>
+      </div>
+      <div class="pabout__copy">
+        <h2 data-reveal>{d.about.title}</h2>
+        <p class="text-j" data-reveal>{d.about.text}</p>
+        <h3 data-reveal>{d.about.howTitle}</h3>
+        <ul role="list" class="pabout__list">
+          {d.about.items.map((it) => (
+            <li data-reveal>
+              <span class="icon-badge"><Icon name={it.icon} /></span>
+              <div><h4>{it.title}</h4><p class="text-j">{it.text}</p></div>
+            </li>
+          ))}
+        </ul>
+        <button class="btn" type="button" data-yt={site.videos.primary} data-reveal>{d.about.cta}<Icon name="play" /></button>
+      </div>
+    </div>
+  </section>
+
+  <section class="section bg-soft">
+    <div class="container">
+      <h2 class="center" data-reveal>{d.pillars.title}</h2>
+      <div class="mt-3"><Pillars items={d.pillars.items} cols={5} /></div>
+    </div>
+  </section>
+
+  <section class="learn">
+    <div class="container learn__in">
+      <div class="learn__main">
+        <h2 data-reveal>{d.learn.title}</h2>
+        <ul class="learn__grid" role="list">
+          {d.learn.items.map((it, i) => (
+            <li data-reveal style={`--d:${(i % 3) * 70}ms`}>
+              <span class="learn__ic"><Icon name={it.icon} size={24} /></span>
+              <p>{it.text}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <aside class="learn__side" aria-hidden="true">
+        {d.learn.words.map((w, i) => <span style={`--d:${i * 120}ms`} data-reveal>{w}</span>)}
+      </aside>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2 class="center" data-reveal>{d.grades.title}</h2>
+      <div class="mt-2">
+        <Grades label={d.grades.title} prev={ui.prev} next={ui.next} items={d.grades.items.map((g, i) => ({ ...g, img: gradeImgs[i], alt: g.quote }))} />
+      </div>
+    </div>
+  </section>
+
+  <section class="section-sm">
+    <div class="container"><Statement {...d.statement} /></div>
+  </section>
+</Base>
+
+<style>
+  .phero { position: relative; isolation: isolate; overflow: hidden; color: #fff; }
+  .phero :global(.phero__bg) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; }
+  .phero__shade { position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, rgb(30 48 69 / 0.9), rgb(30 48 69 / 0.55) 60%, rgb(30 48 69 / 0.35)); }
+  .phero__in { display: grid; gap: 1.5rem; align-items: end; min-height: min(78vh, 680px); padding-top: clamp(3rem, 7vw, 5rem); }
+  .phero__copy { align-self: center; display: grid; gap: 2rem; justify-items: start; max-width: 600px; }
+  .phero h1 { color: #fff; font-size: var(--fs-4xl); line-height: 1.1; }
+  .phero__kid { justify-self: center; width: min(70vw, 360px); }
+  .phero__kid :global(img) { width: 100%; height: auto; }
+  .phero__card { align-self: center; max-width: 340px; padding: 1.5rem; border-radius: var(--radius-lg); background: rgb(255 255 255 / 0.1); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgb(255 255 255 / 0.2); font-size: var(--fs-sm); color: #eaf1f7; text-align: justify; hyphens: auto; margin-bottom: 2rem; }
+  .phero__card strong { color: #fff; }
+  @media (min-width: 1024px) {
+    .phero__in { grid-template-columns: 1.2fr 0.8fr 0.7fr; }
+    .phero__kid { justify-self: end; }
+  }
+
+  .pabout__media { display: grid; gap: 1.25rem; }
+  .pabout__main { aspect-ratio: 16 / 10; }
+  .pabout__row { display: grid; grid-template-columns: 1fr 1.4fr; gap: 1.25rem; align-items: stretch; }
+  .pabout__label { display: grid; place-items: center; text-align: center; padding: 1rem; border-radius: var(--radius-lg); background: var(--clay-100); color: var(--navy-800); font-weight: 600; font-size: var(--fs-lg); }
+  .pabout__video { position: relative; border-radius: var(--radius-lg); overflow: hidden; aspect-ratio: 16 / 9; }
+  .pabout__video :global(img) { width: 100%; height: 100%; object-fit: cover; transition: transform var(--dur-3) var(--ease-out); }
+  .pabout__video:hover :global(img) { transform: scale(1.04); }
+  .pabout__play { position: absolute; inset: 0; margin: auto; width: 56px; height: 56px; display: grid; place-items: center; border-radius: 50%; background: rgb(255 255 255 / 0.9); color: var(--navy-800); box-shadow: 0 0 0 8px rgb(255 255 255 / 0.25); }
+  .pabout__copy { display: grid; gap: 1.25rem; justify-items: start; }
+  .pabout__copy h3 { font-size: var(--fs-xl); margin-top: 0.5rem; }
+  .pabout__list { display: grid; gap: 1.25rem; }
+  .pabout__list li { display: flex; gap: 1rem; }
+  .pabout__list h4 { font-size: var(--fs-base); }
+  .pabout__list p { font-size: var(--fs-sm); color: var(--ink-3); margin-top: 0.25rem; }
+
+  .learn { background: var(--navy-800); color: #dbe5ee; overflow: hidden; }
+  .learn__in { display: grid; }
+  .learn__main { padding-block: var(--section); padding-right: clamp(0rem, 3vw, 3rem); }
+  .learn h2 { color: #fff; max-width: 22ch; }
+  .learn__grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); margin-top: 2.5rem; border-top: 1px solid rgb(255 255 255 / 0.1); border-left: 1px solid rgb(255 255 255 / 0.1); }
+  @media (min-width: 760px) { .learn__grid { grid-template-columns: repeat(3, 1fr); } }
+  .learn__grid li { display: grid; gap: 1rem; align-content: start; padding: 1.5rem; border-right: 1px solid rgb(255 255 255 / 0.1); border-bottom: 1px solid rgb(255 255 255 / 0.1); transition: background-color var(--dur-2); }
+  .learn__grid li:hover { background: rgb(255 255 255 / 0.04); }
+  .learn__ic { display: grid; place-items: center; width: 48px; height: 48px; border-radius: 14px; background: rgb(42 157 143 / 0.18); color: #7fe0c8; }
+  .learn__grid p { font-size: var(--fs-sm); color: #e6edf4; }
+  .learn__side { display: grid; align-content: center; gap: 0.25rem; padding: 3rem 2rem; background: var(--navy-600); }
+  .learn__side span { font-size: clamp(1.5rem, 1.1rem + 1.5vw, 2.4rem); font-weight: 600; color: #fff; line-height: 1.15; }
+  .learn__side span:nth-child(even) { color: var(--sky-200); }
+  @media (min-width: 1024px) {
+    .learn__in { grid-template-columns: 1fr 300px; width: min(100% - var(--gutter), calc(var(--container) + (100vw - var(--container)) / 2)); margin-left: max(var(--gutter), calc((100vw - var(--container)) / 2)); margin-right: 0; }
+    .learn__side { padding-left: 3rem; }
+  }
+</style>

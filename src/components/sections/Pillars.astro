@@ -1,0 +1,36 @@
+---
+import Icon from '@/components/ui/Icon.astro';
+interface Pillar { title: string; text: string; icon: string }
+interface Props { items: Pillar[]; cols?: 4 | 5 }
+const { items, cols = 4 } = Astro.props;
+const tones = ['navy', 'sky', 'clay', 'sage'];
+---
+<ul class="pillars" role="list" style={`--cols:${cols}`}>
+  {items.map((p, i) => (
+    <li class:list={['pillar', `pillar--${tones[i % tones.length]}`]} data-reveal style={`--d:${(i % 4) * 70}ms`}>
+      <span class="pillar__ic"><Icon name={p.icon} size={28} /></span>
+      <h3>{p.title}</h3>
+      <p>{p.text}</p>
+    </li>
+  ))}
+</ul>
+<style>
+  .pillars { display: grid; gap: 1.25rem; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+  @media (min-width: 1100px) { .pillars { grid-template-columns: repeat(var(--cols), 1fr); } }
+  .pillar {
+    --zig: 14px;
+    position: relative; display: grid; align-content: start; gap: 0.9rem; padding: 1.75rem 1.5rem calc(1.75rem + var(--zig));
+    color: #fff; border-radius: var(--radius) var(--radius) 0 0;
+    -webkit-mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / calc(var(--zig) * 2) 100%;
+    mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / calc(var(--zig) * 2) 100%;
+    transition: transform var(--dur-3) var(--ease-out);
+  }
+  @media (hover: hover) and (pointer: fine) { .pillar:hover { transform: translateY(-6px); } }
+  .pillar--navy { background: var(--navy-700); }
+  .pillar--sky { background: #7fa3b6; }
+  .pillar--clay { background: var(--clay-500); }
+  .pillar--sage { background: var(--sage-500); }
+  .pillar h3 { color: #fff; font-size: 1.08rem; line-height: 1.3; }
+  .pillar p { font-size: var(--fs-sm); color: rgb(255 255 255 / 0.92); }
+  .pillar__ic { display: grid; place-items: center; width: 56px; height: 56px; border-radius: 16px; background: rgb(255 255 255 / 0.16); }
+</style>

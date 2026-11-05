@@ -1,0 +1,23 @@
+---
+import Icon from './Icon.astro';
+interface Props { closeLabel: string }
+const { closeLabel } = Astro.props;
+---
+<dialog class="video" id="video" aria-label="Video">
+  <div class="video__box">
+    <button class="video__close" type="button" data-close-dialog aria-label={closeLabel}><Icon name="x" size={22} /></button>
+    <div class="video__frame" data-frame></div>
+  </div>
+</dialog>
+<style>
+  .video { width: min(1100px, 100vw - 2rem); margin: auto; background: transparent; overflow: visible; }
+  .video::backdrop { background: rgb(8 14 22 / 0.85); opacity: 0; transition: opacity var(--dur-3) var(--ease-out), overlay var(--dur-3) allow-discrete, display var(--dur-3) allow-discrete; }
+  .video[open]::backdrop { opacity: 1; }
+  @starting-style { .video[open]::backdrop { opacity: 0; } }
+  .video__box { position: relative; opacity: 0; transform: scale(0.96); transition: opacity var(--dur-3) var(--ease-out), transform var(--dur-3) var(--ease-out); }
+  .video.is-in .video__box { opacity: 1; transform: none; }
+  .video__frame { aspect-ratio: 16 / 9; border-radius: var(--radius); overflow: hidden; background: #000; }
+  .video__frame :global(iframe) { width: 100%; height: 100%; border: 0; }
+  .video__close { position: absolute; right: 0; top: -56px; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; color: #fff; background: rgb(255 255 255 / 0.12); }
+  .video__close:hover { background: rgb(255 255 255 / 0.25); }
+</style>

@@ -1,0 +1,65 @@
+---
+import Base from '@/layouts/Base.astro';
+import Icon from '@/components/ui/Icon.astro';
+import Accordion from '@/components/ui/Accordion.astro';
+import { img } from '@/config/images';
+import { t } from '@/i18n/ui';
+import { routes, type Lang } from '@/i18n/routes';
+import data from '@/data/faq';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const d = data[lang];
+const ui = t(lang);
+const schema = [{
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: d.groups.flatMap((g) => g.items.map((q) => ({ '@type': 'Question', name: q.title, acceptedAnswer: { '@type': 'Answer', text: q.text } }))),
+}];
+---
+<Base lang={lang} routeKey="faq" title={d.meta.title} description={d.meta.description} image={img.fachadaPrincipal} crumbs={[{ name: ui.nav.faqLong, key: 'faq' }]} schema={schema}>
+  <section class="section">
+    <div class="container">
+      <h1 class="visually-hidden">{d.eyebrow}</h1>
+      <div class="faq" data-tabs>
+        <div class="faq__tabs" role="tablist" aria-label={d.eyebrow}>
+          {d.groups.map((g, i) => (
+            <button role="tab" id={`faq-tab-${i}`} aria-controls={`faq-panel-${i}`} aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1}>
+              <Icon name={g.icon} size={18} />{g.label}
+            </button>
+          ))}
+        </div>
+        {d.groups.map((g, i) => (
+          <div class="faq__panel" role="tabpanel" id={`faq-panel-${i}`} aria-labelledby={`faq-tab-${i}`} hidden={i !== 0}>
+            <aside class="faq__side">
+              <span class="eyebrow">{d.eyebrow}</span>
+              <h2>{g.label}</h2>
+              <div class="faq__more">
+                <h3>{d.more.title}</h3>
+                <p>{d.more.text}</p>
+                <a class="btn" href={routes.contact[lang]}>{d.more.cta}<Icon name="arrow-up-right" /></a>
+              </div>
+            </aside>
+            <Accordion idPrefix={`faq-${i}`} variant="light" single items={g.items.map((q, j) => ({ ...q, open: j === 0 }))} />
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .faq__tabs { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; margin-bottom: 3rem; }
+  .faq__tabs [role='tab'] { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.3rem; border-radius: 999px; border: 1px solid var(--line); font-weight: 600; font-size: var(--fs-sm); color: var(--navy-800); transition: background-color var(--dur-2) var(--ease-out), color var(--dur-2), border-color var(--dur-2); }
+  .faq__tabs [role='tab']:hover { border-color: var(--navy-600); }
+  .faq__tabs [role='tab'][aria-selected='true'] { background: var(--navy-700); border-color: var(--navy-700); color: #fff; }
+  .faq__panel { display: grid; gap: 2.5rem; align-items: start; }
+  .faq__panel:not([hidden]) { animation: fade var(--dur-3) var(--ease-out); }
+  @keyframes fade { from { opacity: 0; transform: translateY(8px); } }
+  @media (min-width: 960px) { .faq__panel { grid-template-columns: 0.8fr 1.4fr; gap: 4rem; } .faq__side { position: sticky; top: calc(var(--header-h) + 2rem); } }
+  .faq__side { display: grid; gap: 1.25rem; justify-items: start; }
+  .faq__side h2 { font-size: var(--fs-3xl); }
+  .faq__more { display: grid; gap: 0.5rem; justify-items: start; margin-top: 1rem; padding: 1.5rem; border-radius: var(--radius-lg); background: var(--paper-2); }
+  .faq__more h3 { font-size: var(--fs-lg); }
+  .faq__more p { color: var(--ink-3); margin-bottom: 0.75rem; }
+</style>

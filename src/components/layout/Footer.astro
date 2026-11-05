@@ -1,0 +1,77 @@
+---
+import { routes, type Lang } from '@/i18n/routes';
+import { t } from '@/i18n/ui';
+import { site } from '@/config/site';
+import Icon from '@/components/ui/Icon.astro';
+import Social from './Social.astro';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const ui = t(lang);
+const n = ui.nav;
+const year = new Date().getFullYear();
+const col1 = [['about', n.aboutUs], ['history', n.history], ['model', n.model], ['profile', n.profile]] as const;
+const col2 = [['kinder', n.kinder], ['primary', n.primary], ['afterSchool', n.afterSchool], ['gallery', n.gallery], ['faq', n.faqLong]] as const;
+---
+<footer class="footer">
+  <svg class="footer__deco" viewBox="0 0 200 80" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M30 20h120a18 18 0 0 1 0 36H30" /><ellipse cx="30" cy="38" rx="10" ry="18" /><path d="M150 20c10 0 18 8 18 18M58 30h70M58 40h60M58 50h40" /><path d="M120 56c6 6 10 14 6 20M128 56c4 8 4 14 0 18" /></g></svg>
+  <div class="container footer__grid">
+    <div class="footer__brand">
+      <a href={routes.home[lang]} aria-label="Kensington Academy"><img src="/brand/logo-white.svg" alt="Kensington Academy" width="150" height="64" loading="lazy" /></a>
+      <p>{ui.footerAbout}</p>
+      <Social variant="round" items={['facebook', 'instagram', 'tiktok', 'youtube', 'x']} />
+    </div>
+    <nav class="footer__col" aria-labelledby="f-k">
+      <h2 id="f-k">Kensington</h2>
+      <ul role="list">{col1.map(([k, l]) => <li><a href={routes[k][lang]}>{l}</a></li>)}</ul>
+    </nav>
+    <nav class="footer__col" aria-labelledby="f-n">
+      <h2 id="f-n">{n.levels}</h2>
+      <ul role="list">{col2.map(([k, l]) => <li><a href={routes[k][lang]}>{l}</a></li>)}</ul>
+    </nav>
+    <div class="footer__col">
+      <h2>{ui.footerContact}</h2>
+      <ul role="list" class="footer__contact">
+        <li><a href={site.phoneHref}><span class="footer__ic"><Icon name="phone" size={16} /></span>{site.phone}</a></li>
+        <li><a href={`mailto:${site.email}`}><span class="footer__ic"><Icon name="mail" size={16} /></span>{site.email}</a></li>
+        <li><a href={site.mapsUrl} target="_blank" rel="noopener noreferrer"><span class="footer__ic"><Icon name="map-pin" size={16} /></span>{site.address.short}</a></li>
+      </ul>
+      <h2 class="footer__h-sub">{ui.subscribe}</h2>
+      <div class="footer__channels">
+        <a href={site.social.youtube} target="_blank" rel="noopener noreferrer" aria-label="YouTube — Canal Kensington"><Icon name="youtube" size={20} /></a>
+        <a href={site.social.spotify} target="_blank" rel="noopener noreferrer" aria-label="Spotify — Podcast Kensington"><Icon name="spotify" size={20} /></a>
+      </div>
+    </div>
+  </div>
+  <div class="footer__bottom">
+    <div class="container footer__bottom-in">
+      <p>© {year} {ui.copyright} {ui.developedBy} <a href="https://mediamaster.mx" target="_blank" rel="noopener">Mediamaster</a></p>
+      <a href={routes.privacy[lang]}>{n.privacy}</a>
+    </div>
+  </div>
+</footer>
+<style>
+  .footer { position: relative; overflow: hidden; background: radial-gradient(120% 120% at 0% 0%, #233752 0%, var(--navy-900) 55%, var(--navy-950) 100%); color: #b9c7d6; font-size: var(--fs-sm); }
+  .footer__deco { position: absolute; right: 6%; top: 2.5rem; width: 150px; color: rgb(255 255 255 / 0.18); }
+  .footer__grid { display: grid; gap: 2.5rem; padding-block: clamp(3.5rem, 6vw, 5.5rem) 3rem; }
+  @media (min-width: 720px) { .footer__grid { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 1024px) { .footer__grid { grid-template-columns: 1.4fr 0.8fr 0.9fr 1.3fr; } }
+  .footer__brand { display: grid; gap: 1.25rem; align-content: start; max-width: 300px; }
+  .footer__brand img { width: 150px; }
+  .footer h2 { color: #fff; font-size: 1.05rem; font-weight: 600; margin-bottom: 1.1rem; letter-spacing: 0; }
+  .footer__col ul { display: grid; gap: 0.7rem; }
+  .footer__col a { transition: color var(--dur-1); }
+  .footer__col a:hover { color: #fff; }
+  .footer__contact a { display: flex; align-items: center; gap: 0.75rem; color: #fff; }
+  .footer__ic { display: grid; place-items: center; width: 34px; height: 34px; flex: none; border-radius: 50%; background: rgb(255 255 255 / 0.08); }
+  .footer__h-sub { margin-top: 1.75rem; }
+  .footer__channels { display: flex; gap: 0.6rem; }
+  .footer__channels a { display: grid; place-items: center; width: 46px; height: 46px; border-radius: 12px; background: rgb(255 255 255 / 0.08); color: #fff; transition: background-color var(--dur-2), color var(--dur-2), transform var(--dur-1) var(--ease-out); }
+  .footer__channels a:first-child:hover { background: #ff0033; }
+  .footer__channels a:last-child:hover { background: #1db954; }
+  .footer__channels a:active { transform: scale(0.94); }
+  .footer__bottom { border-top: 1px solid rgb(255 255 255 / 0.1); }
+  .footer__bottom-in { display: flex; flex-wrap: wrap; gap: 0.75rem 2rem; justify-content: space-between; padding-block: 1.4rem; font-size: var(--fs-xs); }
+  .footer__bottom a { color: #fff; }
+  .footer__bottom a:hover { text-decoration: underline; text-underline-offset: 3px; }
+</style>
