@@ -134,6 +134,11 @@
     transform: translateY(-160%); transition: transform var(--dur-2) var(--ease-out);
   }
   .skip-link:focus { transform: none; }
+
+  /* Traducción automática: oculta la barra y los tooltips de Google */
+  iframe.skiptranslate, .goog-te-banner-frame, #goog-gt-tt, .goog-te-balloon-frame, .VIpgJd-ZVi9od-ORHb-OEVmcd, .VIpgJd-ZVi9od-aZ2wEe-wOHMyf { display: none !important; }
+  .is-translated body { top: 0 !important; }
+  .goog-text-highlight { background: none !important; box-shadow: none !important; }
 }
 
 /* ---------- Layout ---------- */

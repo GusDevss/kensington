@@ -1,54 +1,88 @@
 ---
+/**
+ * Selector de idioma.
+ * - Español e Inglés: páginas reales traducidas (indexables por Google, con hreflang).
+ * - Resto de idiomas: traducción automática de Google Translate en el navegador
+ *   (igual que el plugin GTranslate del sitio anterior). Ver src/scripts/translate.ts.
+ */
 import { routes, type Lang, type RouteKey } from '@/i18n/routes';
 import { t } from '@/i18n/ui';
-import Flag from '@/components/ui/Flag.astro';
+import Flag, { type FlagCode } from '@/components/ui/Flag.astro';
 import Icon from '@/components/ui/Icon.astro';
 
 interface Props { lang: Lang; routeKey: RouteKey | null; variant?: 'dark' | 'light' }
 const { lang, routeKey, variant = 'dark' } = Astro.props;
 const key = routeKey ?? 'home';
-const options = [
+const native = [
   { code: 'es' as const, label: 'Español', short: 'ES' },
   { code: 'en' as const, label: 'English', short: 'EN' },
 ];
-const current = options.find((o) => o.code === lang)!;
+const auto: { code: FlagCode; label: string; short: string }[] = [
+  { code: 'ar', label: 'العربية (Arabic)', short: 'AR' },
+  { code: 'zh-CN', label: '简体中文 (Chinese)', short: 'ZH' },
+  { code: 'nl', label: 'Nederlands (Dutch)', short: 'NL' },
+  { code: 'fr', label: 'Français (French)', short: 'FR' },
+  { code: 'de', label: 'Deutsch (German)', short: 'DE' },
+  { code: 'it', label: 'Italiano (Italian)', short: 'IT' },
+  { code: 'ja', label: '日本語 (Japanese)', short: 'JA' },
+  { code: 'pt', label: 'Português (Portuguese)', short: 'PT' },
+  { code: 'ru', label: 'Русский (Russian)', short: 'RU' },
+];
+const current = native.find((o) => o.code === lang)!;
+const autoLabel = lang === 'es' ? 'Traducción automática' : 'Automatic translation';
 ---
-<div class:list={['lang', `lang--${variant}`]} data-dropdown>
+<div class:list={['lang', `lang--${variant}`, 'notranslate']} data-dropdown data-lang-switch data-page-lang={lang} translate="no">
   <button class="lang__btn" type="button" aria-expanded="false" aria-haspopup="true" data-dropdown-trigger>
     <span class="visually-hidden">{t(lang).language}:</span>
-    <Flag code={current.code} />
-    <span>{current.short}</span>
+    <span class="lang__current" data-lang-current><Flag code={current.code} /><span>{current.short}</span></span>
     <Icon name="chevron-down" size={14} class="lang__chev" />
   </button>
-  <ul class="lang__menu" role="list" data-dropdown-menu>
-    {options.map((o) => (
-      <li>
-        <a href={routes[key][o.code]} hreflang={o.code} lang={o.code} aria-current={o.code === lang ? 'true' : undefined}>
-          <Flag code={o.code} size={22} />
-          <span>{o.label}</span>
-          {o.code === lang && <Icon name="check" size={16} class="lang__check" />}
-        </a>
-      </li>
-    ))}
-  </ul>
+  <div class="lang__menu" data-dropdown-menu>
+    <ul role="list">
+      {native.map((o) => (
+        <li>
+          <a href={routes[key][o.code]} hreflang={o.code} lang={o.code} data-lang-native data-short={o.short} aria-current={o.code === lang ? 'true' : undefined}>
+            <Flag code={o.code} size={22} />
+            <span>{o.label}</span>
+            <Icon name="check" size={16} class="lang__check" />
+          </a>
+        </li>
+      ))}
+    </ul>
+    <p class="lang__sep">{autoLabel}</p>
+    <ul role="list">
+      {auto.map((o) => (
+        <li>
+          <button type="button" data-gt={o.code} data-short={o.short} lang={o.code}>
+            <Flag code={o.code} size={22} />
+            <span>{o.label}</span>
+            <Icon name="check" size={16} class="lang__check" />
+          </button>
+        </li>
+      ))}
+    </ul>
+  </div>
 </div>
 <style>
   .lang { position: relative; }
   .lang__btn { display: inline-flex; align-items: center; gap: 0.45rem; min-height: 36px; padding: 0 0.25rem; font-weight: 600; font-size: var(--fs-xs); letter-spacing: 0.04em; }
+  .lang__current { display: inline-flex; align-items: center; gap: 0.45rem; }
   .lang--dark .lang__btn { color: #fff; }
   .lang--light .lang__btn { color: var(--navy-800); }
   .lang :global(.lang__chev) { transition: transform var(--dur-2) var(--ease-out); }
   .lang__btn[aria-expanded='true'] :global(.lang__chev) { transform: rotate(180deg); }
   .lang__menu {
-    position: absolute; right: 0; top: calc(100% + 8px); z-index: 60; min-width: 180px; padding: 6px;
+    position: absolute; right: 0; top: calc(100% + 8px); z-index: 60; width: 250px; max-height: min(420px, 70vh); overflow-y: auto; overscroll-behavior: contain; padding: 6px;
     background: #fff; border-radius: var(--radius); box-shadow: var(--shadow-lg); border: 1px solid var(--line);
     opacity: 0; transform: translateY(-4px) scale(0.97); transform-origin: top right; visibility: hidden;
     transition: opacity var(--dur-1) var(--ease-out), transform var(--dur-2) var(--ease-out), visibility 0s linear var(--dur-2);
   }
   .lang--light .lang__menu { left: 0; right: auto; transform-origin: top left; }
   .lang.is-open .lang__menu { opacity: 1; transform: none; visibility: visible; transition-delay: 0s; }
-  .lang__menu a { display: flex; align-items: center; gap: 0.75rem; padding: 0.6rem 0.75rem; border-radius: 10px; color: var(--ink); font-size: var(--fs-sm); transition: background-color var(--dur-1); }
-  .lang__menu a:hover, .lang__menu a:focus-visible { background: var(--paper-2); }
-  .lang__menu a[aria-current] { font-weight: 600; }
-  .lang :global(.lang__check) { margin-left: auto; color: var(--teal-500); }
+  .lang__menu a, .lang__menu button { width: 100%; display: flex; align-items: center; gap: 0.75rem; padding: 0.55rem 0.75rem; border-radius: 10px; color: var(--ink); font-size: var(--fs-sm); text-align: left; transition: background-color var(--dur-1); }
+  .lang__menu a:hover, .lang__menu a:focus-visible, .lang__menu button:hover, .lang__menu button:focus-visible { background: var(--paper-2); }
+  .lang__sep { margin: 6px 0.75rem 2px; padding-top: 8px; border-top: 1px solid var(--line); font-size: 0.7rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); }
+  .lang :global(.lang__check) { margin-left: auto; color: var(--teal-500); visibility: hidden; }
+  .lang [aria-current='true'] { font-weight: 600; }
+  .lang [aria-current='true'] :global(.lang__check) { visibility: visible; }
 </style>

@@ -6,7 +6,17 @@ export default {
       description: 'Comunidad educativa innovadora que impulsa el desarrollo integral de cada estudiante. Kinder y Primaria con modelo educativo Altanima: mente, cuerpo y conciencia.',
     },
     hero: {
+      eyebrow: 'Kinder y Primaria bilingüe · Corregidora, Querétaro',
       title: ['Educamos la mente.', 'Fortalecemos el cuerpo.', 'Despertamos la conciencia'],
+      keys: ['mente', 'cuerpo', 'conciencia'],
+      ctaVisit: 'Agendar visita',
+      chips: ['Programa 100% bilingüe', 'Modelo educativo Altanima', 'Gimnasio de Neurodesarrollo'],
+      quick: [
+        { title: 'Kinder', text: 'Jugamos, exploramos y descubrimos', icon: 'blocks' },
+        { title: 'Primaria', text: 'Investigamos, creamos y transformamos', icon: 'lightbulb' },
+        { title: 'After School', text: 'Aprender también sucede después del aula', icon: 'trophy' },
+      ],
+      scroll: 'Desliza',
       text: 'En Kensington Academy somos una comunidad educativa innovadora que impulsa el desarrollo integral de cada estudiante.',
       cta: 'Saber más',
       imgAlt: 'Alumna de primaria de Kensington Academy con uniforme y libro',
@@ -22,6 +32,13 @@ export default {
       cta: 'Saber más',
       img1Alt: 'Jardín y área de juegos de Kensington Academy',
       img2Alt: 'Aula de Kensington Academy',
+      eyebrow: 'Bienvenidos',
+      dims: [
+        { label: 'Emocional', icon: 'heart', tone: 'sky' },
+        { label: 'Física', icon: 'person-standing', tone: 'sage' },
+        { label: 'Intelectual', icon: 'lightbulb', tone: 'clay' },
+      ],
+      dimsTitle: 'Desarrollo integral',
     },
     statement1: {
       text: 'Porque creemos que cuando un niño está emocionalmente bien, físicamente saludable y se conoce a sí mismo, está preparado para aprender y crecer',
@@ -94,7 +111,17 @@ export default {
       description: 'An innovative educational community that fosters the integral development of every student. Kindergarten and Elementary with the Altanima model: mind, body and awareness.',
     },
     hero: {
+      eyebrow: 'Bilingual Kindergarten & Elementary · Corregidora, Querétaro',
       title: ['We educate the mind.', 'We strengthen the body.', 'We awaken awareness'],
+      keys: ['mind', 'body', 'awareness'],
+      ctaVisit: 'Book a visit',
+      chips: ['100% bilingual program', 'Altanima educational model', 'Neurodevelopment Gym'],
+      quick: [
+        { title: 'Kindergarten', text: 'We play, explore and discover', icon: 'blocks' },
+        { title: 'Elementary', text: 'We research, create and transform', icon: 'lightbulb' },
+        { title: 'After School', text: 'Learning also happens after class', icon: 'trophy' },
+      ],
+      scroll: 'Scroll',
       text: 'At Kensington Academy we are an innovative educational community that fosters the integral development of every student.',
       cta: 'Learn more',
       imgAlt: 'Kensington Academy elementary student in uniform holding a book',
@@ -110,6 +137,13 @@ export default {
       cta: 'Learn more',
       img1Alt: 'Garden and playground at Kensington Academy',
       img2Alt: 'Classroom at Kensington Academy',
+      eyebrow: 'Welcome',
+      dims: [
+        { label: 'Emotional', icon: 'heart', tone: 'sky' },
+        { label: 'Physical', icon: 'person-standing', tone: 'sage' },
+        { label: 'Intellectual', icon: 'lightbulb', tone: 'clay' },
+      ],
+      dimsTitle: 'Integral development',
     },
     statement1: {
       text: 'Because we believe that when a child is emotionally well, physically healthy and knows themselves, they are ready to learn and grow',

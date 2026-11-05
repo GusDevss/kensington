@@ -9,7 +9,7 @@ const labels: Record<SocialKey, string> = { facebook: 'Facebook', instagram: 'In
   {items.map((k) => (
     <li>
       <a href={site.social[k]} target="_blank" rel="noopener noreferrer" aria-label={`${labels[k]} — Kensington Academy`}>
-        <Icon name={k} size={size} />
+        <Icon name={`brand-${k}`} size={size} />
       </a>
     </li>
   ))}
