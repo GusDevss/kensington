@@ -52,7 +52,7 @@ export default {
     ],
     world: {
       title: ['El mundo', 'cambió', '¿La educación de nuestros hijos también?'],
-      channel: 'Canal Kensington',
+      channel: 'Descubre la educación del futuro',
       channelAlt: 'Canal de YouTube de Kensington Academy',
       did: '¿Sabías qué?',
       play: 'Reproducir video: ¿Sabías qué?',
@@ -157,7 +157,7 @@ export default {
     ],
     world: {
       title: ['The world', 'has changed', 'Has our children’s education changed too?'],
-      channel: 'Kensington Channel',
+      channel: 'Discover the education of the future',
       channelAlt: 'Kensington Academy YouTube channel',
       did: 'Did you know?',
       play: 'Play video: Did you know?',

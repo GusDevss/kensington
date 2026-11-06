@@ -161,7 +161,7 @@ const arcs = [arc(200, 290), arc(305, 395), arc(50, 160)];
     <div class="world__band">
       <div class="container world__in">
         <h2 data-reveal>{d.world.title[0]} <span class="world__hl">{d.world.title[1]}<svg viewBox="0 0 200 20" preserveAspectRatio="none" aria-hidden="true"><path d="M3 14C60 4 140 4 197 10" /></svg></span><br />{d.world.title[2]}</h2>
-        <a class="world__channel" href={site.social.youtube} target="_blank" rel="noopener noreferrer" data-reveal>
+        <a class="world__channel" href={site.videos.featuredUrl} target="_blank" rel="noopener noreferrer" data-reveal>
           <Img src={img.canalYoutube} alt={d.world.channelAlt} sizes="96px" widths={[192, 336]} />
           <span>{d.world.channel}</span>
           <span class="world__arrow"><Icon name="arrow-up-right" size={20} /></span>
@@ -409,7 +409,7 @@ const arcs = [arc(200, 290), arc(305, 395), arc(50, 160)];
   .world__hl { position: relative; display: inline-block; }
   .world__hl svg { position: absolute; left: 0; bottom: -0.25em; width: 100%; height: 0.4em; }
   .world__hl path { fill: none; stroke: var(--sun-400); stroke-width: 5; stroke-linecap: round; }
-  .world__channel { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 1rem; padding: 1rem; border: 1px solid rgb(255 255 255 / 0.25); border-radius: var(--radius); max-width: 340px; transition: background-color var(--dur-2), border-color var(--dur-2); }
+  .world__channel { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 1rem; padding: 1rem; border: 1px solid rgb(255 255 255 / 0.25); border-radius: var(--radius); max-width: 400px; line-height: 1.35; transition: background-color var(--dur-2), border-color var(--dur-2); }
   .world__channel:hover { background: rgb(255 255 255 / 0.08); border-color: rgb(255 255 255 / 0.5); }
   .world__channel :global(img) { width: 76px; border-radius: 8px; }
   .world__channel span { font-weight: 600; }

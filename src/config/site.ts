@@ -23,8 +23,10 @@ export const site = {
     spotify: 'https://open.spotify.com/show/33g4geisTAaoxuVzuiEJPd?si=440d160790b34479',
   },
   videos: {
-    home: '1WSVLac-YNk',
-    primary: 'gVCfwP23UoM',
+    home: '7WAI68p_PZ0',
+    primary: '7WAI68p_PZ0',
+    /** Enlace del componente "Descubre la educación del futuro" */
+    featuredUrl: 'https://youtu.be/7WAI68p_PZ0?si=9v-Dp2KlWnhSgV_A',
   },
   /** Endpoint PHP (Hostinger) que recibe los formularios. */
   formEndpoint: '/api/contacto.php',
