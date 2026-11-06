@@ -195,43 +195,129 @@ $$('[data-tabs]').forEach((root) => {
   });
 });
 
-/* ---------- Carruseles (scroll-snap nativo + botones) ---------- */
+/* ---------- Carruseles: scroll-snap nativo, ciclo infinito y avance automático ----------
+ * data-carousel            raíz
+ * data-autoplay="5000"     ms entre avances (0 = sin avance automático)
+ * [data-track]             contenedor con scroll horizontal (hijos = diapositivas)
+ * [data-prev] [data-next]  botones · [data-dots] contenedor de puntos · [data-counter] "3 / 8"
+ * El avance se pausa con el cursor encima, con foco dentro, si la pestaña está oculta
+ * o si el carrusel no está en pantalla. */
 $$('[data-carousel]').forEach((root) => {
   const track = root.querySelector<HTMLElement>('[data-track]')!;
   const prev = root.querySelector<HTMLButtonElement>('[data-prev]');
   const next = root.querySelector<HTMLButtonElement>('[data-next]');
   const counter = root.querySelector<HTMLElement>('[data-counter]');
+  const dotsBox = root.querySelector<HTMLElement>('[data-dots]');
   const slides = Array.from(track.children) as HTMLElement[];
+  const n = slides.length;
+  const interval = reduceMotion ? 0 : Number(root.dataset.autoplay || 0);
+  let clones: HTMLElement[] = [];
+  let looping = false;
+
   const step = () => (slides[1] ? slides[1].offsetLeft - slides[0].offsetLeft : track.clientWidth);
-  const update = () => {
-    const max = track.scrollWidth - track.clientWidth - 2;
-    if (prev) prev.disabled = track.scrollLeft <= 2;
-    if (next) next.disabled = track.scrollLeft >= max;
-    if (counter) {
-      const i = Math.round(track.scrollLeft / step());
-      const visible = Math.max(1, Math.round(track.clientWidth / step()));
-      counter.textContent = `${Math.min(i + visible, slides.length)} / ${slides.length}`;
+  const visible = () => Math.max(1, Math.round(track.clientWidth / step()));
+  const index = () => ((Math.round(track.scrollLeft / step()) % n) + n) % n;
+
+  // Puntos de navegación
+  const dots: HTMLButtonElement[] = [];
+  if (dotsBox) {
+    slides.forEach((_, i) => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'cdot';
+      b.setAttribute('aria-label', `${i + 1} / ${n}`);
+      b.addEventListener('click', () => go(i));
+      dotsBox.append(b);
+      dots.push(b);
+    });
+  }
+
+  // Clona las diapositivas para que el ciclo sea continuo, sólo si hacen falta.
+  const setupLoop = () => {
+    const need = n > visible();
+    root.classList.toggle('is-static', !need);
+    if (need && !looping) {
+      clones = slides.map((s) => {
+        const c = s.cloneNode(true) as HTMLElement;
+        c.setAttribute('aria-hidden', 'true');
+        c.inert = true;
+        c.classList.add('is-clone');
+        track.append(c);
+        return c;
+      });
+      looping = true;
+    } else if (!need && looping) {
+      clones.forEach((c) => c.remove());
+      clones = [];
+      looping = false;
+      track.scrollLeft = 0;
     }
   };
-  prev?.addEventListener('click', () => track.scrollBy({ left: -step(), behavior: reduceMotion ? 'auto' : 'smooth' }));
-  next?.addEventListener('click', () => track.scrollBy({ left: step(), behavior: reduceMotion ? 'auto' : 'smooth' }));
-  track.addEventListener('scroll', () => requestAnimationFrame(update), { passive: true });
-  window.addEventListener('resize', update);
-  update();
+  // Al pasar al bloque clonado, regresa de forma invisible al original equivalente.
+  const normalize = () => {
+    if (!looping) return;
+    const set = step() * n;
+    if (track.scrollLeft >= set - 2) track.scrollLeft -= set;
+  };
+  const scrollTo = (left: number) => track.scrollTo({ left, behavior: reduceMotion ? 'auto' : 'smooth' });
+  const go = (i: number) => scrollTo(i * step());
+  const goNext = () => {
+    if (!looping && track.scrollLeft >= track.scrollWidth - track.clientWidth - 2) return scrollTo(0);
+    scrollTo(track.scrollLeft + step());
+  };
+  const goPrev = () => {
+    if (looping && track.scrollLeft < 2) track.scrollLeft += step() * n;
+    scrollTo(track.scrollLeft - step());
+  };
 
-  const auto = Number(root.dataset.autoplay || 0);
-  if (auto && !reduceMotion) {
-    let paused = false;
-    root.addEventListener('pointerenter', () => (paused = true));
-    root.addEventListener('pointerleave', () => (paused = false));
-    root.addEventListener('focusin', () => (paused = true));
-    root.addEventListener('focusout', () => (paused = false));
-    setInterval(() => {
-      if (paused || document.hidden) return;
-      const atEnd = track.scrollLeft >= track.scrollWidth - track.clientWidth - 2;
-      track.scrollTo({ left: atEnd ? 0 : track.scrollLeft + step(), behavior: 'smooth' });
-    }, auto);
+  const update = () => {
+    const i = index();
+    dots.forEach((d, j) => d.setAttribute('aria-current', String(j === i)));
+    if (counter) counter.textContent = `${i + 1} / ${n}`;
+    if (!looping && !interval) {
+      if (prev) prev.disabled = track.scrollLeft <= 2;
+      if (next) next.disabled = track.scrollLeft >= track.scrollWidth - track.clientWidth - 2;
+    }
+    // Reinicia la animación de la barra de progreso del punto activo.
+    root.style.setProperty('--autoplay', `${interval}ms`);
+  };
+
+  let scrollTimer: number | undefined;
+  track.addEventListener('scroll', () => {
+    requestAnimationFrame(update);
+    clearTimeout(scrollTimer);
+    scrollTimer = window.setTimeout(normalize, 120);
+  }, { passive: true });
+  if ('onscrollend' in window) track.addEventListener('scrollend', normalize);
+
+  prev?.addEventListener('click', () => { goPrev(); restart(); });
+  next?.addEventListener('click', () => { goNext(); restart(); });
+
+  // Avance automático
+  let timer: number | undefined;
+  let paused = false;
+  let onScreen = false;
+  const pulse = () => { root.classList.remove('is-ticking'); void root.offsetWidth; root.classList.add('is-ticking'); };
+  const tick = () => { if (!paused && onScreen && !document.hidden && !root.classList.contains('is-static')) { goNext(); pulse(); } };
+  const restart = () => {
+    if (!interval) return;
+    clearInterval(timer);
+    timer = window.setInterval(tick, interval);
+    pulse();
+  };
+  const setPaused = (v: boolean) => { paused = v; root.classList.toggle('is-paused', v); };
+  if (interval) {
+    root.addEventListener('pointerenter', () => setPaused(true));
+    root.addEventListener('pointerleave', () => { setPaused(false); restart(); });
+    root.addEventListener('focusin', () => setPaused(true));
+    root.addEventListener('focusout', (e) => { if (!root.contains(e.relatedTarget as Node)) { setPaused(false); restart(); } });
+    new IntersectionObserver(([e]) => { onScreen = e.isIntersecting; if (onScreen) restart(); }, { threshold: 0.35 }).observe(root);
   }
+
+  let resizeTimer: number | undefined;
+  window.addEventListener('resize', () => { clearTimeout(resizeTimer); resizeTimer = window.setTimeout(() => { setupLoop(); update(); }, 150); });
+  setupLoop();
+  update();
 });
 
 /* ---------- Contadores ---------- */

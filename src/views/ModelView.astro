@@ -13,6 +13,7 @@ interface Props { lang: Lang }
 const { lang } = Astro.props;
 const d = data[lang];
 const ui = t(lang);
+const tones = ['sage', 'clay', 'sky'];
 const essenceImgs = [img.aulaPrimaria, img.patioVentanales, img.fachadaLateral, img.fachadaPrincipal, img.patioCentral, img.canalYoutube];
 ---
 <Base lang={lang} routeKey="model" title={d.meta.title} description={d.meta.description} image={img.adnAltanima} crumbs={[{ name: ui.nav.model, key: 'model' }]}>
@@ -69,14 +70,27 @@ const essenceImgs = [img.aulaPrimaria, img.patioVentanales, img.fachadaLateral, 
         <h2>{d.essence.title}</h2>
         <p class="lead">{d.essence.text}</p>
       </div>
-      <ul class="ess" role="list">
-        {d.essence.items.map((e, i) => (
-          <li class="ess__card" data-reveal style={`--d:${(i % 3) * 80}ms`}>
-            <div class="ess__img"><Img src={essenceImgs[i]} alt="" sizes="(min-width: 1024px) 360px, 90vw" widths={[336, 640]} /></div>
-            <div class="ess__body"><h3>{e.title}</h3><p>{e.text}</p></div>
-          </li>
-        ))}
-      </ul>
+      <div class="ess" data-carousel data-autoplay="4500" aria-roledescription="carousel" aria-label={d.essence.title}>
+        <ul class="ess__track" role="list" data-track>
+          {d.essence.items.map((e, i) => {
+            const m = e.title.match(/^(\d+)\.\s*(.*)$/);
+            return (
+              <li class:list={['ess__card', `ess__card--${tones[i % 3]}`]}>
+                <div class="ess__img">
+                  <Img src={essenceImgs[i]} alt="" sizes="(min-width: 1100px) 380px, 80vw" widths={[400, 760]} />
+                  <span class="ess__num" aria-hidden="true">{m ? m[1].padStart(2, '0') : ''}</span>
+                </div>
+                <div class="ess__body"><h3>{m ? m[2] : e.title}</h3><p>{e.text}</p></div>
+              </li>
+            );
+          })}
+        </ul>
+        <div class="ess__nav">
+          <button class="icon-btn" type="button" data-prev aria-label={ui.prev}><Icon name="arrow-left" /></button>
+          <div class="cdots" data-dots></div>
+          <button class="icon-btn" type="button" data-next aria-label={ui.next}><Icon name="arrow-right" /></button>
+        </div>
+      </div>
     </div>
   </section>
 </Base>
@@ -99,22 +113,29 @@ const essenceImgs = [img.aulaPrimaria, img.patioVentanales, img.fachadaLateral, 
   .incl__list [role='tab'] { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.4rem; border-radius: 999px; border: 1px solid var(--line); font-weight: 600; color: var(--navy-800); transition: background-color var(--dur-2) var(--ease-out), color var(--dur-2), border-color var(--dur-2); }
   .incl__list [role='tab']:hover { border-color: var(--navy-600); }
   .incl__list [role='tab'][aria-selected='true'] { background: var(--navy-700); border-color: var(--navy-700); color: #fff; }
-  .incl__panel { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; list-style: none; padding: 0; }
+  .incl__panel { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(130px, 1fr); gap: 0.75rem; list-style: none; padding: 0.25rem 0.25rem 0.75rem; overflow-x: auto; scrollbar-width: thin; }
+  @media (min-width: 1100px) { .incl__panel { overflow: visible; justify-content: center; grid-auto-columns: minmax(0, 168px); } }
   .incl__panel:not([hidden]) { animation: fade var(--dur-3) var(--ease-out); }
   @keyframes fade { from { opacity: 0; transform: translateY(8px); } }
-  .incl__panel li { display: grid; justify-items: center; align-content: start; gap: 0.8rem; width: 170px; padding: 1.5rem 1rem; text-align: center; border-radius: var(--radius-lg); border: 1px solid var(--line); background: #fff; font-size: var(--fs-sm); font-weight: 500; color: var(--ink); transition: transform var(--dur-3) var(--ease-out), box-shadow var(--dur-3); }
-  .incl__panel li:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
-  .incl__ic { display: grid; place-items: center; width: 60px; height: 60px; border-radius: 50%; background: var(--sky-100); color: var(--navy-700); }
+  .incl__panel li { display: grid; justify-items: center; align-content: start; gap: 0.7rem; padding: 1.25rem 0.75rem; text-align: center; border-radius: var(--radius-lg); border: 1px solid var(--line); background: #fff; font-size: 0.85rem; font-weight: 600; line-height: 1.35; color: var(--ink); transition: transform var(--dur-3) var(--ease-out), box-shadow var(--dur-3), border-color var(--dur-2); }
+  .incl__panel li:hover { transform: translateY(-4px); box-shadow: var(--shadow); border-color: var(--sky-300); }
+  .incl__ic { display: grid; place-items: center; width: 56px; height: 56px; border-radius: 50%; background: var(--sky-100); color: var(--navy-700); transition: background-color var(--dur-2), color var(--dur-2); }
+  .incl__panel li:hover .incl__ic { background: var(--navy-700); color: #fff; }
 
   .ess__head { display: grid; gap: 1rem; margin-bottom: 2.5rem; }
   @media (min-width: 900px) { .ess__head { grid-template-columns: 1fr 1fr; align-items: end; gap: 3rem; } }
-  .ess { display: grid; gap: 1.25rem; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
-  .ess__card { display: flex; flex-direction: column; border-radius: var(--radius-lg); overflow: hidden; background: #fff; border: 1px solid var(--line); transition: transform var(--dur-3) var(--ease-out), box-shadow var(--dur-3); }
-  .ess__card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
-  .ess__img { aspect-ratio: 16 / 9; overflow: hidden; }
-  .ess__img :global(img) { width: 100%; height: 100%; object-fit: cover; transition: transform 600ms var(--ease-out); }
-  .ess__card:hover .ess__img :global(img) { transform: scale(1.05); }
-  .ess__body { display: grid; gap: 0.5rem; padding: 1.5rem; }
-  .ess__body h3 { font-size: var(--fs-lg); text-transform: uppercase; letter-spacing: 0.02em; color: var(--navy-700); }
+  .ess__track { display: grid; grid-auto-flow: column; grid-auto-columns: min(84%, 340px); gap: 1.5rem; overflow-x: auto; scroll-snap-type: x mandatory; padding: 0.75rem 4px 2rem; scrollbar-width: none; }
+  .ess__track::-webkit-scrollbar { display: none; }
+  @media (min-width: 1100px) { .ess__track { grid-auto-columns: calc((100% - 2 * 1.5rem) / 3); } }
+  .ess__card { --tone: var(--sage-400); scroll-snap-align: start; display: flex; flex-direction: column; border-radius: 28px; overflow: hidden; background: #fff; box-shadow: 0 1px 2px rgb(20 33 49 / 0.06), 0 12px 30px -18px rgb(20 33 49 / 0.35); transition: transform var(--dur-3) var(--ease-out), box-shadow var(--dur-3); }
+  .ess__card--clay { --tone: var(--clay-400); } .ess__card--sky { --tone: var(--sky-300); }
+  .ess__img { position: relative; aspect-ratio: 16 / 10; overflow: hidden; }
+  .ess__img::after { content: ''; position: absolute; inset: 0; background: linear-gradient(200deg, transparent 40%, rgb(20 33 49 / 0.65)); }
+  .ess__img :global(img) { width: 100%; height: 100%; object-fit: cover; transition: transform 900ms var(--ease-out); }
+  .ess__num { position: absolute; left: 1.25rem; bottom: 0.6rem; z-index: 1; font-size: 3.5rem; font-weight: 800; line-height: 1; color: #fff; letter-spacing: -0.04em; text-shadow: 0 4px 18px rgb(0 0 0 / 0.3); }
+  .ess__body { display: grid; gap: 0.5rem; padding: 1.4rem 1.5rem 1.75rem; border-top: 4px solid var(--tone); }
+  .ess__body h3 { font-size: var(--fs-lg); text-transform: uppercase; letter-spacing: 0.04em; color: var(--navy-800); }
   .ess__body p { font-size: var(--fs-sm); color: var(--ink-2); }
+  @media (hover: hover) and (pointer: fine) { .ess__card:hover { transform: translateY(-6px); box-shadow: 0 2px 4px rgb(20 33 49 / 0.06), 0 26px 50px -22px rgb(20 33 49 / 0.45); } .ess__card:hover .ess__img :global(img) { transform: scale(1.07); } }
+  .ess__nav { display: flex; align-items: center; justify-content: center; gap: 1.25rem; }
 </style>

@@ -5,15 +5,19 @@ import Icon from '@/components/ui/Icon.astro';
 interface Grade { quote: string; badge: string; text: string; img: ImageMetadata; alt: string }
 interface Props { items: Grade[]; prev: string; next: string; label: string }
 const { items, prev, next, label } = Astro.props;
+const tones = ['sage', 'clay', 'sky', 'navy'];
 ---
-<div class="grades" data-carousel aria-roledescription="carousel" aria-label={label}>
+<div class="grades" data-carousel data-autoplay="4500" aria-roledescription="carousel" aria-label={label}>
   <ul class="grades__track" role="list" data-track>
     {items.map((g, i) => (
-      <li class="grade" aria-roledescription="slide" aria-label={`${i + 1} / ${items.length}`}>
-        <div class="grade__img"><Img src={g.img} alt={g.alt} sizes="(min-width: 1100px) 280px, 75vw" widths={[360, 640]} /></div>
-        <div class="grade__body">
-          <h3>{g.quote}</h3>
+      <li class:list={['grade', `grade--${tones[i % tones.length]}`]} aria-roledescription="slide" aria-label={`${i + 1} / ${items.length}`}>
+        <div class="grade__img">
+          <Img src={g.img} alt={g.alt} sizes="(min-width: 1100px) 380px, 80vw" widths={[400, 760]} />
           <span class="grade__badge">{g.badge}</span>
+        </div>
+        <div class="grade__body">
+          <Icon name="quote" size={22} class="grade__q" />
+          <h3>{g.quote}</h3>
           <p>{g.text}</p>
         </div>
       </li>
@@ -21,27 +25,39 @@ const { items, prev, next, label } = Astro.props;
   </ul>
   <div class="grades__nav">
     <button class="icon-btn" type="button" data-prev aria-label={prev}><Icon name="arrow-left" /></button>
-    <span class="grades__count" data-counter aria-hidden="true"></span>
+    <div class="cdots" data-dots></div>
     <button class="icon-btn" type="button" data-next aria-label={next}><Icon name="arrow-right" /></button>
   </div>
 </div>
 <style>
   .grades__track {
-    display: grid; grid-auto-flow: column; grid-auto-columns: min(78%, 290px); gap: 1.25rem;
-    overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: 4px; padding: 0.5rem 4px 1.5rem;
+    display: grid; grid-auto-flow: column; grid-auto-columns: min(84%, 340px); gap: 1.5rem;
+    overflow-x: auto; scroll-snap-type: x mandatory; padding: 0.75rem 4px 2rem;
     scrollbar-width: none; overscroll-behavior-x: contain;
   }
   .grades__track::-webkit-scrollbar { display: none; }
-  @media (min-width: 1100px) { .grades__track { grid-auto-columns: calc((100% - 3 * 1.25rem) / 4); } }
-  .grade { scroll-snap-align: start; display: flex; flex-direction: column; background: #fff; border-radius: var(--radius-lg); border: 1px solid var(--line); overflow: hidden; box-shadow: var(--shadow-sm); transition: transform var(--dur-3) var(--ease-out), box-shadow var(--dur-3) var(--ease-out); }
-  @media (hover: hover) and (pointer: fine) { .grade:hover { transform: translateY(-4px); box-shadow: var(--shadow); } }
-  .grade__img { aspect-ratio: 16 / 10; overflow: hidden; border-radius: 0 0 50% 50% / 0 0 18% 18%; }
-  .grade__img :global(img) { width: 100%; height: 100%; object-fit: cover; }
-  .grade__body { display: grid; justify-items: center; gap: 0.75rem; text-align: center; padding: 1.25rem 1.25rem 1.75rem; }
-  .grade h3 { font-size: 1.05rem; line-height: 1.35; }
-  .grade__badge { display: inline-block; padding: 0.3rem 0.9rem; border-radius: 999px; background: var(--navy-700); color: #fff; font-size: var(--fs-xs); font-weight: 600; }
+  @media (min-width: 1100px) { .grades__track { grid-auto-columns: calc((100% - 2 * 1.5rem) / 3); } }
+  .grade {
+    --tone: var(--sage-400); --tone-ink: #3f5a37;
+    scroll-snap-align: start; display: flex; flex-direction: column; background: #fff; border-radius: 28px; overflow: hidden;
+    box-shadow: 0 1px 2px rgb(20 33 49 / 0.06), 0 12px 30px -18px rgb(20 33 49 / 0.35);
+    transition: transform var(--dur-3) var(--ease-out), box-shadow var(--dur-3) var(--ease-out);
+  }
+  .grade--clay { --tone: var(--clay-400); --tone-ink: #7a3d22; }
+  .grade--sky { --tone: var(--sky-300); --tone-ink: #2b5468; }
+  .grade--navy { --tone: var(--navy-600); --tone-ink: var(--navy-800); }
+  .grade__img { position: relative; aspect-ratio: 16 / 10; overflow: hidden; }
+  .grade__img::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 45%, rgb(20 33 49 / 0.55)); }
+  .grade__img :global(img) { width: 100%; height: 100%; object-fit: cover; transition: transform 900ms var(--ease-out); }
+  .grade__badge { position: absolute; left: 1.1rem; bottom: 1rem; z-index: 1; padding: 0.4rem 1rem; border-radius: 999px; background: var(--tone); color: #fff; font-size: var(--fs-sm); font-weight: 700; box-shadow: 0 6px 16px -6px rgb(0 0 0 / 0.4); }
+  .grade--sky .grade__badge { color: var(--navy-900); }
+  .grade__body { position: relative; flex: 1; display: grid; align-content: start; gap: 0.7rem; padding: 1.5rem 1.5rem 1.75rem; border-top: 4px solid var(--tone); }
+  .grade__body :global(.grade__q) { color: var(--tone); }
+  .grade h3 { font-size: 1.1rem; line-height: 1.4; color: var(--tone-ink); }
   .grade p { font-size: var(--fs-sm); color: var(--ink-3); }
-  .grades__nav { display: flex; align-items: center; justify-content: center; gap: 1rem; margin-top: 0.5rem; }
-  .grades__nav button:disabled { opacity: 0.35; pointer-events: none; }
-  .grades__count { min-width: 3.5em; text-align: center; font-variant-numeric: tabular-nums; font-weight: 600; color: var(--navy-700); }
+  @media (hover: hover) and (pointer: fine) {
+    .grade:hover { transform: translateY(-6px); box-shadow: 0 2px 4px rgb(20 33 49 / 0.06), 0 26px 50px -22px rgb(20 33 49 / 0.45); }
+    .grade:hover .grade__img :global(img) { transform: scale(1.07); }
+  }
+  .grades__nav { display: flex; align-items: center; justify-content: center; gap: 1.25rem; }
 </style>

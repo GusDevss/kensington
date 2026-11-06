@@ -6,50 +6,71 @@ import { img } from '@/config/images';
 import { t } from '@/i18n/ui';
 import { routes, type Lang } from '@/i18n/routes';
 import data from '@/data/profile';
-import capDiploma from '@/assets/deco/birrete-diploma.png';
 
 interface Props { lang: Lang }
 const { lang } = Astro.props;
 const d = data[lang];
 const ui = t(lang);
-const stageImgs = [img.jardinJuegos, img.patioCentral];
-const stageLinks = [routes.kinder[lang], routes.primary[lang]];
+const stages = d.stages.map((s, i) => ({
+  ...s,
+  img: [img.jardinJuegos, img.patioCentral][i],
+  href: [routes.kinder[lang], routes.primary[lang]][i],
+  tone: ['sage', 'clay'][i],
+  icon: ['blocks', 'graduation-cap'][i],
+}));
+const tones = ['navy', 'sage', 'clay', 'sky'];
 ---
 <Base lang={lang} routeKey="profile" title={d.meta.title} description={d.meta.description} image={img.patioCentral} crumbs={[{ name: ui.nav.profile, key: 'profile' }]}>
-  <section class="section">
-    <div class="container">
-      <h1 class="center" data-reveal>{d.title}</h1>
-      <div class="pf">
-        {d.stages.map((s, i) => (
-          <a class="stage" href={stageLinks[i]} data-reveal style={`--d:${i * 90}ms`}>
-            <div class="stage__img">
-              <Img src={stageImgs[i]} alt="" sizes="(min-width: 1024px) 340px, 90vw" widths={[400, 800]} />
-              <span class="stage__plus"><Icon name="arrow-up-right" size={18} /></span>
-            </div>
-            <h2>{s.level}</h2>
-            <p class="stage__path">{s.path.map((p, j) => <>{j > 0 && <Icon name="arrow-right" size={14} />}<span>{p}</span></>)}</p>
-            <p class="stage__text">{s.text}</p>
-          </a>
-        ))}
-        <div class="pf__people" data-reveal style="--d:180ms">
-          <img src={capDiploma.src} alt="" width="120" height="69" class="pf__cap" loading="lazy" />
-          <h2>{d.people.title}</h2>
-          <p class="text-j">{d.people.text}</p>
-        </div>
+  <!-- Encabezado: egresan personas -->
+  <section class="pf-hero">
+    <div class="container pf-hero__in">
+      <div class="pf-hero__copy">
+        <span class="pf-hero__eyebrow"><Icon name="graduation-cap" size={18} />{d.title}</span>
+        <h1>{d.people.title}</h1>
+        <p class="text-j">{d.people.text}</p>
+      </div>
+      <div class="pf-hero__visual" aria-hidden="true">
+        <span class="pf-hero__ring pf-hero__ring--1"></span>
+        <span class="pf-hero__ring pf-hero__ring--2"></span>
+        <span class="pf-hero__ring pf-hero__ring--3"></span>
+        <span class="pf-hero__cap"><Icon name="graduation-cap" size={64} stroke={1.25} /></span>
       </div>
     </div>
   </section>
 
-  <section class="section bg-soft">
+  <!-- Trayectoria por nivel -->
+  <section class="section">
+    <div class="container pf-stages">
+      {stages.map((s, i) => (
+        <article class:list={['stage', `stage--${s.tone}`]} data-reveal style={`--d:${i * 100}ms`}>
+          <a class="stage__media" href={s.href}>
+            <Img src={s.img} alt="" sizes="(min-width: 1024px) 560px, 92vw" widths={[480, 960]} />
+            <span class="stage__label"><span class="stage__ic"><Icon name={s.icon} size={22} /></span><h2>{s.level}</h2></span>
+            <span class="stage__go" aria-label={`${ui.more}: ${s.level}`}><Icon name="arrow-up-right" size={20} /></span>
+          </a>
+          <div class="stage__body">
+            <ol class="path" style={`--n:${s.path.length}`}>
+              {s.path.map((p, j) => (
+                <li><span class="path__dot">{j + 1}</span><span class="path__txt">{p}</span></li>
+              ))}
+            </ol>
+            <p class="stage__quote"><Icon name="quote" size={20} />{s.text}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <!-- Nuestros egresados serán -->
+  <section class="section grads-sec">
     <div class="container">
       <h2 class="center" data-reveal>{d.graduates.title}</h2>
       <ul class="grads" role="list">
         {d.graduates.items.map((g, i) => (
-          <li class="grad" data-reveal style={`--d:${(i % 3) * 70}ms`}>
-            <div class="grad__head">
-              <h3>{g.title}</h3>
-              <span class="icon-badge"><Icon name={g.icon} /></span>
-            </div>
+          <li class:list={['grad', `grad--${tones[i % 4]}`]} data-reveal style={`--d:${(i % 3) * 70}ms`}>
+            <span class="grad__num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+            <span class="grad__ic"><Icon name={g.icon} size={26} /></span>
+            <h3>{g.title}</h3>
             <p class="text-j">{g.text}</p>
           </li>
         ))}
@@ -59,29 +80,71 @@ const stageLinks = [routes.kinder[lang], routes.primary[lang]];
 </Base>
 
 <style>
-  .pf { display: grid; gap: 1.5rem; margin-top: 3rem; align-items: stretch; }
-  @media (min-width: 720px) { .pf { grid-template-columns: 1fr 1fr; } }
-  @media (min-width: 1100px) { .pf { grid-template-columns: 1fr 1fr 1.05fr; } }
-  .stage { display: grid; align-content: start; gap: 0.6rem; text-align: center; }
-  .stage__img { position: relative; aspect-ratio: 4 / 3; border-radius: var(--radius-lg); overflow: hidden; margin-bottom: 1rem; }
-  .stage__img :global(img) { width: 100%; height: 100%; object-fit: cover; transition: transform 600ms var(--ease-out); }
-  .stage:hover .stage__img :global(img) { transform: scale(1.05); }
-  .stage__plus { position: absolute; left: 50%; bottom: 12px; transform: translateX(-50%); display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: var(--navy-700); color: #fff; transition: transform var(--dur-2) var(--ease-out); }
-  .stage:hover .stage__plus { transform: translateX(-50%) rotate(45deg); }
-  .stage h2 { font-size: var(--fs-2xl); }
-  .stage__path { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 0.25rem 0.4rem; font-size: var(--fs-lg); font-weight: 600; color: var(--ink); }
-  .stage__path :global(svg) { color: var(--accent); }
-  .stage__text { font-size: var(--fs-sm); text-transform: uppercase; letter-spacing: 0.03em; font-weight: 600; color: var(--navy-600); max-width: 34ch; margin-inline: auto; }
-  .pf__people { position: relative; display: grid; align-content: center; gap: 1rem; padding: 2rem; border: 2px solid var(--navy-800); border-radius: var(--radius-xl); }
-  @media (min-width: 720px) and (max-width: 1099px) { .pf__people { grid-column: 1 / -1; } }
-  .pf__people h2 { font-size: var(--fs-xl); color: var(--navy-800); padding-right: 3rem; }
-  .pf__people p { font-size: var(--fs-sm); }
-  .pf__cap { position: absolute; right: -14px; top: -34px; width: 96px; transform: rotate(8deg); }
+  /* Encabezado */
+  .pf-hero { position: relative; overflow: hidden; background: linear-gradient(120deg, var(--navy-900), var(--navy-700) 60%, #5e7f9b); color: #dbe6ef; }
+  .pf-hero::before { content: ''; position: absolute; inset: 0; background-image: radial-gradient(rgb(255 255 255 / 0.1) 1.2px, transparent 1.4px); background-size: 20px 20px; mask-image: linear-gradient(90deg, transparent 30%, #000); }
+  .pf-hero__in { position: relative; display: grid; gap: 2.5rem; align-items: center; padding-block: clamp(3.5rem, 7vw, 6rem); }
+  .pf-hero__copy { display: grid; gap: 1.25rem; justify-items: start; max-width: 680px; }
+  .pf-hero__eyebrow { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.45rem 1rem; border-radius: 999px; background: rgb(255 255 255 / 0.1); border: 1px solid rgb(255 255 255 / 0.2); font-size: var(--fs-xs); font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #fff; }
+  .pf-hero h1 { color: #fff; font-size: clamp(2rem, 1.4rem + 2.4vw, 3.25rem); line-height: 1.12; }
+  .pf-hero p { font-size: var(--fs-lg); }
+  .pf-hero__visual { position: relative; justify-self: center; width: min(60vw, 300px); aspect-ratio: 1; display: grid; place-items: center; }
+  .pf-hero__ring { position: absolute; border-radius: 50%; border: 2px solid; }
+  .pf-hero__ring--1 { inset: 0; border-color: var(--sage-400); border-style: dashed; animation: spin 40s linear infinite; }
+  .pf-hero__ring--2 { inset: 13%; border-color: var(--clay-400); }
+  .pf-hero__ring--3 { inset: 26%; border-color: var(--sky-300); background: rgb(255 255 255 / 0.08); }
+  .pf-hero__cap { position: relative; display: grid; place-items: center; width: 42%; aspect-ratio: 1; border-radius: 50%; background: #fff; color: var(--navy-800); box-shadow: 0 20px 40px -12px rgb(0 0 0 / 0.45); }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @media (min-width: 960px) { .pf-hero__in { grid-template-columns: 1.4fr 0.6fr; } }
+  @media (prefers-reduced-motion: reduce) { .pf-hero__ring--1 { animation: none; } }
 
-  .grads { display: grid; gap: 1.25rem; margin-top: 3rem; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); }
-  .grad { display: grid; align-content: start; gap: 1rem; padding: 1.75rem; border-radius: var(--radius-lg); background: #fff; border: 1px solid var(--line); transition: border-color var(--dur-2), box-shadow var(--dur-3), transform var(--dur-3) var(--ease-out); }
-  .grad:hover { border-color: var(--sky-300); box-shadow: var(--shadow); transform: translateY(-3px); }
-  .grad__head { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; }
-  .grad h3 { font-size: var(--fs-lg); line-height: 1.3; }
+  /* Trayectorias */
+  .pf-stages { display: grid; gap: 2rem; }
+  @media (min-width: 1024px) { .pf-stages { grid-template-columns: 1fr 1fr; } }
+  .stage { --tone: var(--sage-500); --tone-bg: var(--sage-100); display: flex; flex-direction: column; border-radius: 32px; overflow: hidden; background: #fff; box-shadow: 0 1px 2px rgb(20 33 49 / 0.06), 0 18px 40px -22px rgb(20 33 49 / 0.4); }
+  .stage--clay { --tone: var(--clay-500); --tone-bg: var(--clay-100); }
+  .stage__media { position: relative; display: block; aspect-ratio: 16 / 8; overflow: hidden; }
+  .stage__media::after { content: ''; position: absolute; inset: 0; background: linear-gradient(0deg, rgb(20 33 49 / 0.75), transparent 60%); }
+  .stage__media :global(img) { width: 100%; height: 100%; object-fit: cover; transition: transform 900ms var(--ease-out); }
+  .stage__media:hover :global(img) { transform: scale(1.06); }
+  .stage__label { position: absolute; left: 1.5rem; bottom: 1.25rem; z-index: 1; display: flex; align-items: center; gap: 0.75rem; }
+  .stage__label h2 { color: #fff; font-size: clamp(1.75rem, 1.4rem + 1.2vw, 2.4rem); }
+  .stage__ic { display: grid; place-items: center; width: 48px; height: 48px; border-radius: 14px; background: var(--tone); color: #fff; }
+  .stage__go { position: absolute; right: 1.25rem; top: 1.25rem; z-index: 1; display: grid; place-items: center; width: 46px; height: 46px; border-radius: 50%; background: rgb(255 255 255 / 0.9); color: var(--navy-800); transition: transform var(--dur-3) var(--ease-out); }
+  .stage__media:hover .stage__go { transform: rotate(45deg); }
+  .stage__body { display: grid; gap: 1.75rem; padding: 2rem 1.75rem 2.25rem; }
+
+  .path { --n: 4; position: relative; display: grid; grid-template-columns: repeat(var(--n), 1fr); list-style: none; padding: 0; margin: 0; counter-reset: none; }
+  .path::before { content: ''; position: absolute; left: calc(50% / var(--n)); right: calc(50% / var(--n)); top: 19px; height: 3px; border-radius: 3px; background: linear-gradient(90deg, var(--tone-bg), var(--tone)); }
+  .path li { position: relative; display: grid; justify-items: center; gap: 0.6rem; text-align: center; }
+  .path__dot { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: #fff; border: 3px solid var(--tone); color: var(--tone); font-weight: 800; font-size: var(--fs-sm); transition: background-color var(--dur-2), color var(--dur-2), transform var(--dur-3) var(--ease-out); }
+  .path li:last-child .path__dot { background: var(--tone); color: #fff; }
+  .path li:hover .path__dot { transform: scale(1.12); background: var(--tone); color: #fff; }
+  .path__txt { font-weight: 700; font-size: clamp(0.72rem, 0.65rem + 0.3vw, 0.9rem); color: var(--ink); line-height: 1.25; }
+  .stage__quote { position: relative; display: flex; gap: 0.75rem; align-items: flex-start; padding: 1.1rem 1.25rem; border-radius: var(--radius); background: var(--tone-bg); color: var(--navy-800); font-weight: 600; line-height: 1.5; }
+  .stage__quote :global(svg) { flex: none; color: var(--tone); margin-top: 0.15em; }
+  @media (max-width: 520px) {
+    .path[style*='--n:6'] { grid-template-columns: repeat(3, 1fr); row-gap: 1.25rem; }
+    .path[style*='--n:6']::before { display: none; }
+    .pf-hero__visual { width: 160px; }
+  }
+
+  /* Egresados */
+  .grads-sec { background: linear-gradient(180deg, var(--paper-2), #fff); }
+  .grads { display: grid; gap: 1.5rem; margin-top: 3rem; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); }
+  .grad { --tone: var(--navy-600); --tone-bg: var(--sky-100); position: relative; overflow: hidden; display: grid; align-content: start; gap: 0.9rem; padding: 2rem 1.75rem 1.9rem; border-radius: 26px; background: #fff; box-shadow: 0 1px 2px rgb(20 33 49 / 0.06), 0 12px 30px -20px rgb(20 33 49 / 0.35); isolation: isolate; transition: transform var(--dur-3) var(--ease-out), box-shadow var(--dur-3); }
+  .grad::before { content: ''; position: absolute; inset: 0 0 auto; height: 110px; z-index: -1; background: linear-gradient(180deg, var(--tone-bg), transparent); }
+  .grad::after { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 5px; background: var(--tone); transform: scaleY(0.25); transform-origin: top; transition: transform var(--dur-3) var(--ease-out); }
+  .grad--sage { --tone: var(--sage-500); --tone-bg: var(--sage-100); }
+  .grad--clay { --tone: var(--clay-500); --tone-bg: var(--clay-100); }
+  .grad--sky { --tone: #6f97ab; --tone-bg: #e8f1f5; }
+  .grad__num { position: absolute; right: 1.25rem; top: 0.75rem; z-index: -1; font-size: 4.25rem; font-weight: 800; line-height: 1; letter-spacing: -0.04em; color: #fff; -webkit-text-stroke: 1.5px var(--tone); opacity: 0.35; }
+  .grad__ic { display: grid; place-items: center; width: 56px; height: 56px; border-radius: 16px; background: var(--tone); color: #fff; box-shadow: 0 10px 20px -10px var(--tone); transition: transform var(--dur-3) var(--ease-out); }
+  .grad h3 { font-size: var(--fs-lg); line-height: 1.3; color: var(--navy-900); }
   .grad p { font-size: var(--fs-sm); color: var(--ink-2); }
+  @media (hover: hover) and (pointer: fine) {
+    .grad:hover { transform: translateY(-6px); box-shadow: 0 2px 4px rgb(20 33 49 / 0.06), 0 26px 50px -22px rgb(20 33 49 / 0.45); }
+    .grad:hover::after { transform: scaleY(1); }
+    .grad:hover .grad__ic { transform: rotate(-8deg) scale(1.06); }
+  }
 </style>

@@ -12,6 +12,7 @@ interface Props { lang: Lang }
 const { lang } = Astro.props;
 const d = data[lang];
 const ui = t(lang);
+const tones = ['navy', 'sage', 'clay', 'sky'];
 const tabImgs = [img.fachadaPrincipal, img.patioCentral, img.patioVentanales, img.jardinJuegos];
 ---
 <Base lang={lang} routeKey="history" title={d.meta.title} description={d.meta.description} image={img.patioCentral} crumbs={[{ name: ui.nav.history, key: 'history' }]}>
@@ -66,25 +67,32 @@ const tabImgs = [img.fachadaPrincipal, img.patioCentral, img.patioVentanales, im
         <h2>{d.philosophy.title}</h2>
       </div>
       <Statement {...d.philosophy.subtitle} class="phil__sub" />
-      <div class="phil" data-carousel>
-        <div class="phil__card">
+      <div class="phil" data-carousel data-autoplay="6000">
+        <div class="phil__panel">
           <ul class="phil__track" role="list" data-track>
-            {d.philosophy.items.map((it) => (
-              <li class="phil__slide">
-                <span class="phil__quote" aria-hidden="true"><Icon name="quote" size={22} /></span>
-                <h3>{it.title}</h3>
-                <p class="text-j">{it.text}</p>
-              </li>
-            ))}
+            {d.philosophy.items.map((it) => {
+              const m = it.title.match(/^(\d+)\.\s*(.*)$/);
+              const num = m ? m[1].padStart(2, '0') : '';
+              return (
+                <li class="phil__slide">
+                  <span class="phil__num" aria-hidden="true">{num}</span>
+                  <div class="phil__txt">
+                    <h3>{m ? m[2] : it.title}</h3>
+                    <p class="text-j">{it.text}</p>
+                  </div>
+                </li>
+              );
+            })}
           </ul>
           <div class="phil__nav">
-            <button class="icon-btn" type="button" data-prev aria-label={ui.prev}><Icon name="arrow-left" /></button>
-            <span data-counter class="phil__count" aria-hidden="true"></span>
-            <button class="icon-btn" type="button" data-next aria-label={ui.next}><Icon name="arrow-right" /></button>
+            <button class="icon-btn phil__btn" type="button" data-prev aria-label={ui.prev}><Icon name="arrow-left" /></button>
+            <div class="cdots cdots--light" data-dots></div>
+            <button class="icon-btn phil__btn" type="button" data-next aria-label={ui.next}><Icon name="arrow-right" /></button>
           </div>
         </div>
-        <div class="phil__img">
-          <Img src={img.ninaPrimaria} alt={d.philosophy.imgAlt} sizes="(min-width: 960px) 340px, 70vw" widths={[360, 622]} />
+        <div class="phil__img" aria-hidden="true">
+          <span class="phil__ring"></span>
+          <Img src={img.ninaPrimaria} alt="" sizes="(min-width: 960px) 300px, 60vw" widths={[360, 622]} />
         </div>
       </div>
     </div>
@@ -95,20 +103,21 @@ const tabImgs = [img.fachadaPrincipal, img.patioCentral, img.patioVentanales, im
   <section class="section">
     <div class="container">
       <h2 class="center" data-reveal>{d.principles.title}</h2>
-      <div class="prin" data-carousel>
+      <div class="prin" data-carousel data-autoplay="4000">
         <ul class="prin__track" role="list" data-track>
           {d.principles.items.map((p, i) => (
-            <li class="prin__card">
+            <li class:list={['prin__card', `prin__card--${tones[i % 4]}`]}>
               <span class="icon-badge"><Icon name={p.icon} /></span>
               <h3>{p.title}</h3>
               <p class="text-j">{p.text}</p>
               <span class="prin__tag">{d.principles.label} #{i + 1}</span>
+              <span class="prin__num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
             </li>
           ))}
         </ul>
         <div class="prin__nav">
           <button class="icon-btn" type="button" data-prev aria-label={ui.prev}><Icon name="arrow-left" /></button>
-          <span data-counter class="phil__count" aria-hidden="true"></span>
+          <div class="cdots" data-dots></div>
           <button class="icon-btn" type="button" data-next aria-label={ui.next}><Icon name="arrow-right" /></button>
         </div>
       </div>
@@ -147,30 +156,44 @@ const tabImgs = [img.fachadaPrincipal, img.patioCentral, img.patioVentanales, im
   @keyframes marquee { to { transform: translateX(-50%); } }
   @media (prefers-reduced-motion: reduce) { .marquee__track { animation: none; } }
 
-  :global(.phil__sub) { margin-top: -2rem; margin-bottom: 3rem; }
-  .phil { display: grid; gap: 1.5rem; align-items: stretch; border-radius: var(--radius-xl); background: linear-gradient(120deg, var(--navy-700), #7f9db3); padding: clamp(1.25rem, 3vw, 2.5rem); }
-  .phil__card { display: grid; align-content: space-between; gap: 1.5rem; min-width: 0; }
+:global(.phil__sub) { margin-top: -2rem; margin-bottom: 4.5rem; }
+  .phil { position: relative; display: grid; align-items: end; border-radius: var(--radius-xl); background: linear-gradient(120deg, var(--navy-800), var(--navy-600) 55%, #7f9db3); isolation: isolate; }
+  .phil::before { content: ''; position: absolute; inset: 0; border-radius: inherit; z-index: -1; background-image: radial-gradient(rgb(255 255 255 / 0.12) 1.2px, transparent 1.4px); background-size: 18px 18px; mask-image: linear-gradient(90deg, transparent, #000 70%); }
+  .phil__panel { min-width: 0; display: grid; gap: 1.75rem; padding: clamp(1.75rem, 4vw, 3rem); }
   .phil__track { display: grid; grid-auto-flow: column; grid-auto-columns: 100%; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
   .phil__track::-webkit-scrollbar { display: none; }
-  .phil__slide { scroll-snap-align: start; display: grid; gap: 1rem; align-content: start; padding-right: 1rem; color: #e6eef5; }
-  .phil__slide h3 { color: #fff; font-size: var(--fs-xl); }
-  .phil__quote { display: grid; place-items: center; width: 48px; height: 48px; border-radius: 50%; background: rgb(255 255 255 / 0.15); color: #fff; }
-  .phil__nav, .prin__nav { display: flex; align-items: center; gap: 1rem; }
-  .phil__nav button:disabled, .prin__nav button:disabled { opacity: 0.4; pointer-events: none; }
-  .phil__nav .phil__count { color: #fff; }
-  .phil__count { min-width: 3.5em; text-align: center; font-variant-numeric: tabular-nums; font-weight: 600; color: var(--navy-700); }
-  .phil__img { justify-self: center; align-self: end; width: min(100%, 300px); margin-bottom: calc(-1 * clamp(1.25rem, 3vw, 2.5rem)); }
-  .phil__img :global(img) { width: 100%; height: auto; filter: drop-shadow(0 20px 30px rgb(0 0 0 / 0.25)); }
-  @media (min-width: 900px) { .phil { grid-template-columns: 1.3fr 0.7fr; } }
+  .phil__slide { scroll-snap-align: start; display: grid; grid-template-columns: auto 1fr; gap: 0.5rem 1.75rem; align-items: start; color: #e6eef5; }
+  .phil__num { font-size: clamp(3.5rem, 2.5rem + 4vw, 6rem); font-weight: 800; line-height: 0.85; color: transparent; -webkit-text-stroke: 1.5px rgb(255 255 255 / 0.55); letter-spacing: -0.04em; }
+  .phil__txt { display: grid; gap: 0.9rem; }
+  .phil__slide h3 { color: #fff; font-size: clamp(1.3rem, 1.1rem + 0.8vw, 1.75rem); line-height: 1.25; }
+  .phil__slide p { font-size: var(--fs-lg); color: #dbe6ef; }
+  .phil__nav { display: flex; align-items: center; gap: 1.25rem; }
+  .phil :global(.phil__btn) { background: rgb(255 255 255 / 0.1); border-color: rgb(255 255 255 / 0.25); color: #fff; }
+  .phil :global(.phil__btn:hover) { background: #fff; color: var(--navy-800); }
+  .phil__img { position: relative; justify-self: center; width: min(70vw, 290px); margin-top: -70px; }
+  .phil__img :global(img) { position: relative; width: 100%; height: auto; filter: drop-shadow(0 20px 30px rgb(0 0 0 / 0.3)); }
+  .phil__ring { position: absolute; left: 50%; bottom: 0; width: 120%; aspect-ratio: 1; translate: -50% 18%; border-radius: 50%; background: rgb(255 255 255 / 0.1); box-shadow: inset 0 0 0 14px rgb(255 255 255 / 0.05); }
+  .phil__img { clip-path: inset(-400px -60px 0 -60px); }
+  @media (min-width: 900px) { .phil { grid-template-columns: 1fr 320px; } .phil__img { margin-top: -90px; padding-top: 90px; margin-right: 1rem; overflow: visible; } }
+  @media (max-width: 640px) { .phil__slide { grid-template-columns: 1fr; } }
 
   .prin { margin-top: 2.5rem; }
-  .prin__track { display: grid; grid-auto-flow: column; grid-auto-columns: min(82%, 300px); gap: 1.25rem; overflow-x: auto; scroll-snap-type: x mandatory; padding: 0.25rem 2px 1.5rem; scrollbar-width: none; }
+  .prin__track { display: grid; grid-auto-flow: column; grid-auto-columns: min(82%, 300px); gap: 1.25rem; overflow-x: auto; scroll-snap-type: x mandatory; padding: 0.75rem 4px 1.75rem; scrollbar-width: none; }
   .prin__track::-webkit-scrollbar { display: none; }
   @media (min-width: 1100px) { .prin__track { grid-auto-columns: calc((100% - 3 * 1.25rem) / 4); } }
-  .prin__card { scroll-snap-align: start; display: flex; flex-direction: column; gap: 0.9rem; padding: 1.75rem; border: 1px solid var(--line); border-radius: var(--radius-lg); background: #fff; transition: border-color var(--dur-2), box-shadow var(--dur-2), transform var(--dur-3) var(--ease-out); }
-  .prin__card:hover { border-color: var(--sky-300); box-shadow: var(--shadow); transform: translateY(-3px); }
+  .prin__card { --tone: var(--navy-600); --tone-bg: var(--sky-100); position: relative; overflow: hidden; scroll-snap-align: start; display: flex; flex-direction: column; gap: 0.9rem; padding: 1.75rem; border-radius: 24px; background: #fff; box-shadow: 0 1px 2px rgb(20 33 49 / 0.06), 0 12px 30px -18px rgb(20 33 49 / 0.35); border-top: 5px solid var(--tone); transition: box-shadow var(--dur-3), transform var(--dur-3) var(--ease-out); }
+  .prin__card--sage { --tone: var(--sage-500); --tone-bg: var(--sage-100); }
+  .prin__card--clay { --tone: var(--clay-500); --tone-bg: var(--clay-100); }
+  .prin__card--sky { --tone: #6f97ab; --tone-bg: var(--sky-100); }
+  .prin__card :global(.icon-badge) { background: var(--tone-bg); color: var(--tone); transition: transform var(--dur-3) var(--ease-out); }
+  .prin__num { position: absolute; right: 1rem; top: 0.25rem; font-size: 4.5rem; font-weight: 800; line-height: 1; color: var(--tone-bg); letter-spacing: -0.04em; z-index: 0; pointer-events: none; }
+  .prin__card > :not(.prin__num) { position: relative; z-index: 1; }
+  @media (hover: hover) and (pointer: fine) {
+    .prin__card:hover { transform: translateY(-6px); box-shadow: 0 2px 4px rgb(20 33 49 / 0.06), 0 26px 50px -22px rgb(20 33 49 / 0.45); }
+    .prin__card:hover :global(.icon-badge) { transform: rotate(-8deg) scale(1.08); }
+  }
   .prin__card h3 { font-size: var(--fs-lg); }
   .prin__card p { font-size: var(--fs-sm); color: var(--ink-3); flex: 1; }
-  .prin__tag { align-self: start; padding: 0.35rem 0.8rem; border: 1px solid var(--line); border-radius: 8px; font-size: var(--fs-xs); font-weight: 600; color: var(--navy-700); }
-  .prin__nav { justify-content: center; }
+  .prin__tag { align-self: start; padding: 0.35rem 0.8rem; border-radius: 8px; background: var(--tone-bg); font-size: var(--fs-xs); font-weight: 700; color: var(--tone); }
+  .prin__nav { display: flex; align-items: center; justify-content: center; gap: 1.25rem; }
 </style>

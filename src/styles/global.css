@@ -249,6 +249,20 @@
   .js [data-reveal].is-visible { opacity: 1; transform: none; }
   @media (prefers-reduced-motion: reduce) { .js [data-reveal] { opacity: 1; transform: none; transition: none; } }
 
+  /* Puntos de carrusel con barra de progreso del avance automático */
+  .cdots { display: flex; align-items: center; justify-content: center; gap: 8px; }
+  .cdot { position: relative; width: 10px; height: 10px; border-radius: 999px; background: var(--sky-200); overflow: hidden; transition: width var(--dur-3) var(--ease-out), background-color var(--dur-2); }
+  .cdot:hover { background: var(--sky-300); }
+  .cdot[aria-current='true'] { width: 38px; background: var(--sky-200); }
+  .cdot[aria-current='true']::after { content: ''; position: absolute; inset: 0; border-radius: inherit; background: var(--navy-700); transform-origin: left; transform: scaleX(1); }
+  .is-ticking .cdot[aria-current='true']::after { animation: cdotFill var(--autoplay, 5000ms) linear forwards; }
+  .is-paused .cdot[aria-current='true']::after { animation-play-state: paused; }
+  @keyframes cdotFill { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+  .cdots--light .cdot { background: rgb(255 255 255 / 0.3); }
+  .cdots--light .cdot[aria-current='true'] { background: rgb(255 255 255 / 0.3); }
+  .cdots--light .cdot[aria-current='true']::after { background: #fff; }
+  .is-static [data-prev], .is-static [data-next], .is-static .cdots { display: none; }
+
   /* Ola inferior (nubes) */
   .wave { display: block; width: 100%; height: auto; color: #fff; }
 
