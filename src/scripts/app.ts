@@ -324,6 +324,7 @@ $$('[data-carousel]').forEach((root) => {
 /* ---------- Videos de fondo: sólo se reproducen en pantalla y sin movimiento reducido ---------- */
 $$<HTMLVideoElement>('video[data-bgvideo]').forEach((v) => {
   if (reduceMotion) return;
+  v.addEventListener('playing', () => v.classList.add('is-playing'), { once: true });
   new IntersectionObserver(([e]) => {
     if (e.isIntersecting) v.play().catch(() => {});
     else v.pause();
