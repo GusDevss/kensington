@@ -13,7 +13,7 @@ const isActive = (key?: RouteKey) => key === routeKey;
 <header class="header" data-header>
   <div class="container header__in">
     <a href={routes.home[lang]} class="header__logo" aria-label={`Kensington Academy — ${ui.breadcrumbHome}`}>
-      <img src="/brand/logo.svg" alt="Kensington Academy" width="150" height="64" />
+      <img src="/brand/logo.svg" alt="Kensington Academy" width="172" height="64" />
     </a>
 
     <nav class="nav" aria-label={lang === 'es' ? 'Principal' : 'Main'}>
@@ -64,7 +64,7 @@ const isActive = (key?: RouteKey) => key === routeKey;
   .header.is-scrolled { border-color: var(--line); box-shadow: 0 6px 20px -16px rgb(20 33 49 / 0.4); }
   .header__in { display: flex; align-items: center; gap: 1.5rem; height: var(--header-h); }
   .header__logo { flex: none; display: block; }
-  .header__logo img { width: clamp(118px, 9vw + 50px, 150px); height: auto; }
+  .header__logo img { width: clamp(132px, 9vw + 60px, 172px); height: auto; }
 
   .nav { margin-inline: auto; display: none; }
   .nav__list { display: flex; align-items: center; gap: 0.25rem; }
