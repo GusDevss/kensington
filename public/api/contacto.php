@@ -3,12 +3,14 @@
  * Kensington Academy — receptor de formularios (Agendar visita y Suscripción).
  * Compatible con el hosting compartido de Hostinger (PHP 8+, función mail()).
  *
- * CONFIGURACIÓN: cambia los correos de abajo si es necesario.
+ * CONFIGURACIÓN: cambia los correos de abajo si es necesario (destinatario y copias).
  * Recomendado: crea en hPanel el buzón no-reply@kacademy.com.mx para mejorar la entrega.
  */
 declare(strict_types=1);
 
 const TO_EMAIL   = 'kensingtonescucha@gmail.com';
+// Copias de cada envío (separadas por comas)
+const CC_EMAILS  = 'programacionmkt@mediamaster.mx, traffickermkt@mediamaster.mx, gerenciamkt@mediamaster.mx';
 const FROM_EMAIL = 'no-reply@kacademy.com.mx';
 const FROM_NAME  = 'Sitio web Kensington Academy';
 
@@ -64,6 +66,7 @@ $headers = [
     'MIME-Version: 1.0',
     'Content-Type: text/plain; charset=UTF-8',
     'From: =?UTF-8?B?' . base64_encode(FROM_NAME) . '?= <' . FROM_EMAIL . '>',
+    'Cc: ' . CC_EMAILS,
     'Reply-To: ' . $email,
     'X-Mailer: PHP/' . PHP_VERSION,
 ];

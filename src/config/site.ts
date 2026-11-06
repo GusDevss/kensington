@@ -4,6 +4,8 @@ export const site = {
   legalName: 'K Academy Sociedad Civil',
   phone: '442 434 7600',
   phoneHref: 'tel:+524424347600',
+  /** Botón flotante de WhatsApp (número con lada de país, sin espacios) */
+  whatsapp: '524424347600',
   email: 'kensingtonescucha@gmail.com',
   privacyEmail: 'keyacademy25@gmail.com',
   address: {

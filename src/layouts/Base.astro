@@ -13,6 +13,7 @@ import TopBar from '@/components/layout/TopBar.astro';
 import Header from '@/components/layout/Header.astro';
 import Footer from '@/components/layout/Footer.astro';
 import Drawer from '@/components/layout/Drawer.astro';
+import WhatsApp from '@/components/layout/WhatsApp.astro';
 import SearchDialog from '@/components/layout/SearchDialog.astro';
 import VideoDialog from '@/components/ui/VideoDialog.astro';
 
@@ -139,6 +140,7 @@ const allSchema = [...baseSchema, ...schema];
     </main>
     <Footer lang={lang} />
     <Drawer lang={lang} routeKey={routeKey} />
+    <WhatsApp lang={lang} />
     <SearchDialog lang={lang} />
     <VideoDialog closeLabel={ui.close} />
     <script>
