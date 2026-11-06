@@ -164,12 +164,16 @@
     color: var(--navy-700); padding: 0.35rem 0.8rem; border: 1px solid var(--line); border-radius: 999px; background: #fff;
   }
   .eyebrow::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
-  .section-head { text-align: center; max-width: 980px; margin-inline: auto; margin-bottom: clamp(2.5rem, 2rem + 2vw, 4rem); }
+  .section-head { text-align: center; max-width: 1100px; margin-inline: auto; margin-bottom: clamp(2.5rem, 2rem + 2vw, 4rem); }
   .section-head > * + * { margin-top: 1rem; }
   .section-head p { color: var(--ink-3); font-size: var(--fs-lg); }
   .lead { font-size: var(--fs-lg); color: var(--ink-2); }
   .muted { color: var(--ink-3); }
 
+  /* Todos los párrafos justificados (petición del cliente); las frases destacadas quedan centradas */
+  main p:not(.statement):not(.eyebrow) { text-align: justify; text-justify: inter-word; hyphens: auto; -webkit-hyphens: auto; }
+  main .section-head p, main .center p { text-align-last: center; }
+  main p.no-j:not(.statement), main .no-j p:not(.statement):not(.eyebrow) { text-align: left; hyphens: manual; }
   /* Texto largo justificado (petición del cliente) */
   .text-j { text-align: justify; text-justify: inter-word; hyphens: auto; -webkit-hyphens: auto; }
 

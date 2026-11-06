@@ -201,7 +201,7 @@ const arcs = [arc(200, 290), arc(305, 395), arc(50, 160)];
           <h2>{d.certs.title}</h2>
           <p class="lead">{d.certs.text}</p>
         </div>
-        <ul class="certs__list" role="list">
+        <ul class="certs__list no-j" role="list">
           {d.certs.items.map((c, i) => (
             <li data-reveal style={`--d:${i * 60}ms`}>
               <span class="icon-badge"><Icon name={c.icon} /></span>

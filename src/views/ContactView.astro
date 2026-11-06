@@ -70,7 +70,7 @@ const c = es
         </form>
       </div>
 
-      <aside class="ct__aside">
+      <aside class="ct__aside no-j">
         <div>
           <h2>{c.direct}</h2>
           <ul role="list">
@@ -95,7 +95,7 @@ const c = es
   .ct__media :global(img) { width: 100%; height: 100%; object-fit: cover; }
   .ct__media::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgb(30 48 69 / 0.6), rgb(30 48 69 / 0.85)); }
   .ct__wrap { position: relative; display: grid; gap: 1.5rem; padding-top: 6rem; }
-  @media (min-width: 1024px) { .ct__wrap { grid-template-columns: 1.5fr 0.8fr; align-items: start; } .ct__aside { margin-top: 3rem; } }
+  @media (min-width: 1024px) { .ct__wrap { grid-template-columns: 1.5fr 0.8fr; align-items: stretch; } .ct__aside { align-content: start; } }
   .ct__card { display: grid; gap: 1rem; justify-items: start; padding: clamp(1.5rem, 4vw, 3rem); border-radius: var(--radius-xl); background: #fff; box-shadow: var(--shadow-lg); }
   .ct__card h1 { font-size: var(--fs-3xl); }
   .form { display: grid; gap: 1rem; width: 100%; margin-top: 1rem; }
@@ -115,9 +115,9 @@ const c = es
   .form__msg.is-ok { color: var(--teal-500); font-weight: 600; }
   .form__msg.is-err { color: #b42318; }
   .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
-  .ct__aside { display: grid; gap: 2rem; padding: 2rem; border-radius: var(--radius-xl); background: #fff; border: 1px solid var(--line); }
+  .ct__aside { display: grid; gap: 2rem; padding: clamp(1.5rem, 4vw, 3rem); border-radius: var(--radius-xl); background: #fff; box-shadow: var(--shadow-lg); }
   .ct__aside h2 { font-size: var(--fs-lg); margin-bottom: 0.9rem; }
   .ct__aside ul { display: grid; gap: 0.75rem; }
-  .ct__aside li a { display: flex; align-items: center; gap: 0.9rem; font-weight: 500; color: var(--ink); overflow-wrap: anywhere; }
+  .ct__aside li a { display: flex; align-items: center; gap: 0.9rem; font-weight: 500; color: var(--ink); overflow-wrap: anywhere; font-size: var(--fs-sm); }
   .ct__aside p { margin-bottom: 1rem; font-size: var(--fs-sm); }
 </style>
