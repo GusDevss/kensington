@@ -109,7 +109,7 @@ const arcs = [arc(200, 290), arc(305, 395), arc(50, 160)];
       <div class="welcome__media" data-reveal>
         <div class="welcome__blob" aria-hidden="true"></div>
         <div class="welcome__dots dots" aria-hidden="true"></div>
-        <figure class="welcome__main"><Img src={img.aulaKinder} alt={d.welcome.img2Alt} sizes="(min-width: 1024px) 440px, 80vw" widths={[440, 872]} /></figure>
+        <figure class="welcome__main"><Img src={img.patioProyectos} alt={d.welcome.img2Alt} sizes="(min-width: 1024px) 440px, 80vw" widths={[440, 872]} /></figure>
         <figure class="welcome__sub"><Img src={img.kinderJuegos} alt={d.welcome.img1Alt} sizes="(min-width: 1024px) 240px, 45vw" widths={[300, 600]} /></figure>
         <div class="welcome__badge">
           <img src="/brand/escudo.svg" alt="" width="44" height="44" />
@@ -166,7 +166,9 @@ const arcs = [arc(200, 290), arc(305, 395), arc(50, 160)];
       </div>
     </div>
     <div class="world__video">
-      <Img src={img.patioCentral} alt="" sizes="100vw" widths={[768, 1280, 2000]} />
+      <video class="world__bg" data-bgvideo muted loop playsinline preload="none" poster="/video/patio-carrera.jpg" aria-hidden="true">
+        <source src="/video/patio-carrera.mp4" type="video/mp4" />
+      </video>
       <div class="world__video-in">
         <p class="world__did" aria-hidden="true">{d.world.did}</p>
         <button class="world__play" type="button" data-yt={site.videos.home} aria-label={d.world.play}><Icon name="play" size={30} /></button>
@@ -226,8 +228,8 @@ const arcs = [arc(200, 290), arc(305, 395), arc(50, 160)];
       </div>
       <div class="levels__grid">
         {[
-          { ...d.levels.kinder, href: routes.kinder[lang], src: img.ninoKinder, tone: 'sage' },
-          { ...d.levels.primary, href: routes.primary[lang], src: img.ninaPrimaria, tone: 'clay' },
+          { ...d.levels.kinder, href: routes.kinder[lang], src: img.ninaKinder, tone: 'sage' },
+          { ...d.levels.primary, href: routes.primary[lang], src: img.ninoPrimaria, tone: 'clay' },
         ].map((c, i) => (
           <a class:list={['level', `level--${c.tone}`]} href={c.href} data-reveal style={`--d:${i * 100}ms`}>
             <span class="level__card" aria-hidden="true">
@@ -306,7 +308,7 @@ const arcs = [arc(200, 290), arc(305, 395), arc(50, 160)];
   .hero__kid--1 { width: 46%; z-index: 2; }
   .js .hero__kid { animation: rise 1000ms var(--ease-out) both; }
   .js .hero__kid--1 { animation-delay: 250ms; } .js .hero__kid--0 { animation-delay: 450ms; } .js .hero__kid--2 { animation-delay: 600ms; }
-  .hero__chips { position: absolute; inset: 0; pointer-events: none; }
+  .hero__chips { position: absolute; inset: 0; z-index: 3; pointer-events: none; }
   .hero__chip { position: absolute; display: inline-flex; align-items: center; gap: 0.55rem; padding: 0.55rem 0.95rem 0.55rem 0.55rem; border-radius: 999px; background: rgb(255 255 255 / 0.92); color: var(--navy-900); font-size: var(--fs-xs); font-weight: 600; white-space: nowrap; box-shadow: 0 12px 30px -10px rgb(0 0 0 / 0.45); }
   .js .hero__chip { animation: chipIn 700ms var(--ease-out) both, bob 3.6s ease-in-out infinite; }
   @keyframes bob { 0%, 100% { translate: 0 0; } 50% { translate: 0 -14px; } }
@@ -407,7 +409,7 @@ const arcs = [arc(200, 290), arc(305, 395), arc(50, 160)];
   .world__channel:hover .world__arrow { transform: rotate(45deg); }
   @media (min-width: 900px) { .world__in { grid-template-columns: 1fr auto; } }
   .world__video { position: relative; height: clamp(320px, 44vw, 640px); overflow: hidden; }
-  .world__video :global(img) { width: 100%; height: 100%; object-fit: cover; }
+  .world__bg { width: 100%; height: 100%; object-fit: cover; }
   .world__video-in { position: absolute; inset: 0; display: grid; place-items: center; background: rgb(20 33 49 / 0.25); }
   .world__did { grid-area: 1 / 1; font-size: clamp(3rem, 2rem + 6vw, 7.5rem); font-weight: 800; color: rgb(255 255 255 / 0.55); text-transform: uppercase; letter-spacing: -0.02em; text-align: center; line-height: 0.95; max-width: 8ch; }
   .world__play { grid-area: 1 / 1; display: grid; place-items: center; width: 92px; height: 92px; border-radius: 50%; background: rgb(255 255 255 / 0.85); color: var(--navy-800); box-shadow: 0 0 0 12px rgb(255 255 255 / 0.25); transition: transform var(--dur-2) var(--ease-out), box-shadow var(--dur-3) var(--ease-out); }
@@ -434,7 +436,7 @@ const arcs = [arc(200, 290), arc(305, 395), arc(50, 160)];
   /* Niveles */
   .levels__grid { display: grid; gap: 1.5rem 2rem; max-width: 1080px; margin-inline: auto; }
   @media (min-width: 860px) { .levels__grid { grid-template-columns: 1fr 1fr; } }
-  .level { position: relative; display: grid; align-items: center; min-height: 330px; padding-top: 70px; isolation: isolate; color: #fff; }
+  .level { position: relative; display: grid; align-items: center; min-height: 330px; padding-top: 70px; margin-top: 1.5rem; isolation: isolate; color: #fff; }
   .level__card { position: absolute; inset: 70px 0 0; z-index: -1; overflow: hidden; border-radius: 28px; transition: transform var(--dur-3) var(--ease-out), box-shadow var(--dur-3) var(--ease-out); }
   .level__card::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgb(255 255 255 / 0.07) 1px, transparent 1px), linear-gradient(90deg, rgb(255 255 255 / 0.07) 1px, transparent 1px); background-size: 34px 34px; }
   .level--sage .level__card { background: linear-gradient(135deg, #b2c3a8, var(--sage-400) 55%, #98ad8d); }
@@ -450,7 +452,7 @@ const arcs = [arc(200, 290), arc(305, 395), arc(50, 160)];
   .level__text { color: rgb(255 255 255 / 0.95); font-weight: 500; line-height: 1.5; }
   .level__btn { display: inline-flex; align-items: center; gap: 0.5rem; margin-top: 0.75rem; padding: 0.8rem 1.6rem; border-radius: 999px; background: #fff; color: var(--navy-900); font-weight: 600; font-size: var(--fs-sm); box-shadow: 0 8px 20px -10px rgb(0 0 0 / 0.4); transition: transform var(--dur-2) var(--ease-out), box-shadow var(--dur-2); }
   .level__btn--grad { background: linear-gradient(90deg, var(--navy-700), #8fb4c6); color: #fff; }
-  .level :global(.level__img) { position: absolute; right: 4%; bottom: 0; z-index: 1; width: clamp(170px, 38%, 230px); height: auto; transform-origin: bottom center; transition: transform var(--dur-3) var(--ease-out); filter: drop-shadow(0 16px 20px rgb(0 0 0 / 0.18)); }
+  .level :global(.level__img) { position: absolute; right: 5%; bottom: 0; z-index: 1; width: auto; height: clamp(250px, 26vw, 315px); max-width: 42%; object-fit: contain; object-position: bottom; transform-origin: bottom center; transition: transform var(--dur-3) var(--ease-out); filter: drop-shadow(0 16px 20px rgb(0 0 0 / 0.18)); }
   @media (hover: hover) and (pointer: fine) {
     .level:hover .level__card { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
     .level:hover :global(.level__img) { transform: translateY(-4px) scale(1.04); }

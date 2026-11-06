@@ -13,7 +13,8 @@ const { lang } = Astro.props;
 const d = data[lang];
 const ui = t(lang);
 const tones = ['navy', 'sage', 'clay', 'sky'];
-const tabImgs = [img.campus1, img.aereaCampus1, img.campus17, img.campus19];
+const tabImgs = [img.aulaMaqueta, img.patioProyectos, img.aereaCampus1, img.entradaFamilias];
+const philKids = [img.ninaRubia, img.ninoRubio, img.ninoCastano, img.ninaKinder, img.ninoPrimaria];
 ---
 <Base lang={lang} routeKey="history" title={d.meta.title} description={d.meta.description} image={img.patioCentral} crumbs={[{ name: ui.nav.history, key: 'history' }]}>
   <section class="section-sm hintro">
@@ -92,7 +93,9 @@ const tabImgs = [img.campus1, img.aereaCampus1, img.campus17, img.campus19];
         </div>
         <div class="phil__img" aria-hidden="true">
           <span class="phil__ring"></span>
-          <Img src={img.ninaPrimaria} alt="" sizes="(min-width: 960px) 300px, 60vw" widths={[360, 622]} />
+          {d.philosophy.items.map((_, i) => (
+            <div class:list={['phil__kid', { 'is-on': i === 0 }]} data-pane={i}><Img src={philKids[i % philKids.length]} alt="" sizes="(min-width: 960px) 300px, 60vw" widths={[360, 600]} /></div>
+          ))}
         </div>
       </div>
     </div>
@@ -171,7 +174,11 @@ const tabImgs = [img.campus1, img.aereaCampus1, img.campus17, img.campus19];
   .phil :global(.phil__btn) { background: rgb(255 255 255 / 0.1); border-color: rgb(255 255 255 / 0.25); color: #fff; }
   .phil :global(.phil__btn:hover) { background: #fff; color: var(--navy-800); }
   .phil__img { position: relative; justify-self: center; width: min(70vw, 290px); margin-top: -70px; }
-  .phil__img :global(img) { position: relative; width: 100%; height: auto; filter: drop-shadow(0 20px 30px rgb(0 0 0 / 0.3)); }
+  .phil__img { display: grid; align-items: end; }
+  .phil__kid :global(img) { display: block; width: auto; height: clamp(300px, 34vw, 430px); max-width: 100%; margin-inline: auto; object-fit: contain; object-position: bottom; }
+  .phil__kid { grid-area: 1 / 1; position: relative; filter: drop-shadow(0 20px 30px rgb(0 0 0 / 0.3)); opacity: 0; transform: translateY(14px) scale(0.97); transform-origin: bottom center; transition: opacity 500ms var(--ease-out), transform 600ms var(--ease-out); }
+  .phil__kid.is-on { opacity: 1; transform: none; }
+  .phil__ring { grid-area: 1 / 1; }
   .phil__ring { position: absolute; left: 50%; bottom: 0; width: 120%; aspect-ratio: 1; translate: -50% 18%; border-radius: 50%; background: rgb(255 255 255 / 0.1); box-shadow: inset 0 0 0 14px rgb(255 255 255 / 0.05); }
   .phil__img { clip-path: inset(-400px -60px 0 -60px); }
   @media (min-width: 900px) { .phil { grid-template-columns: 1fr 320px; } .phil__img { margin-top: -90px; padding-top: 90px; margin-right: 1rem; overflow: visible; } }

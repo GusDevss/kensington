@@ -274,6 +274,7 @@ $$('[data-carousel]').forEach((root) => {
     const i = index();
     dots.forEach((d, j) => d.setAttribute('aria-current', String(j === i)));
     if (counter) counter.textContent = `${i + 1} / ${n}`;
+    root.querySelectorAll<HTMLElement>('[data-pane]').forEach((p) => p.classList.toggle('is-on', Number(p.dataset.pane) === i));
     if (!looping && !interval) {
       if (prev) prev.disabled = track.scrollLeft <= 2;
       if (next) next.disabled = track.scrollLeft >= track.scrollWidth - track.clientWidth - 2;
@@ -318,6 +319,15 @@ $$('[data-carousel]').forEach((root) => {
   window.addEventListener('resize', () => { clearTimeout(resizeTimer); resizeTimer = window.setTimeout(() => { setupLoop(); update(); }, 150); });
   setupLoop();
   update();
+});
+
+/* ---------- Videos de fondo: sólo se reproducen en pantalla y sin movimiento reducido ---------- */
+$$<HTMLVideoElement>('video[data-bgvideo]').forEach((v) => {
+  if (reduceMotion) return;
+  new IntersectionObserver(([e]) => {
+    if (e.isIntersecting) v.play().catch(() => {});
+    else v.pause();
+  }, { threshold: 0.15 }).observe(v);
 });
 
 /* ---------- Contadores ---------- */

@@ -22,7 +22,7 @@ export default {
     why: {
       title: '¿Por qué elegir nuestro After School?',
       imgAlt: 'Cancha de fútbol de Kensington Academy',
-      img2Alt: 'Vista aérea de las canchas de Kensington Academy',
+      img2Alt: 'Alumnos corriendo juntos al aire libre',
       items: [
         { title: 'Descubren nuevos talentos', text: 'Cada actividad permite que los estudiantes exploren aquello que les apasiona.', icon: 'sparkles' },
         { title: 'Desarrollan habilidades para la vida', text: 'Fortalecen la disciplina, la creatividad, el liderazgo y el trabajo colaborativo.', icon: 'medal' },
@@ -65,7 +65,7 @@ export default {
     why: {
       title: 'Why choose our After School?',
       imgAlt: 'Kensington Academy soccer field',
-      img2Alt: 'Aerial view of the Kensington Academy courts',
+      img2Alt: 'Students running together outdoors',
       items: [
         { title: 'They discover new talents', text: 'Every activity lets students explore what they are passionate about.', icon: 'sparkles' },
         { title: 'They develop life skills', text: 'They strengthen discipline, creativity, leadership and teamwork.', icon: 'medal' },

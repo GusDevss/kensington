@@ -17,11 +17,18 @@ const copy = {
     ? 'Conoce las instalaciones de Kensington Academy en Corregidora, Querétaro: aulas de Kinder y Primaria, patios, áreas verdes y espacios diseñados para aprender con bienestar.'
     : 'Explore the Kensington Academy facilities in Corregidora, Querétaro: Kindergarten and Elementary classrooms, courtyards, green areas and spaces designed for learning with well-being.',
   filters: es
-    ? [['all', 'Todo'], ['kinder', 'Kinder'], ['primaria', 'Primaria'], ['instalaciones', 'Instalaciones']]
-    : [['all', 'All'], ['kinder', 'Kindergarten'], ['primaria', 'Elementary'], ['instalaciones', 'Facilities']],
+    ? [['all', 'Todo'], ['vida', 'Vida escolar'], ['kinder', 'Kinder'], ['primaria', 'Primaria'], ['instalaciones', 'Instalaciones']]
+    : [['all', 'All'], ['vida', 'School life'], ['kinder', 'Kindergarten'], ['primaria', 'Elementary'], ['instalaciones', 'Facilities']],
 };
 const L = (esTxt: string, enTxt: string) => (es ? esTxt : enTxt);
 const items = [
+  { src: img.patioProyectos, tags: 'vida kinder', alt: L('Alumnos compartiendo sus proyectos', 'Students sharing their projects') },
+  { src: img.aulaMaqueta, tags: 'vida primaria', alt: L('Alumno presentando su maqueta', 'Student presenting his model') },
+  { src: img.jardinLectura, tags: 'vida primaria', alt: L('Alumnas leyendo en el jardín', 'Students reading in the garden') },
+  { src: img.entradaFamilias, tags: 'vida', alt: L('Familias a la llegada', 'Families at drop-off') },
+  { src: img.parqueRehilete, tags: 'vida kinder', alt: L('Niños jugando al aire libre', 'Children playing outdoors') },
+  { src: img.parqueCarrera, tags: 'vida', alt: L('Alumnos corriendo juntos', 'Students running together') },
+  { src: img.aulaEscritorio, tags: 'vida kinder', alt: L('Alumno en el salón de clases', 'Student in the classroom') },
   { src: img.aulaKinderInterior, tags: 'kinder', alt: L('Salón de Kinder', 'Kindergarten classroom') },
   { src: img.kinderExterior, tags: 'kinder', alt: L('Edificio de Kinder', 'Kindergarten building') },
   { src: img.kinderJuegos, tags: 'kinder', alt: L('Área de juegos de Kinder', 'Kindergarten play area') },

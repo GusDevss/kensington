@@ -29,6 +29,21 @@ import canalYoutube from '@/assets/img/canal-youtube.avif';
 import canalEmocional from '@/assets/img/canal-educacion-emocional.avif';
 import altanimaLogo from '@/assets/img/altanima-logo.png';
 
+// Alumnos recortados (fondo transparente)
+import ninoRubio from '@/assets/img/kids/nino-rubio.webp';
+import ninaRubia from '@/assets/img/kids/nina-rubia.webp';
+import ninoCastano from '@/assets/img/kids/nino-castano.webp';
+import ninaKinder from '@/assets/img/kids/nina-kinder.webp';
+import ninoPrimaria from '@/assets/img/kids/nino-primaria.webp';
+// Fotografías de vida escolar
+import aulaEscritorio from '@/assets/img/fotos/aula-escritorio.webp';
+import entradaFamilias from '@/assets/img/fotos/entrada-familias.webp';
+import patioProyectos from '@/assets/img/fotos/patio-proyectos.webp';
+import aulaMaqueta from '@/assets/img/fotos/aula-maqueta.webp';
+import jardinLectura from '@/assets/img/fotos/jardin-lectura.webp';
+import parqueCarrera from '@/assets/img/fotos/parque-carrera.webp';
+import parqueRehilete from '@/assets/img/fotos/parque-rehilete.webp';
+
 // Renders del proyecto (renders/) y del campus (campus/)
 import aereaCampus1 from '@/assets/img/renders/render-2.webp';
 import aereaCampus2 from '@/assets/img/renders/render-3.webp';
@@ -98,10 +113,22 @@ export const img = {
   campus18,
   campus19,
   campus20,
-  // Portada: tres alumnos (rubio, castaño y apiñonado). Por ahora es la misma foto triplicada.
-  heroKid1: ninaPrimaria,
-  heroKid2: ninaPrimaria,
-  heroKid3: ninaPrimaria,
+  // Portada: tres alumnos
+  heroKid1: ninoRubio,
+  heroKid2: ninaRubia,
+  heroKid3: ninoCastano,
+  ninoRubio,
+  ninaRubia,
+  ninoCastano,
+  ninaKinder,
+  ninoPrimaria,
+  aulaEscritorio,
+  entradaFamilias,
+  patioProyectos,
+  aulaMaqueta,
+  jardinLectura,
+  parqueCarrera,
+  parqueRehilete,
   fachadaPrincipal,
   patioCentral,
   fachadaLateral,
