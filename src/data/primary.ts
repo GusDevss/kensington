@@ -13,7 +13,8 @@ export default {
     about: {
       videoTitle: 'La educación emocional',
       videoAlt: 'Episodio del canal Kensington: La educación emocional',
-      imgAlt: 'Patio de Kensington Academy',
+      imgAlt: 'Área de juegos de Primaria en Kensington Academy',
+      img2Alt: 'Cancha de Primaria en Kensington Academy',
       title: 'Donde las ideas cobran sentido',
       text: 'Promovemos el pensamiento crítico, la creatividad, la innovación y el desarrollo socioemocional para formar niños conscientes, resilientes y preparados para los desafíos del mundo actual y del futuro. Cada estudiante es protagonista de su aprendizaje, desarrollando las herramientas necesarias para comprender el mundo y transformarlo positivamente.',
       howTitle: '¿Cómo aprenden nuestros estudiantes?',
@@ -80,7 +81,8 @@ export default {
     about: {
       videoTitle: 'Emotional education',
       videoAlt: 'Kensington channel episode: Emotional education',
-      imgAlt: 'Kensington Academy courtyard',
+      imgAlt: 'Elementary playground at Kensington Academy',
+      img2Alt: 'Elementary sports court at Kensington Academy',
       title: 'Where ideas come to life',
       text: 'We promote critical thinking, creativity, innovation and social-emotional development to raise children who are aware, resilient and prepared for the challenges of today’s world and the future. Every student is the protagonist of their own learning, developing the tools they need to understand the world and transform it positively.',
       howTitle: 'How do our students learn?',

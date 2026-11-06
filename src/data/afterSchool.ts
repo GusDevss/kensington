@@ -6,7 +6,7 @@ export default {
     },
     hero: {
       title: ['Aprender', ' también sucede después del aula'],
-      text: 'En Kensington entendemos que los sueños de nuestros estudiantes también están ligados a los sueños de sus familias. Sabemos que muchas mamás y papás desean continuar creciendo profesionalmente con la tranquilidad de que sus hijos están seguros, acompañados y aprovechando su tiempo de manera significativa. Por ello, nuestro programa After School extiende la experiencia educativa más allá de la jornada escolar, ofreciendo actividades deportivas, artísticas y académicas que les permiten descubrir nuevos intereses, desarrollar talentos y seguir creciendo en un ambiente seguro, divertido y enriquecedor.',
+      text: 'En Kensington entendemos que los sueños de nuestros estudiantes también están ligados a los sueños de sus familias. Sabemos que muchas mamás y papás desean continuar creciendo profesionalmente con la tranquilidad de que sus **hijos están seguros, acompañados** y aprovechando su tiempo de manera significativa. Por ello, nuestro **programa After School** extiende la experiencia educativa más allá de la jornada escolar, ofreciendo **actividades deportivas, artísticas y académicas** que les permiten descubrir nuevos intereses, desarrollar talentos y seguir creciendo en un ambiente seguro, divertido y enriquecedor.',
       alt: 'Alumno de After School con balón de fútbol',
       badge: { value: 18, label: 'Actividades extracurriculares' },
     },
@@ -21,8 +21,8 @@ export default {
     },
     why: {
       title: '¿Por qué elegir nuestro After School?',
-      imgAlt: 'Instalaciones de Kensington Academy',
-      img2Alt: 'Área de juegos de Kensington Academy',
+      imgAlt: 'Cancha de fútbol de Kensington Academy',
+      img2Alt: 'Vista aérea de las canchas de Kensington Academy',
       items: [
         { title: 'Descubren nuevos talentos', text: 'Cada actividad permite que los estudiantes exploren aquello que les apasiona.', icon: 'sparkles' },
         { title: 'Desarrollan habilidades para la vida', text: 'Fortalecen la disciplina, la creatividad, el liderazgo y el trabajo colaborativo.', icon: 'medal' },
@@ -49,7 +49,7 @@ export default {
     },
     hero: {
       title: ['Learning', ' also happens after class'],
-      text: 'At Kensington we understand that our students’ dreams are also linked to their families’ dreams. We know many moms and dads want to keep growing professionally with the peace of mind that their children are safe, supported and making meaningful use of their time. That is why our After School program extends the educational experience beyond the school day, offering sports, arts and academic activities that let children discover new interests, develop talents and keep growing in a safe, fun and enriching environment.',
+      text: 'At Kensington we understand that our students’ dreams are also linked to their families’ dreams. We know many moms and dads want to keep growing professionally with the peace of mind that their **children are safe, supported** and making meaningful use of their time. That is why our **After School program** extends the educational experience beyond the school day, offering **sports, arts and academic activities** that let children discover new interests, develop talents and keep growing in a safe, fun and enriching environment.',
       alt: 'After School student with a soccer ball',
       badge: { value: 18, label: 'Extracurricular activities' },
     },
@@ -64,8 +64,8 @@ export default {
     },
     why: {
       title: 'Why choose our After School?',
-      imgAlt: 'Kensington Academy facilities',
-      img2Alt: 'Kensington Academy playground',
+      imgAlt: 'Kensington Academy soccer field',
+      img2Alt: 'Aerial view of the Kensington Academy courts',
       items: [
         { title: 'They discover new talents', text: 'Every activity lets students explore what they are passionate about.', icon: 'sparkles' },
         { title: 'They develop life skills', text: 'They strengthen discipline, creativity, leadership and teamwork.', icon: 'medal' },

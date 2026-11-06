@@ -13,7 +13,7 @@ const d = data[lang];
 const ui = t(lang);
 const stages = d.stages.map((s, i) => ({
   ...s,
-  img: [img.aulaKinderInterior, img.patioCentral][i],
+  img: [img.aulaKinderInterior, img.primariaJuegos][i],
   href: [routes.kinder[lang], routes.primary[lang]][i],
   tone: ['sage', 'clay'][i],
   icon: ['blocks', 'graduation-cap'][i],

@@ -1,10 +1,9 @@
 ---
 /** Borde de nubes (ilustración original del sitio). `flip` las coloca colgando desde arriba. */
-import cloudsImg from '@/assets/deco/nubes.png';
 interface Props { flip?: boolean; class?: string }
 const { flip = false, class: cls } = Astro.props;
 ---
-<div class:list={['clouds', cls, { 'clouds--flip': flip }]} style={`--clouds:url(${cloudsImg.src})`} aria-hidden="true"></div>
+<div class:list={['clouds', cls, { 'clouds--flip': flip }]} style="--clouds:url(/deco/nubes.svg)" aria-hidden="true"></div>
 <style>
   .clouds { display: block; width: 100%; height: clamp(70px, 9vw, 160px); margin-block: -1px; background: var(--clouds) bottom center / auto 100% repeat-x; pointer-events: none; }
   .clouds--flip { transform: scaleY(-1); }

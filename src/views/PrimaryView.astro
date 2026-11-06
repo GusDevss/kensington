@@ -16,7 +16,7 @@ interface Props { lang: Lang }
 const { lang } = Astro.props;
 const d = data[lang];
 const ui = t(lang);
-const gradeImgs = [img.patioCentral, img.jardinJuegos, img.patioVentanales, img.aulaPrimaria, img.fachadaLateral, img.fachadaPrincipal];
+const gradeImgs = [img.campus11, img.campus17, img.campus3, img.campus8, img.campus13, img.campus20];
 const schema = [{
   '@context': 'https://schema.org', '@type': 'Course', name: d.meta.title, description: d.meta.description,
   provider: { '@type': 'School', name: 'Kensington Academy' }, inLanguage: ['es', 'en'], educationalLevel: 'Primary school',
@@ -39,12 +39,13 @@ const schema = [{
   <section class="section" id="ideas">
     <div class="container grid-2">
       <div class="pabout__media" data-reveal>
-        <div class="pabout__main media"><Img src={img.patioVentanales} alt={d.about.imgAlt} sizes="(min-width: 960px) 560px, 90vw" widths={[480, 960, 1280]} /></div>
+        <div class="pabout__main media"><Img src={img.primariaJuegos} alt={d.about.imgAlt} sizes="(min-width: 960px) 560px, 90vw" widths={[480, 960, 1280]} /></div>
         <div class="pabout__row">
-          <p class="pabout__label">{d.about.videoTitle}</p>
+          <div class="pabout__side media"><Img src={img.primariaCancha} alt={d.about.img2Alt} sizes="(min-width: 960px) 240px, 45vw" widths={[360, 720]} /></div>
           <button class="pabout__video" type="button" data-yt={site.videos.primary} aria-label={`${ui.play}: ${d.about.videoTitle}`}>
             <Img src={img.canalEmocional} alt={d.about.videoAlt} sizes="280px" widths={[360, 720]} />
             <span class="pabout__play"><Icon name="play" size={22} /></span>
+            <span class="pabout__vtitle">{d.about.videoTitle}</span>
           </button>
         </div>
       </div>
@@ -109,6 +110,8 @@ const schema = [{
   .pabout__media { display: grid; gap: 1.25rem; }
   .pabout__main { aspect-ratio: 16 / 10; }
   .pabout__row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: 1.25rem; align-items: stretch; }
+  .pabout__side { min-height: 100%; }
+  .pabout__vtitle { position: absolute; left: 0; right: 0; bottom: 0; padding: 1.5rem 0.9rem 0.7rem; background: linear-gradient(0deg, rgb(20 33 49 / 0.85), transparent); color: #fff; font-weight: 700; font-size: var(--fs-sm); text-align: left; }
   .pabout__label { display: grid; place-items: center; text-align: center; padding: 1rem; border-radius: var(--radius-lg); background: var(--clay-100); color: var(--navy-800); font-weight: 600; font-size: var(--fs-lg); }
   .pabout__video { position: relative; min-width: 0; width: 100%; border-radius: var(--radius-lg); overflow: hidden; aspect-ratio: 16 / 9; }
   .pabout__video :global(img) { width: 100%; height: 100%; object-fit: cover; transition: transform var(--dur-3) var(--ease-out); }

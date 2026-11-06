@@ -12,8 +12,8 @@ export default {
     },
     how: {
       title: '¿Cómo aprenden nuestros niños?',
-      img1Alt: 'Aula de Kinder en Kensington Academy',
-      img2Alt: 'Niño dibujando acompañado de su maestra',
+      img1Alt: 'Salón de Kinder en Kensington Academy',
+      img2Alt: 'Patio y área de juegos de Kinder',
       items: [
         { title: 'Aprendizaje Basado en Proyectos (PBL)', text: 'Aprenden investigando, experimentando y descubriendo respuestas a preguntas significativas.', icon: 'lightbulb' },
         { title: 'Aprendizaje Basado en Juegos', text: 'El juego se convierte en una poderosa herramienta para desarrollar habilidades, fortalecer la creatividad y construir aprendizajes duraderos.', icon: 'puzzle' },
@@ -59,7 +59,7 @@ export default {
     how: {
       title: 'How do our children learn?',
       img1Alt: 'Kindergarten classroom at Kensington Academy',
-      img2Alt: 'Child drawing with his teacher',
+      img2Alt: 'Kindergarten courtyard and play area',
       items: [
         { title: 'Project-Based Learning (PBL)', text: 'They learn by researching, experimenting and discovering answers to meaningful questions.', icon: 'lightbulb' },
         { title: 'Game-Based Learning', text: 'Play becomes a powerful tool to develop skills, strengthen creativity and build lasting learning.', icon: 'puzzle' },

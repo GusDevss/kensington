@@ -17,7 +17,7 @@ const d = data[lang];
 const half = Math.ceil(d.why.items.length / 2);
 // Tres alumnos en la portada (reemplazar por las fotos finales en src/config/images.ts)
 const heroKids = [img.heroKid1, img.heroKid2, img.heroKid3];
-const slides = [img.fachadaPrincipal, img.patioCentral, img.patioVentanales, img.fachadaLateral];
+const slides = [img.fachadaPrincipal, img.campus17, img.campus11, img.patioCentral];
 const tones = ['clay', 'sage', 'sky'];
 const chipIcons = ['languages', 'sparkles', 'brain'];
 const quickLinks = [routes.kinder[lang], routes.primary[lang], routes.afterSchool[lang]];
@@ -110,7 +110,7 @@ const arcs = [arc(200, 290), arc(305, 395), arc(50, 160)];
         <div class="welcome__blob" aria-hidden="true"></div>
         <div class="welcome__dots dots" aria-hidden="true"></div>
         <figure class="welcome__main"><Img src={img.aulaKinder} alt={d.welcome.img2Alt} sizes="(min-width: 1024px) 440px, 80vw" widths={[440, 872]} /></figure>
-        <figure class="welcome__sub"><Img src={img.jardinJuegos} alt={d.welcome.img1Alt} sizes="(min-width: 1024px) 240px, 45vw" widths={[300, 600]} /></figure>
+        <figure class="welcome__sub"><Img src={img.kinderJuegos} alt={d.welcome.img1Alt} sizes="(min-width: 1024px) 240px, 45vw" widths={[300, 600]} /></figure>
         <div class="welcome__badge">
           <img src="/brand/escudo.svg" alt="" width="44" height="44" />
           <div>

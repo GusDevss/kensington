@@ -17,26 +17,26 @@ import balloonImg from '@/assets/deco/globo-aerostatico.png';
 import beeImg from '@/assets/deco/abeja.png';
 import bookImg from '@/assets/deco/libro.png';
 import stringImg from '@/assets/deco/globo-linea.png';
-import cloudsImg from '@/assets/deco/nubes.png';
-import tornImg from '@/assets/deco/borde-rasgado.png';
+
 
 interface Props { lang: Lang }
 const { lang } = Astro.props;
 const d = data[lang];
 const ui = t(lang);
 const howTones = ['sage', 'clay', 'sky', 'navy'];
-const gradeImgs = [img.patioCentral, img.jardinJuegos, img.aulaKinder, img.aulaPrimaria];
+const gradeImgs = [img.kinderJuegos, img.kinderPatio, img.campus2, img.campus18];
 const schema = [{
   '@context': 'https://schema.org', '@type': 'Course', name: d.meta.title, description: d.meta.description,
   provider: { '@type': 'School', name: 'Kensington Academy' }, inLanguage: ['es', 'en'], educationalLevel: 'Kindergarten',
 }];
 ---
 <Base lang={lang} routeKey="kinder" title={d.meta.title} description={d.meta.description} image={img.ninoKinder} crumbs={[{ name: ui.nav.kinder, key: 'kinder' }]} schema={schema}>
-  <section class="khero" style={`--clouds:url(${cloudsImg.src});--torn:url(${tornImg.src})`}>
+  <section class="khero" style="--clouds:url(/deco/nubes.svg);--torn:url(/deco/borde-rasgado.svg)">
     <img class="kfloat kfloat--balloon" src={balloonImg.src} alt="" width="68" height="94" />
     <img class="kfloat kfloat--book" src={bookImg.src} alt="" width="119" height="100" />
     <img class="kfloat kfloat--string" src={stringImg.src} alt="" width="70" height="133" />
-    <div class="kbee" aria-hidden="true"><img src={beeImg.src} alt="" width="107" height="107" /></div>
+    <div class="kbee kbee--1" aria-hidden="true"><img src={beeImg.src} alt="" width="107" height="107" /></div>
+    <div class="kbee kbee--2" aria-hidden="true"><img src={beeImg.src} alt="" width="107" height="107" /></div>
     <div class="container khero__in">
       <div class="khero__copy">
         <h1>
@@ -63,8 +63,8 @@ const schema = [{
       <div class="how__media" data-reveal>
         <div class="how__blob" aria-hidden="true"></div>
         <div class="how__dots dots" aria-hidden="true"></div>
-        <figure class="how__a"><Img src={img.aulaKinder} alt={d.how.img1Alt} sizes="(min-width: 1024px) 420px, 80vw" widths={[440, 872]} /></figure>
-        <figure class="how__b"><Img src={img.ninoDibujando} alt={d.how.img2Alt} sizes="(min-width: 1024px) 260px, 50vw" widths={[300, 600]} /></figure>
+        <figure class="how__a"><Img src={img.aulaKinderInterior} alt={d.how.img1Alt} sizes="(min-width: 1024px) 420px, 80vw" widths={[440, 872]} /></figure>
+        <figure class="how__b"><Img src={img.kinderExterior} alt={d.how.img2Alt} sizes="(min-width: 1024px) 260px, 50vw" widths={[300, 600]} /></figure>
         <ul class="how__chips" role="list" aria-hidden="true">
           {d.how.items.map((it, i) => <li class={`how__chip how__chip--${howTones[i]}`}><Icon name={it.icon} size={20} /></li>)}
         </ul>
@@ -91,7 +91,7 @@ const schema = [{
     </div>
   </section>
 
-  <section class="grades-sec bg-gradient">
+  <section class="grades-sec">
     <Clouds flip />
     <img class="grades-sec__kite" src={kite2.src} alt="" width="200" height="244" loading="lazy" />
     <div class="container section-sm">
@@ -140,7 +140,9 @@ const schema = [{
   @keyframes wobble { 0%, 100% { transform: rotate(-6deg) translateY(0); } 50% { transform: rotate(4deg) translateY(-10px); } }
   @keyframes sway { 0%, 100% { transform: rotate(-5deg); } 50% { transform: rotate(6deg); } }
   /* La abejita recorre la portada */
-  .kbee { position: absolute; z-index: 2; left: 0; top: 0; width: clamp(40px, 3.6vw, 60px); pointer-events: none; animation: beePath 22s linear infinite; }
+  .kbee { position: absolute; z-index: 2; left: 0; top: 0; width: clamp(58px, 5.5vw, 96px); pointer-events: none; animation: beePath 22s linear infinite; }
+  .kbee--2 { width: clamp(46px, 4.2vw, 74px); animation: beePath2 27s linear -9s infinite; }
+  .kbee.kbee--2 img { animation-duration: 0.7s; }
   .kbee img { width: 100%; height: auto; animation: beeBob 0.9s ease-in-out infinite alternate; }
   @keyframes beePath {
     0% { transform: translate(-10vw, 55vh) scaleX(1); }
@@ -151,6 +153,15 @@ const schema = [{
     70% { transform: translate(60vw, 14vh) scaleX(-1); }
     85% { transform: translate(30vw, 48vh) scaleX(-1); }
     100% { transform: translate(-10vw, 55vh) scaleX(-1); }
+  }
+  @keyframes beePath2 {
+    0% { transform: translate(105vw, 20vh) scaleX(-1); }
+    25% { transform: translate(70vw, 50vh) scaleX(-1); }
+    45% { transform: translate(35vw, 12vh) scaleX(-1); }
+    59.9% { transform: translate(5vw, 40vh) scaleX(-1); }
+    60% { transform: translate(5vw, 40vh) scaleX(1); }
+    80% { transform: translate(50vw, 66vh) scaleX(1); }
+    100% { transform: translate(105vw, 20vh) scaleX(1); }
   }
   @keyframes beeBob { from { translate: 0 -4px; } to { translate: 0 4px; } }
   @keyframes rise { from { opacity: 0; transform: translateY(20px); } }
@@ -180,7 +191,9 @@ const schema = [{
 
   .pillars-sec { position: relative; }
   .pillars-sec__kite { position: absolute; right: 2%; top: 3rem; width: clamp(90px, 10vw, 150px); opacity: 0.95; pointer-events: none; }
-  .grades-sec { position: relative; }
+  .grades-sec { position: relative; background: linear-gradient(115deg, #f3ddd2 0%, #d8e7f0 50%, #d6ebdc 100%); }
+  .grades-sec > .container { padding-block: 1.5rem 2rem; }
+  .pillars-sec { padding-bottom: 2.5rem; }
   .grades-sec__kite { position: absolute; left: 1%; top: 6rem; width: clamp(80px, 8vw, 130px); pointer-events: none; z-index: 1; }
   @media (max-width: 900px) { .pillars-sec__kite, .grades-sec__kite { display: none; } }
 </style>

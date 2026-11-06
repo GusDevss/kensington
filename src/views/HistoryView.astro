@@ -13,7 +13,7 @@ const { lang } = Astro.props;
 const d = data[lang];
 const ui = t(lang);
 const tones = ['navy', 'sage', 'clay', 'sky'];
-const tabImgs = [img.fachadaPrincipal, img.patioCentral, img.patioVentanales, img.jardinJuegos];
+const tabImgs = [img.campus1, img.aereaCampus1, img.campus17, img.campus19];
 ---
 <Base lang={lang} routeKey="history" title={d.meta.title} description={d.meta.description} image={img.patioCentral} crumbs={[{ name: ui.nav.history, key: 'history' }]}>
   <section class="section-sm hintro">

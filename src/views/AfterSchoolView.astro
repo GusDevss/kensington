@@ -4,6 +4,7 @@ import Img from '@/components/ui/Img.astro';
 import Icon from '@/components/ui/Icon.astro';
 import Statement from '@/components/ui/Statement.astro';
 import Accordion from '@/components/ui/Accordion.astro';
+import Rich from '@/components/ui/Rich.astro';
 import { img, type ImgKey } from '@/config/images';
 import { t } from '@/i18n/ui';
 import { routes, type Lang } from '@/i18n/routes';
@@ -19,7 +20,7 @@ const ui = t(lang);
     <div class="container ashero__in">
       <div class="ashero__copy">
         <h1><span class="ashero__accent">{d.hero.title[0]}</span>{d.hero.title[1]}</h1>
-        <p class="text-j">{d.hero.text}</p>
+        <p class="text-j"><Rich text={d.hero.text} /></p>
         <a class="btn" href={routes.contact[lang]}>{ui.cta}<Icon name="arrow-up-right" /></a>
       </div>
       <div class="ashero__media">
@@ -70,7 +71,7 @@ const ui = t(lang);
           ))}
         </ul>
       </div>
-      <div class="aswhy__img"><Img src={img.fachadaLateral} alt={d.why.imgAlt} sizes="(min-width: 960px) 50vw, 100vw" widths={[640, 1280]} /></div>
+      <div class="aswhy__img"><Img src={img.campus12} alt={d.why.imgAlt} sizes="(min-width: 960px) 50vw, 100vw" widths={[640, 1280]} /></div>
     </div>
     <div class="aswhy__row aswhy__row--alt">
       <div class="aswhy__copy">
@@ -80,7 +81,7 @@ const ui = t(lang);
           ))}
         </ul>
       </div>
-      <div class="aswhy__img"><Img src={img.jardinJuegos} alt={d.why.img2Alt} sizes="(min-width: 960px) 50vw, 100vw" widths={[640, 848]} /></div>
+      <div class="aswhy__img"><Img src={img.campus7} alt={d.why.img2Alt} sizes="(min-width: 960px) 50vw, 100vw" widths={[640, 848]} /></div>
     </div>
   </section>
 
