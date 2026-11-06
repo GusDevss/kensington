@@ -13,6 +13,7 @@ import patioVentanales from '@/assets/img/patio-ventanales.webp';
 import aulaPrimaria from '@/assets/img/aula-primaria.webp';
 import jardinJuegos from '@/assets/img/jardin-juegos.webp';
 import aulaKinder from '@/assets/img/aula-kinder.webp';
+import aulaKinderInterior from '@/assets/img/aula-kinder-interior.jpg';
 import ninoKinder from '@/assets/img/nino-kinder.webp';
 import ninoKinderAlto from '@/assets/img/nino-kinder-alto.webp';
 import ninaPrimaria from '@/assets/img/nina-primaria.webp';
@@ -40,6 +41,7 @@ export const img = {
   aulaPrimaria,
   jardinJuegos,
   aulaKinder,
+  aulaKinderInterior,
   ninoKinder,
   ninoKinderAlto,
   ninaPrimaria,

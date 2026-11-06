@@ -2,7 +2,7 @@ export default {
   es: {
     meta: {
       title: 'Modelo educativo Altanima',
-      description: 'Altanima: tres dimensiones, un solo propósito. Integramos el desarrollo emocional, físico e intelectual para formar seres humanos íntegros que aprenden con bienestar y viven con conciencia.',
+      description: 'Altanima: tres dimensiones, un solo propósito. Integramos el **desarrollo emocional, físico e intelectual** para formar seres humanos íntegros que aprenden con bienestar y viven con conciencia.',
     },
     hero: {
       eyebrow: 'Modelo educativo',
@@ -10,13 +10,13 @@ export default {
       logoAlt: 'Altanima',
       title: 'Tres dimensiones. Un solo propósito: Formar seres humanos íntegros.',
       paragraphs: [
-        'En Altanima ponemos al ser humano en el centro. Integramos el desarrollo emocional, físico e intelectual para que cada estudiante aprenda con bienestar, crezca con propósito y viva con conciencia. En Altanima no entendemos la educación como un destino, sino como un camino de crecimiento permanente.',
-        'Creemos que el aprendizaje profundo nace del bienestar. Por eso, creamos experiencias educativas activas, significativas y conectadas con la vida real, donde los estudiantes investigan, crean, experimentan, colaboran y desarrollan las habilidades necesarias para enfrentar los desafíos del mundo actual y futuro.',
+        'En Altanima ponemos al ser humano en el centro. Integramos el **desarrollo emocional, físico e intelectual** para que cada estudiante aprenda con bienestar, crezca con propósito y viva con conciencia. En Altanima no entendemos la educación como un destino, sino como un camino de **crecimiento permanente**.',
+        'Creemos que el **aprendizaje profundo nace del bienestar**. Por eso, creamos experiencias educativas activas, significativas y conectadas con la vida real, donde los estudiantes investigan, crean, experimentan, colaboran y desarrollan las habilidades necesarias para enfrentar los desafíos del mundo actual y futuro.',
       ],
       extra: [
         'Buscamos preparar a los niños para vivir la realidad: conocerse, cuidarse, tomar decisiones, afrontar los retos con resiliencia, actuar con valores y descubrir quiénes quieren llegar a ser.',
         'El desarrollo académico es el fruto; el bienestar emocional y físico son las raíces. Porque cuando las raíces son fuertes, el aprendizaje puede crecer y sostenerse.',
-        'No diseñamos un modelo para enseñar más contenidos. Diseñamos un modelo para desarrollar mejores seres humanos.',
+        'No diseñamos un modelo para enseñar más contenidos. Diseñamos un modelo para **desarrollar mejores seres humanos**.',
       ],
     },
     statement: { text: 'Creemos que cuando un niño desarrolla su mente, fortalece su cuerpo y descubre quién es, está preparado para transformar el mundo.', highlight: 'transformar el mundo.' },
@@ -128,13 +128,13 @@ export default {
       logoAlt: 'Altanima',
       title: 'Three dimensions. One purpose: forming whole human beings.',
       paragraphs: [
-        'At Altanima we put the human being at the center. We integrate emotional, physical and intellectual development so that every student learns with well-being, grows with purpose and lives with awareness. At Altanima we do not see education as a destination, but as a path of lifelong growth.',
-        'We believe deep learning is born from well-being. That is why we create active, meaningful educational experiences connected with real life, where students research, create, experiment, collaborate and develop the skills they need to face the challenges of today’s and tomorrow’s world.',
+        'At Altanima we put the human being at the center. We integrate **emotional, physical and intellectual development** so that every student learns with well-being, grows with purpose and lives with awareness. At Altanima we do not see education as a destination, but as a path of **lifelong growth**.',
+        'We believe **deep learning is born from well-being**. That is why we create active, meaningful educational experiences connected with real life, where students research, create, experiment, collaborate and develop the skills they need to face the challenges of today’s and tomorrow’s world.',
       ],
       extra: [
         'We seek to prepare children to live in reality: to know themselves, take care of themselves, make decisions, face challenges with resilience, act with values and discover who they want to become.',
         'Academic development is the fruit; emotional and physical well-being are the roots. Because when the roots are strong, learning can grow and last.',
-        'We did not design a model to teach more content. We designed a model to develop better human beings.',
+        'We did not design a model to teach more content. We designed a model to **develop better human beings**.',
       ],
     },
     statement: { text: 'We believe that when a child develops their mind, strengthens their body and discovers who they are, they are ready to transform the world.', highlight: 'transform the world.' },

@@ -50,7 +50,7 @@ export default {
     },
     statement2: { text: 'Porque el futuro necesita personas emocionalmente sanas, físicamente fuertes e intelectualmente preparadas. Y esa es la educación en la que creemos.', highlight: 'la educación en la que creemos.' },
     principles: {
-      title: 'Nuestra filosofía... Lo que creemos',
+      title: 'Los 10 principios Ken Academy',
       label: 'Principio',
       items: [
         { title: 'Curiosidad', text: 'Creemos que toda pregunta es el inicio de un nuevo aprendizaje. Fomentamos el deseo de descubrir, explorar, investigar y comprender el mundo con entusiasmo.', icon: 'search' },
@@ -117,7 +117,7 @@ export default {
     },
     statement2: { text: 'Because the future needs people who are emotionally healthy, physically strong and intellectually prepared. And that is the education we believe in.', highlight: 'the education we believe in.' },
     principles: {
-      title: 'Our philosophy... What we believe',
+      title: 'The 10 Ken Academy principles',
       label: 'Principle',
       items: [
         { title: 'Curiosity', text: 'We believe every question is the beginning of new learning. We foster the desire to discover, explore, research and understand the world with enthusiasm.', icon: 'search' },

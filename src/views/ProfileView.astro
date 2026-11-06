@@ -13,7 +13,7 @@ const d = data[lang];
 const ui = t(lang);
 const stages = d.stages.map((s, i) => ({
   ...s,
-  img: [img.jardinJuegos, img.patioCentral][i],
+  img: [img.aulaKinderInterior, img.patioCentral][i],
   href: [routes.kinder[lang], routes.primary[lang]][i],
   tone: ['sage', 'clay'][i],
   icon: ['blocks', 'graduation-cap'][i],
@@ -105,7 +105,7 @@ const tones = ['navy', 'sage', 'clay', 'sky'];
   .stage--clay { --tone: var(--clay-500); --tone-bg: var(--clay-100); }
   .stage__media { position: relative; display: block; aspect-ratio: 16 / 8; overflow: hidden; }
   .stage__media::after { content: ''; position: absolute; inset: 0; background: linear-gradient(0deg, rgb(20 33 49 / 0.75), transparent 60%); }
-  .stage__media :global(img) { width: 100%; height: 100%; object-fit: cover; transition: transform 900ms var(--ease-out); }
+  .stage__media :global(img) { width: 100%; height: 100%; object-fit: cover; object-position: center 85%; transition: transform 900ms var(--ease-out); }
   .stage__media:hover :global(img) { transform: scale(1.06); }
   .stage__label { position: absolute; left: 1.5rem; bottom: 1.25rem; z-index: 1; display: flex; align-items: center; gap: 0.75rem; }
   .stage__label h2 { color: #fff; font-size: clamp(1.75rem, 1.4rem + 1.2vw, 2.4rem); }

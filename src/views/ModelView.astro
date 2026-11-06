@@ -4,6 +4,7 @@ import Img from '@/components/ui/Img.astro';
 import Icon from '@/components/ui/Icon.astro';
 import Statement from '@/components/ui/Statement.astro';
 import ModelWheel from '@/components/sections/ModelWheel.astro';
+import Rich from '@/components/ui/Rich.astro';
 import { img } from '@/config/images';
 import { t } from '@/i18n/ui';
 import type { Lang } from '@/i18n/routes';
@@ -26,11 +27,11 @@ const essenceImgs = [img.aulaPrimaria, img.patioVentanales, img.fachadaLateral, 
         <span class="eyebrow">{d.hero.eyebrow}</span>
         <Img src={img.altanimaLogo} alt={d.hero.logoAlt} class="mhero__logo" sizes="260px" widths={[260, 520]} />
         <h1>{d.hero.title}</h1>
-        {d.hero.paragraphs.map((p) => <p class="text-j">{p}</p>)}
+        {d.hero.paragraphs.map((p) => <p class="text-j"><Rich text={p} /></p>)}
       </div>
     </div>
     <div class="container mhero__extra">
-      {d.hero.extra.map((p, i) => <p class:list={['text-j', { 'mhero__punch': i === d.hero.extra.length - 1 }]} data-reveal>{p}</p>)}
+      {d.hero.extra.map((p) => <p class="text-j" data-reveal><Rich text={p} /></p>)}
     </div>
   </section>
 

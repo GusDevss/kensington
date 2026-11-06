@@ -116,7 +116,7 @@
     line-height: 1.18;
     font-weight: 700;
     letter-spacing: -0.02em;
-    text-wrap: balance;
+    text-wrap: pretty;
   }
   h1 { font-size: var(--fs-4xl); }
   h2 { font-size: var(--fs-3xl); }
@@ -164,7 +164,7 @@
     color: var(--navy-700); padding: 0.35rem 0.8rem; border: 1px solid var(--line); border-radius: 999px; background: #fff;
   }
   .eyebrow::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
-  .section-head { text-align: center; max-width: 760px; margin-inline: auto; margin-bottom: clamp(2.5rem, 2rem + 2vw, 4rem); }
+  .section-head { text-align: center; max-width: 980px; margin-inline: auto; margin-bottom: clamp(2.5rem, 2rem + 2vw, 4rem); }
   .section-head > * + * { margin-top: 1rem; }
   .section-head p { color: var(--ink-3); font-size: var(--fs-lg); }
   .lead { font-size: var(--fs-lg); color: var(--ink-2); }
@@ -210,7 +210,7 @@
   .statement {
     font-family: var(--font-hand); font-weight: 700; color: var(--navy-800);
     font-size: clamp(1.25rem, 1.05rem + 0.9vw, 1.85rem); line-height: 1.5;
-    text-align: center; max-width: 1080px; margin-inline: auto; text-wrap: pretty; letter-spacing: 0;
+    text-align: center; max-width: 1200px; margin-inline: auto; text-wrap: pretty; letter-spacing: 0;
   }
   .scribble { position: relative; white-space: nowrap; color: var(--navy-600); }
   .scribble svg {
