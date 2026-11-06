@@ -15,7 +15,7 @@ import faq from '@/data/faq';
 const sources: Partial<Record<RouteKey, Record<Lang, any>>> = { home, about, history, model, profile, kinder, primary, afterSchool, faq };
 
 const collect = (v: unknown, out: string[] = []): string[] => {
-  if (typeof v === 'string') { if (v.length > 2 && !/^[a-z0-9-]+$/.test(v)) out.push(v); }
+  if (typeof v === 'string') { if (v.length > 2 && !/^[a-z0-9-]+$/.test(v)) out.push(v.replaceAll('**', '')); }
   else if (Array.isArray(v)) v.forEach((x) => collect(x, out));
   else if (v && typeof v === 'object') Object.entries(v).forEach(([k, x]) => k !== 'meta' && k !== 'icon' && collect(x, out));
   return out;

@@ -8,13 +8,14 @@ export default {
       eyebrow: '¿Quiénes somos?',
       title: 'Educamos la mente. Fortalecemos el cuerpo. Despertamos la conciencia.',
       paragraphs: [
-        'Somos una comunidad educativa que acompaña a cada niño a descubrir quién es, desarrollar su potencial y aprender a vivir con propósito. Nacimos con la convicción de que educar va mucho más allá de transmitir conocimientos: significa acompañar a cada persona en el desarrollo de su mente, su cuerpo y su mundo interior.',
+        'Somos una comunidad educativa que acompaña a cada niño a descubrir quién es, desarrollar su potencial y aprender a vivir con propósito. Nacimos con la convicción de que educar va mucho más allá de transmitir conocimientos: significa acompañar a cada persona en el **desarrollo de su mente, su cuerpo y su mundo interior**.',
         'Nuestro modelo educativo coloca al estudiante en el centro y busca su desarrollo integral a través de tres dimensiones que crecen en equilibrio: emocional, física e intelectual. Respetamos sus ritmos, reconocemos su individualidad y creamos experiencias significativas en las que los niños investigan, crean, experimentan, colaboran y descubren.',
-        'Así, no solo construyen conocimientos, sino que desarrollan autonomía, resiliencia, creatividad, pensamiento crítico y conciencia, herramientas que les permiten afrontar los desafíos de la vida y construir su propio camino con propósito.',
+        'Así, no solo construyen conocimientos, sino que desarrollan autonomía, resiliencia, creatividad, pensamiento crítico y conciencia, **herramientas que les permiten afrontar los desafíos de la vida** y construir su propio camino con propósito.',
         'Porque creemos que educar no es únicamente preparar para el futuro, sino brindar las herramientas para construirlo.',
       ],
       img1Alt: 'Fachada de Kensington Academy',
       img2Alt: 'Patio central de Kensington Academy',
+      img3Alt: 'Aula de Kensington Academy',
     },
     statement: { text: 'Creemos que cuando un niño desarrolla su mente, fortalece su cuerpo y descubre quién es, está preparado para transformar el mundo.', highlight: 'transformar el mundo.' },
     mission: {
@@ -72,13 +73,14 @@ export default {
       eyebrow: 'Who we are',
       title: 'We educate the mind. We strengthen the body. We awaken awareness.',
       paragraphs: [
-        'We are an educational community that helps every child discover who they are, develop their potential and learn to live with purpose. We were born from the conviction that educating goes far beyond passing on knowledge: it means accompanying each person in the development of their mind, their body and their inner world.',
+        'We are an educational community that helps every child discover who they are, develop their potential and learn to live with purpose. We were born from the conviction that educating goes far beyond passing on knowledge: it means accompanying each person in the **development of their mind, their body and their inner world**.',
         'Our educational model places the student at the center and seeks their integral development through three dimensions that grow in balance: emotional, physical and intellectual. We respect their pace, recognize their individuality and create meaningful experiences in which children research, create, experiment, collaborate and discover.',
-        'In this way, they not only build knowledge but also develop autonomy, resilience, creativity, critical thinking and awareness — tools that allow them to face life’s challenges and build their own path with purpose.',
+        'In this way, they not only build knowledge but also develop autonomy, resilience, creativity, critical thinking and awareness — **tools that allow them to face life’s challenges** and build their own path with purpose.',
         'Because we believe that educating is not only about preparing for the future, but about providing the tools to build it.',
       ],
       img1Alt: 'Kensington Academy façade',
       img2Alt: 'Kensington Academy central courtyard',
+      img3Alt: 'Kensington Academy classroom',
     },
     statement: { text: 'We believe that when a child develops their mind, strengthens their body and discovers who they are, they are ready to transform the world.', highlight: 'transform the world.' },
     mission: {

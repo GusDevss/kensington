@@ -9,11 +9,14 @@ import { site } from '@/config/site';
 import { routes, type Lang } from '@/i18n/routes';
 import data from '@/data/home';
 import { t } from '@/i18n/ui';
+import Rich from '@/components/ui/Rich.astro';
 
 interface Props { lang: Lang }
 const { lang } = Astro.props;
 const d = data[lang];
 const half = Math.ceil(d.why.items.length / 2);
+// Tres alumnos en la portada (reemplazar por las fotos finales en src/config/images.ts)
+const heroKids = [img.heroKid1, img.heroKid2, img.heroKid3];
 const slides = [img.fachadaPrincipal, img.patioCentral, img.patioVentanales, img.fachadaLateral];
 const tones = ['clay', 'sage', 'sky'];
 const chipIcons = ['languages', 'sparkles', 'brain'];
@@ -21,7 +24,8 @@ const quickLinks = [routes.kinder[lang], routes.primary[lang], routes.afterSchoo
 // Arcos de los tres colores de las dimensiones Altanima alrededor de la alumna
 const polar = (r: number, deg: number) => { const a = ((deg - 90) * Math.PI) / 180; return `${(200 + r * Math.cos(a)).toFixed(1)} ${(200 + r * Math.sin(a)).toFixed(1)}`; };
 const arc = (a0: number, a1: number, r = 165) => `M${polar(r, a0)}A${r} ${r} 0 0 1 ${polar(r, a1)}`;
-const arcs = [arc(10, 110), arc(130, 230), arc(250, 350)];
+// De izquierda a derecha por arriba: izquierda → arriba → derecha
+const arcs = [arc(200, 290), arc(305, 395), arc(50, 160)];
 ---
 <Base lang={lang} routeKey="home" title={d.meta.title} description={d.meta.description} image={img.fachadaPrincipal}>
   <!-- Portada -->
@@ -65,14 +69,18 @@ const arcs = [arc(10, 110), arc(130, 230), arc(250, 350)];
         <svg class="hero__rings" viewBox="0 0 400 400" aria-hidden="true">
           <circle cx="200" cy="200" r="190" fill="none" stroke="rgb(255 255 255 / 0.14)" stroke-dasharray="2 8" />
           <g class="hero__arcs" fill="none" stroke-width="14" stroke-linecap="round">
-            <path d={arcs[0]} stroke="var(--sage-400)" />
-            <path d={arcs[1]} stroke="var(--clay-400)" />
-            <path d={arcs[2]} stroke="var(--sky-300)" />
+            <path pathLength="1" d={arcs[0]} stroke="var(--sky-300)" style="--a:0" />
+            <path pathLength="1" d={arcs[1]} stroke="var(--clay-400)" style="--a:1" />
+            <path pathLength="1" d={arcs[2]} stroke="var(--sage-400)" style="--a:2" />
           </g>
           <circle cx="200" cy="200" r="138" fill="rgb(255 255 255 / 0.08)" />
         </svg>
-        <div class="hero__kid">
-          <Img src={img.ninaPrimaria} alt={d.hero.imgAlt} sizes="(min-width: 960px) 440px, 64vw" priority widths={[360, 622]} />
+        <div class="hero__kids">
+          {heroKids.map((k, i) => (
+            <div class:list={['hero__kid', `hero__kid--${i}`]}>
+              <Img src={k} alt={i === 1 ? d.hero.imgAlt : ''} sizes="(min-width: 960px) 260px, 34vw" priority widths={[300, 622]} />
+            </div>
+          ))}
         </div>
         <ul class="hero__chips" role="list">
           {d.hero.chips.map((c, i) => (
@@ -116,8 +124,8 @@ const arcs = [arc(10, 110), arc(130, 230), arc(250, 350)];
       <div class="welcome__copy">
         <span class="eyebrow" data-reveal>{d.welcome.eyebrow}</span>
         <h2 data-reveal>{d.welcome.title}</h2>
-        <p class="welcome__lead text-j" data-reveal>{d.welcome.intro}</p>
-        {d.welcome.body.map((p) => <p class="text-j" data-reveal>{p}</p>)}
+        <p class="welcome__lead text-j" data-reveal><Rich text={d.welcome.intro} /></p>
+        {d.welcome.body.map((p) => <p class="text-j" data-reveal><Rich text={p} /></p>)}
         <div class="welcome__ctas" data-reveal>
           <a class="btn" href={routes.about[lang]}>{d.welcome.cta}<Icon name="arrow-up-right" /></a>
           <a class="welcome__link" href={routes.model[lang]}>{t(lang).nav.model}<Icon name="arrow-right" size={18} /></a>
@@ -190,7 +198,6 @@ const arcs = [arc(10, 110), arc(130, 230), arc(250, 350)];
     <div class="container grid-2">
       <div>
         <div class="certs__head" data-reveal>
-          <span class="eyebrow">{d.certs.eyebrow}</span>
           <h2>{d.certs.title}</h2>
           <p class="lead">{d.certs.text}</p>
         </div>
@@ -268,12 +275,12 @@ const arcs = [arc(10, 110), arc(130, 230), arc(250, 350)];
   .hero h1 { margin-top: 1.5rem; color: #fff; font-size: clamp(2.3rem, 1.4rem + 3.1vw, 4rem); line-height: 1.04; letter-spacing: -0.03em; font-weight: 600; }
   .hero__line { display: block; }
   .js .hero__line { animation: rise 900ms var(--ease-out) both; animation-delay: calc(var(--l) * 110ms + 100ms); }
-  .hero__key { font-style: normal; position: relative; white-space: nowrap; background-repeat: no-repeat; background-position: 0 88%; background-size: 100% 0.22em; }
-  .js .hero__key { background-size: 0% 0.22em; animation: mark 900ms var(--ease-out) forwards; animation-delay: calc(var(--l) * 110ms + 700ms); }
-  .hero__key--clay { background-image: linear-gradient(90deg, var(--clay-400), #e7b49b); }
-  .hero__key--sage { background-image: linear-gradient(90deg, var(--sage-400), #cbd9c2); }
-  .hero__key--sky { background-image: linear-gradient(90deg, var(--sky-300), #d4e5ee); }
-  @keyframes mark { to { background-size: 100% 0.22em; } }
+  .hero__key { font-style: normal; position: relative; white-space: nowrap; display: inline-block; padding: 0 0.18em 0.04em; margin: 0 0.02em; border-radius: 0.18em; color: var(--navy-900); background-repeat: no-repeat; background-position: 0 50%; background-size: 100% 100%; transition: color var(--dur-3); }
+  .js .hero__key { color: #fff; background-size: 0% 100%; animation: mark 800ms var(--ease-out) forwards; animation-delay: calc(var(--l) * 220ms + 700ms); }
+  .hero__key--clay { background-image: linear-gradient(90deg, #e1a88d, #edc3ae); }
+  .hero__key--sage { background-image: linear-gradient(90deg, #b9cbae, #d3e0cb); }
+  .hero__key--sky { background-image: linear-gradient(90deg, #a9c8d7, #cfe2eb); }
+  @keyframes mark { to { background-size: 100% 100%; color: var(--navy-900); } }
   .hero__text { margin-top: 1.5rem; font-size: var(--fs-lg); color: #d6e1eb; max-width: 48ch; }
   .hero__ctas { display: flex; flex-wrap: wrap; align-items: center; gap: 0.9rem 1.25rem; margin-top: 2.25rem; }
   .hero__ghost { --btn-bg: rgb(255 255 255 / 0.08); --btn-fg: #fff; box-shadow: inset 0 0 0 1.5px rgb(255 255 255 / 0.4); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
@@ -286,17 +293,26 @@ const arcs = [arc(10, 110), arc(130, 230), arc(250, 350)];
 
   .hero__visual { position: relative; justify-self: center; width: min(86vw, 480px); aspect-ratio: 1 / 1.12; display: grid; place-items: end center; }
   .hero__rings { position: absolute; left: 50%; top: 4%; width: 100%; translate: -50% 0; }
-  .js .hero__arcs { transform-origin: 200px 200px; animation: spin 60s linear infinite; }
+  .js .hero__arcs { transform-origin: 200px 200px; animation: spin 80s linear 2.6s infinite; }
+  .js .hero__arcs path { stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw 700ms var(--ease-out) forwards; animation-delay: calc(var(--a) * 550ms + 500ms); }
+  @keyframes draw { to { stroke-dashoffset: 0; } }
   @keyframes spin { to { transform: rotate(360deg); } }
-  .hero__kid { position: relative; width: 82%; }
-  .hero__kid :global(img) { width: 100%; height: auto; filter: drop-shadow(0 30px 40px rgb(0 0 0 / 0.35)); }
-  .js .hero__kid { animation: rise 1100ms var(--ease-out) 250ms both; }
+  .hero__kids { position: relative; width: 108%; margin-bottom: 0; display: flex; align-items: flex-end; justify-content: center; }
+  .hero__kid { position: relative; flex: none; }
+  .hero__kid :global(img) { width: 100%; height: auto; filter: drop-shadow(0 24px 30px rgb(0 0 0 / 0.35)); }
+  .hero__kid--0, .hero__kid--2 { width: 37%; z-index: 1; }
+  .hero__kid--0 { margin-right: -9%; }
+  .hero__kid--2 { margin-left: -9%; }
+  .hero__kid--1 { width: 46%; z-index: 2; }
+  .js .hero__kid { animation: rise 1000ms var(--ease-out) both; }
+  .js .hero__kid--1 { animation-delay: 250ms; } .js .hero__kid--0 { animation-delay: 450ms; } .js .hero__kid--2 { animation-delay: 600ms; }
   .hero__chips { position: absolute; inset: 0; pointer-events: none; }
   .hero__chip { position: absolute; display: inline-flex; align-items: center; gap: 0.55rem; padding: 0.55rem 0.95rem 0.55rem 0.55rem; border-radius: 999px; background: rgb(255 255 255 / 0.92); color: var(--navy-900); font-size: var(--fs-xs); font-weight: 600; white-space: nowrap; box-shadow: 0 12px 30px -10px rgb(0 0 0 / 0.45); }
-  .js .hero__chip { animation: chipIn 700ms var(--ease-out) both, float 6s ease-in-out infinite; }
-  .hero__chip--0 { left: -8%; top: 22%; animation-delay: 900ms, 1.6s; }
-  .hero__chip--1 { right: -6%; top: 40%; animation-delay: 1050ms, 2.4s; }
-  .hero__chip--2 { left: -2%; top: 62%; animation-delay: 1200ms, 3.2s; }
+  .js .hero__chip { animation: chipIn 700ms var(--ease-out) both, bob 3.6s ease-in-out infinite; }
+  @keyframes bob { 0%, 100% { translate: 0 0; } 50% { translate: 0 -14px; } }
+  .hero__chip--0 { left: -14%; top: 16%; animation-delay: 1900ms, 0s; animation-duration: 700ms, 3.4s; }
+  .hero__chip--1 { right: -10%; top: 6%; animation-delay: 2100ms, -1.2s; animation-duration: 700ms, 4s; }
+  .hero__chip--2 { right: -12%; left: auto; top: 30%; animation-delay: 2300ms, -2.1s; animation-duration: 700ms, 3.7s; }
   .hero__chip-ic { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; color: #fff; }
   .hero__chip-ic--clay { background: var(--clay-500); } .hero__chip-ic--sage { background: var(--sage-500); } .hero__chip-ic--sky { background: #6f97ab; }
   @keyframes chipIn { from { opacity: 0; transform: translateY(12px) scale(0.92); } }
@@ -318,16 +334,16 @@ const arcs = [arc(10, 110), arc(130, 230), arc(250, 350)];
   @media (min-width: 760px) { .hero__quick { grid-template-columns: repeat(3, 1fr); } }
   @media (min-width: 1024px) {
     .hero__in { grid-template-columns: 1.3fr 0.7fr; padding-top: 3rem; }
-    .hero__visual { justify-self: end; align-self: end; width: min(36vw, 470px); margin-bottom: -6rem; }
+    .hero__visual { justify-self: end; align-self: end; width: min(38vw, 500px); margin-bottom: -1.5rem; }
     .hero__quick { padding-bottom: 2.5rem; }
   }
   @media (max-width: 1023px) {
     .hero__visual { width: min(78vw, 360px); margin-bottom: -5rem; }
   }
-  @media (max-width: 520px) { .hero__chip--1 { display: none; } .hero__chip--0 { left: -2%; } }
+  @media (max-width: 520px) { .hero__chip--1, .hero__chip--2 { display: none; } .hero__chip--0 { left: -2%; top: 8%; } }
   @media (prefers-reduced-motion: reduce) {
     .js .hero__slide, .js .hero__slide :global(img), .js .hero__line, .js .hero__kid, .js .hero__chip, .js .hero__arcs, .hero__pulse::after, .hero__play-ic::before { animation: none !important; }
-    .js .hero__key { background-size: 100% 0.22em; animation: none; }
+    .js .hero__key { background-size: 100% 100%; color: var(--navy-900); animation: none; }
     .hero__slide:not(:first-child) { display: none; }
   }
 

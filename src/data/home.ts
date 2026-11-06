@@ -24,9 +24,9 @@ export default {
     },
     welcome: {
       title: 'Bienvenidos a la Familia Kensington, donde el alma, el cuerpo y la mente crecen juntos…',
-      intro: 'Somos una comunidad educativa innovadora que responde a las necesidades de los niños del presente y del futuro. En Kensington Academy entendemos que el aprendizaje significativo nace cuando los niños se sienten emocionalmente seguros, físicamente saludables y conectados consigo mismos y con el mundo.',
+      intro: 'Somos una **comunidad educativa** innovadora que responde a las necesidades de los niños del presente y del futuro. En Kensington Academy entendemos que el aprendizaje significativo nace cuando los niños se sienten emocionalmente seguros, físicamente saludables y conectados consigo mismos y con el mundo.',
       body: [
-        'Nuestro modelo educativo se fundamenta en el desarrollo integral de las dimensiones emocional, física e intelectual. Acompañamos a cada estudiante en la construcción de su bienestar, autoestima, salud mental y física, y las habilidades necesarias para vivir con propósito y afrontar los desafíos del presente y del futuro.',
+        'Nuestro modelo educativo se fundamenta en el **desarrollo integral de las dimensiones emocional, física e intelectual**. Acompañamos a cada estudiante en la construcción de su bienestar, autoestima, salud mental y física, y las habilidades necesarias para vivir con propósito y afrontar los desafíos del presente y del futuro.',
         'Así, el aprendizaje se convierte en una experiencia significativa, donde los estudiantes investigan, crean, colaboran y encuentran sentido en lo que aprenden.',
       ],
       cta: 'Saber más',
@@ -47,7 +47,7 @@ export default {
     stats: [
       { value: 100, suffix: '%', label: 'Programa bilingüe', icon: 'languages' },
       { value: 2, suffix: '', label: 'Niveles educativos', icon: 'school' },
-      { value: 1, suffix: 'GYM', label: 'Neurodesarrollo', icon: 'brain' },
+      { value: 2, suffix: ' GYM', label: 'Neurodesarrollo', icon: 'brain' },
       { value: 100, suffix: '%', label: 'Calidad educativa', icon: 'award' },
     ],
     world: {
@@ -129,9 +129,9 @@ export default {
     },
     welcome: {
       title: 'Welcome to the Kensington Family, where soul, body and mind grow together…',
-      intro: 'We are an innovative educational community that responds to the needs of children today and tomorrow. At Kensington Academy we understand that meaningful learning begins when children feel emotionally safe, physically healthy and connected with themselves and with the world.',
+      intro: 'We are an innovative **educational community** that responds to the needs of children today and tomorrow. At Kensington Academy we understand that meaningful learning begins when children feel emotionally safe, physically healthy and connected with themselves and with the world.',
       body: [
-        'Our educational model is grounded in the integral development of the emotional, physical and intellectual dimensions. We support each student as they build their well-being, self-esteem, mental and physical health, and the skills they need to live with purpose and face the challenges of today and tomorrow.',
+        'Our educational model is grounded in the **integral development of the emotional, physical and intellectual dimensions**. We support each student as they build their well-being, self-esteem, mental and physical health, and the skills they need to live with purpose and face the challenges of today and tomorrow.',
         'Learning thus becomes a meaningful experience in which students research, create, collaborate and find meaning in what they learn.',
       ],
       cta: 'Learn more',
@@ -152,7 +152,7 @@ export default {
     stats: [
       { value: 100, suffix: '%', label: 'Bilingual program', icon: 'languages' },
       { value: 2, suffix: '', label: 'School levels', icon: 'school' },
-      { value: 1, suffix: 'GYM', label: 'Neurodevelopment', icon: 'brain' },
+      { value: 2, suffix: ' GYM', label: 'Neurodevelopment', icon: 'brain' },
       { value: 100, suffix: '%', label: 'Educational quality', icon: 'award' },
     ],
     world: {

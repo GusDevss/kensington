@@ -4,11 +4,11 @@ import Img from '@/components/ui/Img.astro';
 import Icon from '@/components/ui/Icon.astro';
 import Statement from '@/components/ui/Statement.astro';
 import IconPanel from '@/components/sections/IconPanel.astro';
+import Rich from '@/components/ui/Rich.astro';
 import { img } from '@/config/images';
 import { t } from '@/i18n/ui';
 import { routes, type Lang } from '@/i18n/routes';
 import data from '@/data/about';
-import capPurple from '@/assets/deco/birrete-morado.png';
 import stroke from '@/assets/deco/trazo-azul.png';
 
 interface Props { lang: Lang }
@@ -22,15 +22,15 @@ const ui = t(lang);
       <div class="ahero__head">
         <span class="eyebrow">{d.hero.eyebrow}</span>
         <h1>{d.hero.title}</h1>
-        <img class="ahero__cap" src={capPurple.src} alt="" width="120" height="108" />
       </div>
       <div class="ahero__grid">
         <div class="ahero__imgs" data-reveal>
           <div class="media ahero__img1"><Img src={img.fachadaLateral} alt={d.hero.img1Alt} sizes="(min-width: 960px) 300px, 50vw" widths={[400, 800, 1280]} /></div>
           <div class="media ahero__img2"><Img src={img.patioCentral} alt={d.hero.img2Alt} sizes="(min-width: 960px) 300px, 50vw" widths={[400, 800, 1280]} /></div>
+          <div class="media ahero__img3"><Img src={img.aulaKinder} alt={d.hero.img3Alt} sizes="(min-width: 960px) 300px, 50vw" widths={[400, 872]} /></div>
         </div>
         <div class="ahero__text">
-          {d.hero.paragraphs.map((p, i) => <p class:list={['text-j', { 'ahero__last': i === d.hero.paragraphs.length - 1 }]} data-reveal>{p}</p>)}
+          {d.hero.paragraphs.map((p, i) => <p class:list={['text-j', { 'ahero__last': i === d.hero.paragraphs.length - 1 }]} data-reveal><Rich text={p} /></p>)}
         </div>
       </div>
     </div>
@@ -88,9 +88,10 @@ const ui = t(lang);
   @keyframes bob { 50% { transform: translateY(-8px) rotate(4deg); } }
   @media (prefers-reduced-motion: reduce) { .ahero__cap { animation: none; } }
   .ahero__grid { display: grid; gap: 2.5rem; }
-  .ahero__imgs { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; align-items: start; }
+  .ahero__imgs { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: auto 1fr; gap: 0.75rem; }
   .ahero__img1 { aspect-ratio: 4 / 3; border-radius: var(--radius-lg) 0 0 var(--radius-lg); }
-  .ahero__img2 { aspect-ratio: 3 / 4.6; border-radius: 0 var(--radius-lg) var(--radius-lg) var(--radius-lg); }
+  .ahero__img2 { grid-column: 2; grid-row: 1 / 3; min-height: 100%; border-radius: 0 var(--radius-lg) var(--radius-lg) var(--radius-lg); }
+  .ahero__img3 { grid-column: 1; grid-row: 2; border-radius: var(--radius-lg) 0 var(--radius-lg) var(--radius-lg); aspect-ratio: 4 / 3.4; }
   .ahero__text { display: grid; gap: 1.1rem; }
   .ahero__last { font-weight: 500; color: var(--navy-800); }
   @media (min-width: 960px) { .ahero__grid { grid-template-columns: 1.1fr 0.9fr; } }

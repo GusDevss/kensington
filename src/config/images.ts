@@ -29,6 +29,10 @@ import canalEmocional from '@/assets/img/canal-educacion-emocional.avif';
 import altanimaLogo from '@/assets/img/altanima-logo.png';
 
 export const img = {
+  // Portada: tres alumnos (rubio, castaño y apiñonado). Por ahora es la misma foto triplicada.
+  heroKid1: ninaPrimaria,
+  heroKid2: ninaPrimaria,
+  heroKid3: ninaPrimaria,
   fachadaPrincipal,
   patioCentral,
   fachadaLateral,

@@ -1,0 +1,6 @@
+---
+/** Texto con **negritas** marcadas en los datos. */
+interface Props { text: string }
+const parts = Astro.props.text.split(/\*\*(.+?)\*\*/g);
+---
+{parts.map((p, i) => (i % 2 ? <strong>{p}</strong> : p))}
