@@ -331,18 +331,6 @@ $$<HTMLVideoElement>('video[data-bgvideo]').forEach((v) => {
   }, { threshold: 0.15 }).observe(v);
 });
 
-/* ---------- Video con transparencia (WebM VP9): Safari/iOS no la soporta, usa WebP animado ---------- */
-const isWebKitOnly = /^((?!chrome|android|crios|edg).)*safari/i.test(navigator.userAgent) || /iP(hone|ad|od)/.test(navigator.userAgent);
-$$<HTMLVideoElement>('video[data-alpha-video]').forEach((v) => {
-  if (!isWebKitOnly) return;
-  const img = document.createElement('img');
-  img.src = reduceMotion ? v.poster : v.poster.replace('-poster.webp', '.webp');
-  img.alt = '';
-  img.width = v.width; img.height = v.height;
-  img.decoding = 'async';
-  v.replaceWith(img);
-});
-
 /* ---------- Contadores ---------- */
 const countIO = new IntersectionObserver((entries) => {
   for (const e of entries) {
