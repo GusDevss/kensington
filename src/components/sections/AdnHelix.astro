@@ -15,6 +15,21 @@ const dims = [
   { key: 'fisica', text: es ? 'Física' : 'Physical', icon: 'person-standing' },
   { key: 'intelectual', text: es ? 'Intelectual' : 'Intellectual', icon: 'brain' },
 ];
+const tones: Record<string, [string, string, string]> = {
+  emocional: ['#9fd08a', '#dcf0cf', '#3f6b36'],
+  fisica: ['#8ec3ee', '#dbeefc', '#2e5a86'],
+  intelectual: ['#f2a46c', '#fbd8bd', '#8a4b22'],
+};
+// Cinta que envuelve la hélice: media vuelta frontal proyectada (x = R·sen t, y sube con t)
+const ribbonPath = (yc: number) => {
+  const R = 124, P = 26, pts: string[] = [];
+  for (let k = 0; k <= 30; k++) {
+    const t = -1.5 + (3 * k) / 30;
+    pts.push(`${(200 + R * Math.sin(t)).toFixed(1)} ${(yc - P * t).toFixed(1)}`);
+  }
+  return 'M' + pts.join('L');
+};
+const ribY = [262, 402, 542];
 ---
 <div class="adn" role="img" aria-label={label} data-adn>
   <svg class="adn__svg" viewBox="0 0 400 640" aria-hidden="true">
@@ -28,6 +43,19 @@ const dims = [
         <stop offset="0" stop-color="#8fc4ff" stop-opacity="0.35" />
         <stop offset="1" stop-color="#8fc4ff" stop-opacity="0" />
       </radialGradient>
+      {dims.map((d) => {
+        const [c, c2, dk] = tones[d.key];
+        return (
+          <linearGradient id={`adn-g-${d.key}`} gradientUnits="userSpaceOnUse" x1="76" x2="324" y1="0" y2="0">
+            <stop offset="0" stop-color={dk} />
+            <stop offset="0.16" stop-color={c} />
+            <stop offset="0.5" stop-color={c2} />
+            <stop offset="0.84" stop-color={c} />
+            <stop offset="1" stop-color={dk} />
+          </linearGradient>
+        );
+      })}
+      {ribY.map((y, i) => <path id={`adn-p-${i}`} d={ribbonPath(y)} />)}
       <linearGradient id="adn-line" x1="0" x2="1">
         <stop offset="0" stop-color="#f2a46c" stop-opacity="0" />
         <stop offset="0.2" stop-color="#f2a46c" />
@@ -49,13 +77,20 @@ const dims = [
     <g data-back></g>
     <g data-rungs></g>
     <g data-front></g>
+    {dims.map((d, i) => (
+      <g class={`adn__r adn__r--${d.key}`} style={`--i:${i}`}>
+        <use href={`#adn-p-${i}`} transform="translate(0 7)" fill="none" stroke="#06172b" stroke-opacity="0.35" stroke-width="42" />
+        <use href={`#adn-p-${i}`} fill="none" stroke={`url(#adn-g-${d.key})`} stroke-width="42" />
+        <use href={`#adn-p-${i}`} transform="translate(0 -17)" fill="none" stroke="#fff" stroke-opacity="0.55" stroke-width="3" stroke-linecap="round" />
+        <text class="adn__rt" dy="9"><textPath href={`#adn-p-${i}`} startOffset="50%" text-anchor="middle">{d.text}</textPath></text>
+      </g>
+    ))}
   </svg>
 
-  <ol class="adn__dims" role="list">
+  <ol class="adn__dims" role="list" aria-hidden="true">
     {dims.map((d, i) => (
       <li class={`adn__dim adn__dim--${d.key}`} style={`--i:${i}`}>
         <span class="adn__ic"><Icon name={d.icon} size={26} stroke={1.6} /></span>
-        <span class="adn__rib">{d.text}</span>
       </li>
     ))}
   </ol>
@@ -134,19 +169,22 @@ const dims = [
   @keyframes twinkle { 50% { opacity: 0.9; } }
 
   .adn__dims { position: absolute; inset: 0; pointer-events: none; }
-  /* Posiciones: ícono entre peldaños y la cinta con su nombre que cruza la hélice */
-  .adn__dim { --c: #9fd08a; --c2: #d5ecc6; --glow: rgb(150 220 120 / 0.85); position: absolute; left: 0; right: 0; top: calc(30% + var(--i) * 22%); display: grid; justify-items: center; gap: 4cqw; }
-  .adn__dim--fisica { --c: #8ec3ee; --c2: #d4e9fb; --glow: rgb(140 200 255 / 0.9); }
-  .adn__dim--intelectual { --c: #f2a46c; --c2: #fad2b3; --glow: rgb(255 170 100 / 0.9); }
-  .adn__ic { display: grid; place-items: center; width: 13cqw; height: 13cqw; border-radius: 50%; color: #1c3554; background: radial-gradient(circle, #fff 55%, rgb(255 255 255 / 0.6)); box-shadow: 0 0 0 0.8cqw rgb(255 255 255 / 0.25), 0 0 4cqw 1cqw rgb(255 255 255 / 0.45); }
+  /* Íconos en el centro de la hélice, entre cintas */
+  .adn__dim { --glow: rgb(150 220 120 / 0.9); position: absolute; left: 0; right: 0; top: calc(25.9% + var(--i) * 21.875%); display: grid; justify-items: center; }
+  .adn__dim--fisica { --glow: rgb(140 200 255 / 0.95); }
+  .adn__dim--intelectual { --glow: rgb(255 170 100 / 0.95); }
+  .adn__ic { display: grid; place-items: center; width: 13cqw; height: 13cqw; border-radius: 50%; color: #1c3554; background: radial-gradient(circle, #fff 55%, rgb(255 255 255 / 0.65)); box-shadow: 0 0 0 0.8cqw rgb(255 255 255 / 0.22), 0 0 5cqw 1.5cqw rgb(200 230 255 / 0.55); }
   .adn__ic :global(svg) { width: 7cqw; height: 7cqw; }
-  .adn__rib { min-width: 54cqw; padding: 1.3cqw 5cqw; text-align: center; border-radius: 3cqw; background: linear-gradient(100deg, var(--c), var(--c2) 45%, var(--c) 100%); color: #1c3554; font-weight: 700; font-size: 6.6cqw; letter-spacing: 0.01em; transform: rotate(-11deg) skewX(-6deg); box-shadow: 0 1.5cqw 3cqw -1cqw rgb(0 0 0 / 0.45), inset 0 0.6cqw 0 rgb(255 255 255 / 0.55), inset 0 -0.8cqw 0 rgb(0 0 0 / 0.12); }
+  .adn__rt { font: 700 25px var(--font-sans); fill: #1c3554; letter-spacing: 0.3px; }
+  .adn__r { --glow: rgb(150 220 120 / 0.9); }
+  .adn__r--fisica { --glow: rgb(140 200 255 / 0.95); }
+  .adn__r--intelectual { --glow: rgb(255 170 100 / 0.95); }
   /* Las tres dimensiones se iluminan por turnos */
-  .adn.is-running .adn__rib { animation: ribGlow 6s ease-in-out infinite; animation-delay: calc(var(--i) * 2s); }
+  .adn.is-running .adn__r { animation: ribGlow 6s ease-in-out infinite; animation-delay: calc(var(--i) * 2s); }
   .adn.is-running .adn__ic { animation: icGlow 6s ease-in-out infinite; animation-delay: calc(var(--i) * 2s); }
   @keyframes ribGlow {
-    0%, 40%, 100% { filter: none; scale: 1; }
-    15%, 25% { filter: drop-shadow(0 0 3cqw var(--glow)) brightness(1.08); scale: 1.05; }
+    0%, 40%, 100% { filter: none; }
+    15%, 25% { filter: drop-shadow(0 0 10px var(--glow)) brightness(1.1); }
   }
   @keyframes icGlow {
     0%, 40%, 100% { scale: 1; }
