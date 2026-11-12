@@ -1,0 +1,156 @@
+---
+/**
+ * ADN Altanima animado (SVG + JS ligero).
+ * La doble hélice gira de forma continua y las tres dimensiones se iluminan por turnos.
+ * El orden y los textos se editan en `dims`.
+ */
+import Icon from '@/components/ui/Icon.astro';
+import type { Lang } from '@/i18n/routes';
+
+interface Props { lang: Lang; label: string }
+const { lang, label } = Astro.props;
+const es = lang === 'es';
+const dims = [
+  { key: 'emocional', text: es ? 'Emocional' : 'Emotional', icon: 'heart-handshake' },
+  { key: 'fisica', text: es ? 'Física' : 'Physical', icon: 'person-standing' },
+  { key: 'intelectual', text: es ? 'Intelectual' : 'Intellectual', icon: 'brain' },
+];
+---
+<div class="adn" role="img" aria-label={label} data-adn>
+  <svg class="adn__svg" viewBox="0 0 400 640" aria-hidden="true">
+    <defs>
+      <radialGradient id="adn-bg" cx="50%" cy="48%" r="70%">
+        <stop offset="0" stop-color="#21558a" />
+        <stop offset="0.55" stop-color="#163d68" />
+        <stop offset="1" stop-color="#0d2645" />
+      </radialGradient>
+      <radialGradient id="adn-halo" cx="50%" cy="50%" r="50%">
+        <stop offset="0" stop-color="#8fc4ff" stop-opacity="0.35" />
+        <stop offset="1" stop-color="#8fc4ff" stop-opacity="0" />
+      </radialGradient>
+      <linearGradient id="adn-line" x1="0" x2="1">
+        <stop offset="0" stop-color="#f2a46c" stop-opacity="0" />
+        <stop offset="0.2" stop-color="#f2a46c" />
+        <stop offset="0.8" stop-color="#f2a46c" />
+        <stop offset="1" stop-color="#f2a46c" stop-opacity="0" />
+      </linearGradient>
+    </defs>
+    <rect width="400" height="640" fill="url(#adn-bg)" />
+    <ellipse cx="200" cy="400" rx="190" ry="260" fill="url(#adn-halo)" />
+    <g class="adn__stars" fill="#cfe5ff">
+      {Array.from({ length: 26 }, (_, i) => {
+        const x = (i * 97 + 31) % 390 + 5; const y = (i * 151 + 47) % 620 + 10; const r = (i % 3) * 0.5 + 0.6;
+        return <circle cx={x} cy={y} r={r} style={`--d:${(i % 7) * 0.6}s`} />;
+      })}
+    </g>
+    <text x="200" y="78" text-anchor="middle" class="adn__t1">ADN</text>
+    <text x="200" y="124" text-anchor="middle" class="adn__t2">ALTANIMA</text>
+    <rect x="110" y="140" width="180" height="4" rx="2" fill="url(#adn-line)" />
+    <g data-back></g>
+    <g data-rungs></g>
+    <g data-front></g>
+  </svg>
+
+  <ol class="adn__dims" role="list">
+    {dims.map((d, i) => (
+      <li class={`adn__dim adn__dim--${d.key}`} style={`--i:${i}`}>
+        <span class="adn__ic"><Icon name={d.icon} size={26} stroke={1.6} /></span>
+        <span class="adn__rib">{d.text}</span>
+      </li>
+    ))}
+  </ol>
+</div>
+
+<script>
+  const NS = 'http://www.w3.org/2000/svg';
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.querySelectorAll<HTMLElement>('[data-adn]').forEach((root) => {
+    const back = root.querySelector('[data-back]')!;
+    const front = root.querySelector('[data-front]')!;
+    const rungs = root.querySelector('[data-rungs]')!;
+    const CX = 200, A = 108, Y0 = 168, Y1 = 628, STEP = 6, K = (Math.PI * 2) / 250, RUNG = 23;
+    const segs: { a: SVGLineElement; b: SVGLineElement; y: number }[] = [];
+    const bars: { l: SVGLineElement; y: number }[] = [];
+    const mk = (tag: string, parent: Element) => { const el = document.createElementNS(NS, tag) as SVGLineElement; parent.append(el); return el; };
+    for (let y = Y0; y < Y1; y += STEP) segs.push({ a: mk('line', back), b: mk('line', back), y });
+    for (let y = Y0 + 10; y < Y1 - 6; y += RUNG) bars.push({ l: mk('line', rungs), y });
+    // Desvanece los extremos de la hélice
+    const fade = (y: number) => Math.min(1, (y - Y0) / 40, (Y1 - y) / 50);
+
+    const draw = (phase: number) => {
+      for (const s of segs) {
+        [[s.a, 0], [s.b, Math.PI]].forEach(([el, off]) => {
+          const line = el as SVGLineElement; const o = off as number;
+          const t0 = K * s.y + phase + o, t1 = K * (s.y + STEP) + phase + o;
+          const z = Math.cos((t0 + t1) / 2); // -1 atrás, 1 adelante
+          line.setAttribute('x1', (CX + A * Math.sin(t0)).toFixed(1));
+          line.setAttribute('y1', String(s.y));
+          line.setAttribute('x2', (CX + A * Math.sin(t1)).toFixed(1));
+          line.setAttribute('y2', String(s.y + STEP + 0.6));
+          line.setAttribute('stroke-width', (15 + z * 7).toFixed(1));
+          const l = 56 + z * 22; // luminosidad según profundidad
+          line.setAttribute('stroke', `hsl(208 75% ${l.toFixed(0)}%)`);
+          line.setAttribute('opacity', (fade(s.y) * (0.82 + z * 0.18)).toFixed(2));
+          const target = z >= 0 ? front : back;
+          if (line.parentNode !== target) target.append(line);
+        });
+      }
+      for (const b of bars) {
+        const t = K * b.y + phase;
+        const x1 = CX + A * Math.sin(t), x2 = CX - A * Math.sin(t);
+        b.l.setAttribute('x1', x1.toFixed(1)); b.l.setAttribute('x2', x2.toFixed(1));
+        b.l.setAttribute('y1', String(b.y)); b.l.setAttribute('y2', String(b.y));
+        const w = Math.abs(Math.sin(t));
+        b.l.setAttribute('stroke', '#e8f4ff');
+        b.l.setAttribute('stroke-width', '6');
+        b.l.setAttribute('stroke-linecap', 'round');
+        b.l.setAttribute('opacity', (fade(b.y) * (0.35 + w * 0.6)).toFixed(2));
+      }
+    };
+
+    draw(0.6);
+    if (reduce) return;
+    let raf = 0, last = 0, phase = 0.6, running = false;
+    const loop = (t: number) => {
+      if (last) phase += ((t - last) / 1000) * 0.9;
+      last = t; draw(phase);
+      if (running) raf = requestAnimationFrame(loop);
+    };
+    new IntersectionObserver(([e]) => {
+      running = e.isIntersecting; root.classList.toggle('is-running', running);
+      if (running) { last = 0; raf = requestAnimationFrame(loop); } else cancelAnimationFrame(raf);
+    }).observe(root);
+  });
+</script>
+
+<style>
+  .adn { position: relative; width: 100%; aspect-ratio: 400 / 640; overflow: hidden; border-radius: var(--radius-xl); background: #0d2645; box-shadow: 0 30px 60px -28px rgb(18 49 86 / 0.6); container-type: inline-size; }
+  .adn__svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .adn__svg line { stroke-linecap: round; }
+  .adn__svg [data-front] { filter: drop-shadow(0 0 5px rgb(140 200 255 / 0.55)); }
+  .adn__t1 { font: 700 64px var(--font-sans); fill: #fff; letter-spacing: 1px; }
+  .adn__t2 { font: 700 40px var(--font-sans); fill: #9fcdf4; letter-spacing: 1px; }
+  .adn__stars circle { opacity: 0.25; animation: twinkle 3.6s ease-in-out infinite; animation-delay: var(--d); }
+  @keyframes twinkle { 50% { opacity: 0.9; } }
+
+  .adn__dims { position: absolute; inset: 0; pointer-events: none; }
+  /* Posiciones: ícono entre peldaños y la cinta con su nombre que cruza la hélice */
+  .adn__dim { --c: #9fd08a; --c2: #d5ecc6; --glow: rgb(150 220 120 / 0.85); position: absolute; left: 0; right: 0; top: calc(30% + var(--i) * 22%); display: grid; justify-items: center; gap: 4cqw; }
+  .adn__dim--fisica { --c: #8ec3ee; --c2: #d4e9fb; --glow: rgb(140 200 255 / 0.9); }
+  .adn__dim--intelectual { --c: #f2a46c; --c2: #fad2b3; --glow: rgb(255 170 100 / 0.9); }
+  .adn__ic { display: grid; place-items: center; width: 13cqw; height: 13cqw; border-radius: 50%; color: #1c3554; background: radial-gradient(circle, #fff 55%, rgb(255 255 255 / 0.6)); box-shadow: 0 0 0 0.8cqw rgb(255 255 255 / 0.25), 0 0 4cqw 1cqw rgb(255 255 255 / 0.45); }
+  .adn__ic :global(svg) { width: 7cqw; height: 7cqw; }
+  .adn__rib { min-width: 54cqw; padding: 1.3cqw 5cqw; text-align: center; border-radius: 3cqw; background: linear-gradient(100deg, var(--c), var(--c2) 45%, var(--c) 100%); color: #1c3554; font-weight: 700; font-size: 6.6cqw; letter-spacing: 0.01em; transform: rotate(-11deg) skewX(-6deg); box-shadow: 0 1.5cqw 3cqw -1cqw rgb(0 0 0 / 0.45), inset 0 0.6cqw 0 rgb(255 255 255 / 0.55), inset 0 -0.8cqw 0 rgb(0 0 0 / 0.12); }
+  /* Las tres dimensiones se iluminan por turnos */
+  .adn.is-running .adn__rib { animation: ribGlow 6s ease-in-out infinite; animation-delay: calc(var(--i) * 2s); }
+  .adn.is-running .adn__ic { animation: icGlow 6s ease-in-out infinite; animation-delay: calc(var(--i) * 2s); }
+  @keyframes ribGlow {
+    0%, 40%, 100% { filter: none; scale: 1; }
+    15%, 25% { filter: drop-shadow(0 0 3cqw var(--glow)) brightness(1.08); scale: 1.05; }
+  }
+  @keyframes icGlow {
+    0%, 40%, 100% { scale: 1; }
+    15%, 25% { scale: 1.12; box-shadow: 0 0 0 0.8cqw rgb(255 255 255 / 0.35), 0 0 7cqw 2cqw var(--glow); }
+  }
+  @media (prefers-reduced-motion: reduce) { .adn__stars circle { animation: none; } }
+</style>

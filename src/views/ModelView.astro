@@ -1,5 +1,6 @@
 ---
 import Base from '@/layouts/Base.astro';
+import AdnHelix from '@/components/sections/AdnHelix.astro';
 import Img from '@/components/ui/Img.astro';
 import Icon from '@/components/ui/Icon.astro';
 import Statement from '@/components/ui/Statement.astro';
@@ -21,11 +22,7 @@ const essenceImgs = [img.aulaMaqueta, img.parqueCarrera, img.jardinLectura, img.
   <section class="mhero bg-gradient">
     <div class="container mhero__in">
       <div class="mhero__dna" data-reveal>
-        <div class="adn__media" role="img" aria-label={d.hero.dnaAlt}>
-          <video data-bgvideo muted loop playsinline preload="auto" poster="/video/adn-altanima.jpg" width="480" height="768" aria-hidden="true">
-            <source src="/video/adn-altanima.mp4" type="video/mp4" />
-          </video>
-        </div>
+        <AdnHelix lang={lang} label={d.hero.dnaAlt} />
       </div>
       <div class="mhero__copy">
         <span class="eyebrow">{d.hero.eyebrow}</span>
@@ -105,9 +102,6 @@ const essenceImgs = [img.aulaMaqueta, img.parqueCarrera, img.jardinLectura, img.
   .mhero__in { display: grid; gap: 2.5rem; align-items: center; }
   .mhero__dna { justify-self: center; width: min(70vw, 340px); }
   .mhero__dna { display: grid; justify-items: center; }
-  .adn__media { position: relative; width: 100%; overflow: hidden; border-radius: var(--radius-xl); background: #123156; box-shadow: 0 30px 60px -28px rgb(18 49 86 / 0.6), 0 0 0 1px rgb(255 255 255 / 0.6) inset; }
-  .adn__media::after { content: ''; position: absolute; inset: 0; border-radius: inherit; box-shadow: inset 0 0 40px 8px rgb(10 30 56 / 0.35); pointer-events: none; }
-  .adn__media video { display: block; width: 100%; height: auto; }
   .mhero__copy { display: grid; gap: 1.1rem; justify-items: start; }
   .mhero__copy :global(.mhero__logo) { width: 220px; height: auto; }
   .mhero__copy h1 { font-size: var(--fs-3xl); color: var(--navy-800); }
