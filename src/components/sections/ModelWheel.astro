@@ -87,7 +87,7 @@ const axesArc = arc(166, 150, 210, true);
       <span>{community.label}</span>
     </button>
   </div>
-  <p class="wheel__hint"><Icon name="mouse-pointer-click" size={16} /> {hint}</p>
+  <p class="wheel__hint no-j" style="text-align: center"><Icon name="mouse-pointer-click" size={16} /> <span>{hint}</span></p>
 
   <div class="wheel__cards" aria-live="polite">
     {[...segs, { ...community, key: 'comunidad', tone: 'var(--navy-700)', icon: 'users' }].map((c) => (
@@ -150,7 +150,7 @@ const axesArc = arc(166, 150, 210, true);
   .wheel__hub span { font-size: clamp(0.5rem, 1.6vw, 0.7rem); font-weight: 700; color: var(--navy-800); text-transform: uppercase; letter-spacing: 0.04em; }
   .wheel__hub:hover { transform: translate(-50%, -50%) scale(1.06); }
   .wheel__hub[aria-pressed='true'] { box-shadow: 0 0 0 4px var(--navy-800), 0 0 0 9px var(--sun-400); }
-  .wheel__hint { display: flex; align-items: center; justify-content: center; gap: 0.5rem; font-size: var(--fs-sm); color: var(--ink-3); }
+  .wheel__hint { display: flex; align-items: center; justify-content: center; gap: 0.5rem; text-wrap: balance; font-size: var(--fs-sm); color: var(--ink-3); }
 
   .wcard { position: relative; display: grid; gap: 1rem; padding: clamp(1.5rem, 3vw, 2.5rem); border-radius: var(--radius-xl); background: #fff; border: 1px solid var(--line); box-shadow: var(--shadow); overflow: hidden; }
   .wcard::before { content: ''; position: absolute; inset: 0 0 auto; height: 6px; background: var(--tone); }

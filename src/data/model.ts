@@ -21,7 +21,7 @@ export default {
     },
     statement: { text: 'Creemos que cuando un niño desarrolla su mente, fortalece su cuerpo y descubre quién es, está preparado para transformar el mundo.', highlight: 'transformar el mundo.' },
     wheel: {
-      hint: 'Toca una sección de la rueda o el logo del centro',
+      hint: 'Explora cada dimensión tocando una sección de la rueda o el logotipo central.',
       ring: 'Formamos personas íntegras que transforman su comunidad',
       axes: 'Ejes de formación',
       objectives: 'Objetivos',
@@ -67,7 +67,7 @@ export default {
       ],
       community: {
         label: 'Comunidad', title: 'Comunidad',
-        text: 'Fortalece la formación integral del estudiante mediante experiencias de participación social activa y el desarrollo de competencias socioemocionales y de vida. Promueve el trabajo colaborativo con la comunidad y una alianza educativa sólida entre escuela y familia, potenciando el desarrollo emocional, académico y social del estudiante.',
+        text: 'Fortalecer la formación integral del estudiante mediante experiencias de participación social activa y el desarrollo de competencias socioemocionales y de vida. Promueve el trabajo colaborativo con la comunidad y una alianza educativa sólida entre escuela y familia, potenciando el desarrollo emocional, académico y social del estudiante.',
         objectives: [
           'Fortalecer la alianza entre familia y escuela.',
           'Promover la participación activa de la comunidad educativa.',
@@ -99,7 +99,7 @@ export default {
           { t: 'Neurodesarrollo', i: 'brain' },
           { t: 'Design thinking', i: 'pen-tool' },
           { t: 'Bilingüismo', i: 'languages' },
-          { t: 'Lego Education / Steam Maker Lab', i: 'blocks' },
+          { t: 'LEGO Education / STEAM Maker Lab', i: 'blocks' },
           { t: 'Educación financiera', i: 'piggy-bank' },
         ] },
       ],
@@ -139,7 +139,7 @@ export default {
     },
     statement: { text: 'We believe that when a child develops their mind, strengthens their body and discovers who they are, they are ready to transform the world.', highlight: 'transform the world.' },
     wheel: {
-      hint: 'Tap a section of the wheel or the logo in the center',
+      hint: 'Explore each dimension by tapping a section of the wheel or the central logo.',
       ring: 'We form people of integrity who transform their community',
       axes: 'Formation axes',
       objectives: 'Objectives',
